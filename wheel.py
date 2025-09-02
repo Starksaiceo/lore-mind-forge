@@ -1,134 +1,236 @@
-"""Support functions for working with wheel files.
-"""
+"""Wheels support."""
 
-import logging
-from email.message import Message
-from email.parser import Parser
-from typing import Tuple
-from zipfile import BadZipFile, ZipFile
+import contextlib
+import email
+import functools
+import itertools
+import os
+import posixpath
+import re
+import zipfile
 
-from pip._vendor.packaging.utils import canonicalize_name
+from packaging.tags import sys_tags
+from packaging.utils import canonicalize_name
+from packaging.version import Version as parse_version
 
-from pip._internal.exceptions import UnsupportedWheel
+import setuptools
+from setuptools.archive_util import _unpack_zipfile_obj
+from setuptools.command.egg_info import _egg_basename, write_requirements
 
-VERSION_COMPATIBLE = (1, 0)
+from .unicode_utils import _read_utf8_with_fallback
+
+from distutils.util import get_platform
+
+WHEEL_NAME = re.compile(
+    r"""^(?P<project_name>.+?)-(?P<version>\d.*?)
+    ((-(?P<build>\d.*?))?-(?P<py_version>.+?)-(?P<abi>.+?)-(?P<platform>.+?)
+    )\.whl$""",
+    re.VERBOSE,
+).match
+
+NAMESPACE_PACKAGE_INIT = "__import__('pkg_resources').declare_namespace(__name__)\n"
 
 
-logger = logging.getLogger(__name__)
+@functools.cache
+def _get_supported_tags():
+    # We calculate the supported tags only once, otherwise calling
+    # this method on thousands of wheels takes seconds instead of
+    # milliseconds.
+    return {(t.interpreter, t.abi, t.platform) for t in sys_tags()}
 
 
-def parse_wheel(wheel_zip: ZipFile, name: str) -> Tuple[str, Message]:
-    """Extract information from the provided wheel, ensuring it meets basic
-    standards.
+def unpack(src_dir, dst_dir) -> None:
+    """Move everything under `src_dir` to `dst_dir`, and delete the former."""
+    for dirpath, dirnames, filenames in os.walk(src_dir):
+        subdir = os.path.relpath(dirpath, src_dir)
+        for f in filenames:
+            src = os.path.join(dirpath, f)
+            dst = os.path.join(dst_dir, subdir, f)
+            os.renames(src, dst)
+        for n, d in reversed(list(enumerate(dirnames))):
+            src = os.path.join(dirpath, d)
+            dst = os.path.join(dst_dir, subdir, d)
+            if not os.path.exists(dst):
+                # Directory does not exist in destination,
+                # rename it and prune it from os.walk list.
+                os.renames(src, dst)
+                del dirnames[n]
+    # Cleanup.
+    for dirpath, dirnames, filenames in os.walk(src_dir, topdown=True):
+        assert not filenames
+        os.rmdir(dirpath)
 
-    Returns the name of the .dist-info directory and the parsed WHEEL metadata.
+
+@contextlib.contextmanager
+def disable_info_traces():
     """
+    Temporarily disable info traces.
+    """
+    from distutils import log
+
+    saved = log.set_threshold(log.WARN)
     try:
-        info_dir = wheel_dist_info_dir(wheel_zip, name)
-        metadata = wheel_metadata(wheel_zip, info_dir)
-        version = wheel_version(metadata)
-    except UnsupportedWheel as e:
-        raise UnsupportedWheel(f"{name} has an invalid wheel, {e}")
-
-    check_compatibility(version, name)
-
-    return info_dir, metadata
+        yield
+    finally:
+        log.set_threshold(saved)
 
 
-def wheel_dist_info_dir(source: ZipFile, name: str) -> str:
-    """Returns the name of the contained .dist-info directory.
+class Wheel:
+    def __init__(self, filename) -> None:
+        match = WHEEL_NAME(os.path.basename(filename))
+        if match is None:
+            raise ValueError(f'invalid wheel name: {filename!r}')
+        self.filename = filename
+        for k, v in match.groupdict().items():
+            setattr(self, k, v)
 
-    Raises AssertionError or UnsupportedWheel if not found, >1 found, or
-    it doesn't match the provided name.
-    """
-    # Zip file path separators must be /
-    subdirs = {p.split("/", 1)[0] for p in source.namelist()}
-
-    info_dirs = [s for s in subdirs if s.endswith(".dist-info")]
-
-    if not info_dirs:
-        raise UnsupportedWheel(".dist-info directory not found")
-
-    if len(info_dirs) > 1:
-        raise UnsupportedWheel(
-            "multiple .dist-info directories found: {}".format(", ".join(info_dirs))
+    def tags(self):
+        """List tags (py_version, abi, platform) supported by this wheel."""
+        return itertools.product(
+            self.py_version.split('.'),
+            self.abi.split('.'),
+            self.platform.split('.'),
         )
 
-    info_dir = info_dirs[0]
+    def is_compatible(self):
+        """Is the wheel compatible with the current platform?"""
+        return next((True for t in self.tags() if t in _get_supported_tags()), False)
 
-    info_dir_name = canonicalize_name(info_dir)
-    canonical_name = canonicalize_name(name)
-    if not info_dir_name.startswith(canonical_name):
-        raise UnsupportedWheel(
-            f".dist-info directory {info_dir!r} does not start with {canonical_name!r}"
+    def egg_name(self):
+        return (
+            _egg_basename(
+                self.project_name,
+                self.version,
+                platform=(None if self.platform == 'any' else get_platform()),
+            )
+            + ".egg"
         )
 
-    return info_dir
+    def get_dist_info(self, zf):
+        # find the correct name of the .dist-info dir in the wheel file
+        for member in zf.namelist():
+            dirname = posixpath.dirname(member)
+            if dirname.endswith('.dist-info') and canonicalize_name(dirname).startswith(
+                canonicalize_name(self.project_name)
+            ):
+                return dirname
+        raise ValueError("unsupported wheel format. .dist-info not found")
 
+    def install_as_egg(self, destination_eggdir) -> None:
+        """Install wheel as an egg directory."""
+        with zipfile.ZipFile(self.filename) as zf:
+            self._install_as_egg(destination_eggdir, zf)
 
-def read_wheel_metadata_file(source: ZipFile, path: str) -> bytes:
-    try:
-        return source.read(path)
-        # BadZipFile for general corruption, KeyError for missing entry,
-        # and RuntimeError for password-protected files
-    except (BadZipFile, KeyError, RuntimeError) as e:
-        raise UnsupportedWheel(f"could not read {path!r} file: {e!r}")
+    def _install_as_egg(self, destination_eggdir, zf):
+        dist_basename = f'{self.project_name}-{self.version}'
+        dist_info = self.get_dist_info(zf)
+        dist_data = f'{dist_basename}.data'
+        egg_info = os.path.join(destination_eggdir, 'EGG-INFO')
 
+        self._convert_metadata(zf, destination_eggdir, dist_info, egg_info)
+        self._move_data_entries(destination_eggdir, dist_data)
+        self._fix_namespace_packages(egg_info, destination_eggdir)
 
-def wheel_metadata(source: ZipFile, dist_info_dir: str) -> Message:
-    """Return the WHEEL metadata of an extracted wheel, if possible.
-    Otherwise, raise UnsupportedWheel.
-    """
-    path = f"{dist_info_dir}/WHEEL"
-    # Zip file path separators must be /
-    wheel_contents = read_wheel_metadata_file(source, path)
+    @staticmethod
+    def _convert_metadata(zf, destination_eggdir, dist_info, egg_info):
+        import pkg_resources
 
-    try:
-        wheel_text = wheel_contents.decode()
-    except UnicodeDecodeError as e:
-        raise UnsupportedWheel(f"error decoding {path!r}: {e!r}")
+        def get_metadata(name):
+            with zf.open(posixpath.join(dist_info, name)) as fp:
+                value = fp.read().decode('utf-8')
+                return email.parser.Parser().parsestr(value)
 
-    # FeedParser (used by Parser) does not raise any exceptions. The returned
-    # message may have .defects populated, but for backwards-compatibility we
-    # currently ignore them.
-    return Parser().parsestr(wheel_text)
-
-
-def wheel_version(wheel_data: Message) -> Tuple[int, ...]:
-    """Given WHEEL metadata, return the parsed Wheel-Version.
-    Otherwise, raise UnsupportedWheel.
-    """
-    version_text = wheel_data["Wheel-Version"]
-    if version_text is None:
-        raise UnsupportedWheel("WHEEL is missing Wheel-Version")
-
-    version = version_text.strip()
-
-    try:
-        return tuple(map(int, version.split(".")))
-    except ValueError:
-        raise UnsupportedWheel(f"invalid Wheel-Version: {version!r}")
-
-
-def check_compatibility(version: Tuple[int, ...], name: str) -> None:
-    """Raises errors or warns if called with an incompatible Wheel-Version.
-
-    pip should refuse to install a Wheel-Version that's a major series
-    ahead of what it's compatible with (e.g 2.0 > 1.1); and warn when
-    installing a version only minor version ahead (e.g 1.2 > 1.1).
-
-    version: a 2-tuple representing a Wheel-Version (Major, Minor)
-    name: name of wheel or package to raise exception about
-
-    :raises UnsupportedWheel: when an incompatible Wheel-Version is given
-    """
-    if version[0] > VERSION_COMPATIBLE[0]:
-        raise UnsupportedWheel(
-            "{}'s Wheel-Version ({}) is not compatible with this version "
-            "of pip".format(name, ".".join(map(str, version)))
+        wheel_metadata = get_metadata('WHEEL')
+        # Check wheel format version is supported.
+        wheel_version = parse_version(wheel_metadata.get('Wheel-Version'))
+        wheel_v1 = parse_version('1.0') <= wheel_version < parse_version('2.0dev0')
+        if not wheel_v1:
+            raise ValueError(f'unsupported wheel format version: {wheel_version}')
+        # Extract to target directory.
+        _unpack_zipfile_obj(zf, destination_eggdir)
+        # Convert metadata.
+        dist_info = os.path.join(destination_eggdir, dist_info)
+        dist = pkg_resources.Distribution.from_location(
+            destination_eggdir,
+            dist_info,
+            metadata=pkg_resources.PathMetadata(destination_eggdir, dist_info),
         )
-    elif version > VERSION_COMPATIBLE:
-        logger.warning(
-            "Installing from a newer Wheel-Version (%s)",
-            ".".join(map(str, version)),
+
+        # Note: Evaluate and strip markers now,
+        # as it's difficult to convert back from the syntax:
+        # foobar; "linux" in sys_platform and extra == 'test'
+        def raw_req(req):
+            req.marker = None
+            return str(req)
+
+        install_requires = list(map(raw_req, dist.requires()))
+        extras_require = {
+            extra: [
+                req
+                for req in map(raw_req, dist.requires((extra,)))
+                if req not in install_requires
+            ]
+            for extra in dist.extras
+        }
+        os.rename(dist_info, egg_info)
+        os.rename(
+            os.path.join(egg_info, 'METADATA'),
+            os.path.join(egg_info, 'PKG-INFO'),
         )
+        setup_dist = setuptools.Distribution(
+            attrs=dict(
+                install_requires=install_requires,
+                extras_require=extras_require,
+            ),
+        )
+        with disable_info_traces():
+            write_requirements(
+                setup_dist.get_command_obj('egg_info'),
+                None,
+                os.path.join(egg_info, 'requires.txt'),
+            )
+
+    @staticmethod
+    def _move_data_entries(destination_eggdir, dist_data):
+        """Move data entries to their correct location."""
+        dist_data = os.path.join(destination_eggdir, dist_data)
+        dist_data_scripts = os.path.join(dist_data, 'scripts')
+        if os.path.exists(dist_data_scripts):
+            egg_info_scripts = os.path.join(destination_eggdir, 'EGG-INFO', 'scripts')
+            os.mkdir(egg_info_scripts)
+            for entry in os.listdir(dist_data_scripts):
+                # Remove bytecode, as it's not properly handled
+                # during easy_install scripts install phase.
+                if entry.endswith('.pyc'):
+                    os.unlink(os.path.join(dist_data_scripts, entry))
+                else:
+                    os.rename(
+                        os.path.join(dist_data_scripts, entry),
+                        os.path.join(egg_info_scripts, entry),
+                    )
+            os.rmdir(dist_data_scripts)
+        for subdir in filter(
+            os.path.exists,
+            (
+                os.path.join(dist_data, d)
+                for d in ('data', 'headers', 'purelib', 'platlib')
+            ),
+        ):
+            unpack(subdir, destination_eggdir)
+        if os.path.exists(dist_data):
+            os.rmdir(dist_data)
+
+    @staticmethod
+    def _fix_namespace_packages(egg_info, destination_eggdir):
+        namespace_packages = os.path.join(egg_info, 'namespace_packages.txt')
+        if os.path.exists(namespace_packages):
+            namespace_packages = _read_utf8_with_fallback(namespace_packages).split()
+
+            for mod in namespace_packages:
+                mod_dir = os.path.join(destination_eggdir, *mod.split('.'))
+                mod_init = os.path.join(mod_dir, '__init__.py')
+                if not os.path.exists(mod_dir):
+                    os.mkdir(mod_dir)
+                if not os.path.exists(mod_init):
+                    with open(mod_init, 'w', encoding="utf-8") as fp:
+                        fp.write(NAMESPACE_PACKAGE_INIT)
