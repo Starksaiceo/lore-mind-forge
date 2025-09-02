@@ -1,0 +1,443 @@
+{
+  "business_name": "Tech Gadgets Success Hub",
+  "created_at": "2025-08-30T20:52:59.250055",
+  "elapsed_time": 26.131608,
+  "niche": "tech gadgets",
+  "products": [
+    {
+      "title": "Tech Entrepreneur Bootcamp",
+      "description": "A comprehensive online course that covers everything a tech entrepreneur needs to know, from idea validation to product development and marketing strategies.",
+      "price": 197,
+      "type": "course",
+      "difficulty": "intermediate",
+      "market_demand": "high",
+      "id": "product_1756587158_0",
+      "niche": "tech gadgets",
+      "created_at": "2025-08-30T20:52:38.017701",
+      "features": [
+        "Video lessons with clear explanations",
+        "Downloadable resources and materials",
+        "Interactive exercises and quizzes",
+        "Private community access",
+        "Certificate of completion"
+      ],
+      "outline": [
+        "Module 1: Foundation and Basics",
+        "Module 2: Core Strategies",
+        "Module 3: Advanced Techniques",
+        "Module 4: Implementation Guide",
+        "Module 5: Case Studies and Examples",
+        "Bonus: Templates and Resources"
+      ],
+      "sales_copy": "\ud83d\ude80 Tech Entrepreneur Bootcamp\n\nA comprehensive online course that covers everything a tech entrepreneur needs to know, from idea validation to product development and marketing strategies.\n\n\u2705 What You'll Get:\n\u2022 Complete step-by-step system\n\u2022 Proven strategies that work\n\u2022 Real-world examples and case studies\n\u2022 Actionable implementation guide\n\u2022 Lifetime access and updates\n\n\ud83d\udcb0 Special Launch Price: Just $197\n(Regular price: $247)\n\n\u23f0 Limited Time Offer - Don't Miss Out!\n\nGet instant access and start transforming your results today.",
+      "tags": [
+        "tech gadgets",
+        "course",
+        "guide",
+        "training"
+      ]
+    },
+    {
+      "title": "Ultimate Tech Gadgets Productivity Guide",
+      "description": "An ebook that provides practical tips and tools to help entrepreneurs maximize their productivity using the latest tech gadgets.",
+      "price": 25,
+      "type": "ebook",
+      "difficulty": "beginner",
+      "market_demand": "medium",
+      "id": "product_1756587158_1",
+      "niche": "tech gadgets",
+      "created_at": "2025-08-30T20:52:38.674821",
+      "features": [
+        "Comprehensive guide with actionable strategies",
+        "Real-world case studies and examples",
+        "Step-by-step implementation roadmap",
+        "Bonus templates and worksheets",
+        "Lifetime updates and revisions"
+      ],
+      "outline": [
+        "Chapter 1: Introduction and Overview",
+        "Chapter 2: Getting Started",
+        "Chapter 3: Core Principles",
+        "Chapter 4: Advanced Strategies",
+        "Chapter 5: Implementation Guide",
+        "Chapter 6: Case Studies",
+        "Chapter 7: Next Steps",
+        "Appendix: Resources and Tools"
+      ],
+      "sales_copy": "\ud83d\ude80 Ultimate Tech Gadgets Productivity Guide\n\nAn ebook that provides practical tips and tools to help entrepreneurs maximize their productivity using the latest tech gadgets.\n\n\u2705 What You'll Get:\n\u2022 Complete step-by-step system\n\u2022 Proven strategies that work\n\u2022 Real-world examples and case studies\n\u2022 Actionable implementation guide\n\u2022 Lifetime access and updates\n\n\ud83d\udcb0 Special Launch Price: Just $25\n(Regular price: $75)\n\n\u23f0 Limited Time Offer - Don't Miss Out!\n\nGet instant access and start transforming your results today.",
+      "tags": [
+        "tech gadgets",
+        "ebook",
+        "guide",
+        "training",
+        "beginner",
+        "getting started",
+        "basics"
+      ]
+    },
+    {
+      "title": "Tech Startup Financial Planning Template",
+      "description": "A customizable financial planning template specifically designed for tech startups, helping entrepreneurs track expenses, revenue projections, and funding needs.",
+      "price": 49,
+      "type": "template",
+      "difficulty": "intermediate",
+      "market_demand": "high",
+      "id": "product_1756587159_2",
+      "niche": "tech gadgets",
+      "created_at": "2025-08-30T20:52:39.344826",
+      "features": [
+        "Ready-to-use professional templates",
+        "Multiple format options (PDF, DOC, etc.)",
+        "Customization instructions included",
+        "Commercial use rights included",
+        "24/7 download access"
+      ],
+      "outline": [
+        "Chapter 1: Introduction and Overview",
+        "Chapter 2: Getting Started",
+        "Chapter 3: Core Principles",
+        "Chapter 4: Advanced Strategies",
+        "Chapter 5: Implementation Guide",
+        "Chapter 6: Case Studies",
+        "Chapter 7: Next Steps",
+        "Appendix: Resources and Tools"
+      ],
+      "sales_copy": "\ud83d\ude80 Tech Startup Financial Planning Template\n\nA customizable financial planning template specifically designed for tech startups, helping entrepreneurs track expenses, revenue projections, and funding needs.\n\n\u2705 What You'll Get:\n\u2022 Complete step-by-step system\n\u2022 Proven strategies that work\n\u2022 Real-world examples and case studies\n\u2022 Actionable implementation guide\n\u2022 Lifetime access and updates\n\n\ud83d\udcb0 Special Launch Price: Just $49\n(Regular price: $99)\n\n\u23f0 Limited Time Offer - Don't Miss Out!\n\nGet instant access and start transforming your results today.",
+      "tags": [
+        "tech gadgets",
+        "template",
+        "guide",
+        "training"
+      ]
+    }
+  ],
+  "marketing_content": {
+    "email_sequences": [
+      {
+        "product_id": "product_1756587158_0",
+        "product_name": "Tech Entrepreneur Bootcamp",
+        "emails": [
+          {
+            "subject": "Welcome to the Tech Entrepreneur Bootcamp!",
+            "body": "Welcome to the Tech Entrepreneur Bootcamp! Get ready to take your tech startup to the next level with our comprehensive online course. Learn from industry experts and gain the knowledge you need to succeed.",
+            "cta": "Start Learning Now",
+            "sendTiming": 0,
+            "id": 1,
+            "cta_text": "Learn More",
+            "send_day": 1
+          },
+          {
+            "subject": "Are you struggling to validate your tech startup idea?",
+            "body": "Are you facing challenges in validating your tech startup idea? Our Tech Entrepreneur Bootcamp will provide you with the tools and strategies to overcome these obstacles. Get a sneak peek of what's to come in the course.",
+            "cta": "Preview Course Content",
+            "sendTiming": 2,
+            "id": 2,
+            "cta_text": "Learn More",
+            "send_day": 2
+          },
+          {
+            "subject": "See how our bootcamp has helped tech entrepreneurs like you",
+            "body": "Don't just take our word for it - see how our Tech Entrepreneur Bootcamp has helped other tech entrepreneurs like you. Check out our case studies and hear success stories from our satisfied students.",
+            "cta": "Read Case Studies",
+            "sendTiming": 4,
+            "id": 3,
+            "cta_text": "Learn More",
+            "send_day": 3
+          },
+          {
+            "subject": "Last chance to enroll in the Tech Entrepreneur Bootcamp!",
+            "body": "Time is running out to enroll in our Tech Entrepreneur Bootcamp. Don't miss out on this opportunity to accelerate your tech startup's growth. Join now and take the first step towards success.",
+            "cta": "Enroll Now",
+            "sendTiming": 6,
+            "id": 4,
+            "cta_text": "Learn More",
+            "send_day": 4
+          },
+          {
+            "subject": "Final call to action - join the Tech Entrepreneur Bootcamp today!",
+            "body": "This is your final chance to join our Tech Entrepreneur Bootcamp and gain the knowledge and skills you need to thrive in the tech industry. Don't hesitate - enroll now and start your journey towards entrepreneurial success.",
+            "cta": "Join Now",
+            "sendTiming": 8,
+            "id": 5,
+            "cta_text": "Learn More",
+            "send_day": 5
+          }
+        ]
+      },
+      {
+        "product_id": "product_1756587158_1",
+        "product_name": "Ultimate Tech Gadgets Productivity Guide",
+        "emails": [
+          {
+            "subject": "Welcome to Ultimate Tech Gadgets Productivity Guide!",
+            "body": "Welcome, entrepreneur! Get ready to boost your productivity with our ultimate tech gadgets guide. Learn practical tips and tools to help you get more done in less time.",
+            "cta": "Get Started Now",
+            "timing": "1 day after signup",
+            "id": 1,
+            "cta_text": "Learn More",
+            "send_day": 1
+          },
+          {
+            "subject": "Struggling to stay productive?",
+            "body": "Are you constantly feeling overwhelmed with tasks? Our Ultimate Tech Gadgets Productivity Guide has the solutions you need to streamline your workflow and maximize your efficiency.",
+            "cta": "Learn More",
+            "timing": "3 days after signup",
+            "id": 2,
+            "cta_text": "Learn More",
+            "send_day": 2
+          },
+          {
+            "subject": "See what others are saying!",
+            "body": "Entrepreneurs just like you have seen incredible results with our Ultimate Tech Gadgets Productivity Guide. Check out these case studies and testimonials to see how it can transform your workday.",
+            "cta": "Read Now",
+            "timing": "5 days after signup",
+            "id": 3,
+            "cta_text": "Learn More",
+            "send_day": 3
+          },
+          {
+            "subject": "Limited time offer: 25% off!",
+            "body": "Don't miss out on this exclusive deal! For a limited time, you can get our Ultimate Tech Gadgets Productivity Guide at a discounted price. Take advantage of this offer before it's gone!",
+            "cta": "Get Your Discount",
+            "timing": "7 days after signup",
+            "id": 4,
+            "cta_text": "Learn More",
+            "send_day": 4
+          },
+          {
+            "subject": "Last chance to supercharge your productivity!",
+            "body": "Time is running out to grab your copy of the Ultimate Tech Gadgets Productivity Guide. Don't let this opportunity slip away - take action now and start maximizing your productivity today!",
+            "cta": "Get Your Guide",
+            "timing": "10 days after signup",
+            "id": 5,
+            "cta_text": "Learn More",
+            "send_day": 5
+          }
+        ]
+      },
+      {
+        "product_id": "product_1756587159_2",
+        "product_name": "Tech Startup Financial Planning Template",
+        "emails": [
+          {
+            "subject": "Welcome to Tech Startup Financial Planning!",
+            "body": "Welcome to our community of tech entrepreneurs! Our financial planning template will help you track expenses, revenue projections, and funding needs. Get started today!",
+            "cta": "Start Planning Now",
+            "timing": "1 day",
+            "id": 1,
+            "cta_text": "Learn More",
+            "send_day": 1
+          },
+          {
+            "subject": "Struggling with Financial Planning?",
+            "body": "Are you finding it difficult to keep track of expenses and revenue projections for your tech startup? Our customizable template can help. Preview the solution now!",
+            "cta": "Preview Template",
+            "timing": "3 days",
+            "id": 2,
+            "cta_text": "Learn More",
+            "send_day": 2
+          },
+          {
+            "subject": "See How Others Succeeded with Our Template",
+            "body": "Don't just take our word for it! Check out these case studies and social proof from other tech entrepreneurs who have found success using our financial planning template.",
+            "cta": "Read Case Studies",
+            "timing": "7 days",
+            "id": 3,
+            "cta_text": "Learn More",
+            "send_day": 3
+          },
+          {
+            "subject": "Limited Time Offer: Get Your Template Now!",
+            "body": "Time is running out to get our financial planning template at a discounted price of $49. Don't miss out on this opportunity to streamline your startup finances!",
+            "cta": "Get Template Now",
+            "timing": "10 days",
+            "id": 4,
+            "cta_text": "Learn More",
+            "send_day": 4
+          },
+          {
+            "subject": "Last Chance to Transform Your Financial Planning!",
+            "body": "This is your final reminder to grab our tech startup financial planning template before the offer expires. Take control of your finances and grow your startup with ease.",
+            "cta": "Transform Your Finances",
+            "timing": "14 days",
+            "id": 5,
+            "cta_text": "Learn More",
+            "send_day": 5
+          }
+        ]
+      }
+    ],
+    "ad_campaigns": [
+      {
+        "product_id": "product_1756587158_0",
+        "product_name": "Tech Entrepreneur Bootcamp",
+        "platform": "facebook",
+        "ads": {
+          "platform": "facebook",
+          "product": "Tech Entrepreneur Bootcamp",
+          "variations": [
+            {
+              "headline": "Become a Tech Entrepreneur!",
+              "body": "Master idea validation, product development, and marketing strategies with our comprehensive bootcamp. Start your entrepreneurial journey today.",
+              "cta": "Learn More",
+              "variation_name": "Benefits-focused"
+            },
+            {
+              "headline": "Join 1000+ Successful Entrepreneurs",
+              "body": "Our bootcamp has helped over 1000 entrepreneurs launch their tech businesses. Join them and take your business to the next level.",
+              "cta": "Enroll Now",
+              "variation_name": "Social Proof"
+            },
+            {
+              "headline": "Last Chance to Enroll!",
+              "body": "Limited spots available for our tech entrepreneur bootcamp. Don't miss out on this opportunity to learn from industry experts.",
+              "cta": "Sign Up Now",
+              "variation_name": "Urgency/Scarcity"
+            }
+          ],
+          "platform_specs": {
+            "headline_limit": 40,
+            "body_limit": 125,
+            "cta_limit": 20,
+            "style": "conversational, benefit-focused",
+            "image_ratio": "1:1 or 16:9"
+          },
+          "created_at": "2025-08-30T20:52:46.531064"
+        }
+      },
+      {
+        "product_id": "product_1756587158_1",
+        "product_name": "Ultimate Tech Gadgets Productivity Guide",
+        "platform": "facebook",
+        "ads": {
+          "platform": "facebook",
+          "product": "Ultimate Tech Gadgets Productivity Guide",
+          "variations": [
+            {
+              "headline": "Maximize Productivity with Ultimate Tech Gadgets!",
+              "body": "Boost your business with practical tips & tools. Get your copy now for $25.",
+              "cta": "Get It Now",
+              "variation_name": "Benefits-focused"
+            },
+            {
+              "headline": "Join 1000+ Entrepreneurs in Boosting Productivity!",
+              "body": "See why entrepreneurs love our guide. Grab your copy today for $25.",
+              "cta": "Grab Yours",
+              "variation_name": "Social Proof"
+            },
+            {
+              "headline": "Last Chance to Supercharge Your Productivity!",
+              "body": "Limited copies left! Don't miss out on this game-changing guide for $25.",
+              "cta": "Buy Now",
+              "variation_name": "Urgency/Scarcity"
+            }
+          ],
+          "platform_specs": {
+            "headline_limit": 40,
+            "body_limit": 125,
+            "cta_limit": 20,
+            "style": "conversational, benefit-focused",
+            "image_ratio": "1:1 or 16:9"
+          },
+          "created_at": "2025-08-30T20:52:52.316285"
+        }
+      },
+      {
+        "product_id": "product_1756587159_2",
+        "product_name": "Tech Startup Financial Planning Template",
+        "platform": "facebook",
+        "ads": {
+          "platform": "facebook",
+          "product": "Tech Startup Financial Planning Template",
+          "variations": [
+            {
+              "headline": "Maximize Your Tech Startup's Financial Success",
+              "body": "Track expenses, revenue projections, and funding needs easily with our customizable template.",
+              "cta": "Get Started Today!",
+              "variation_name": "Benefits-focused"
+            },
+            {
+              "headline": "Join 1000+ Tech Entrepreneurs Who Use Our Financial Planning Template",
+              "body": "Stay on top of your finances and make smarter business decisions like our satisfied customers.",
+              "cta": "Get Your Template Now!",
+              "variation_name": "Social Proof"
+            },
+            {
+              "headline": "Limited Time Offer: Unlock Financial Stability for Your Tech Startup",
+              "body": "Don't miss out on this exclusive opportunity to plan for your startup's success at a discounted price.",
+              "cta": "Buy Now Before It's Gone!",
+              "variation_name": "Urgency/Scarcity"
+            }
+          ],
+          "platform_specs": {
+            "headline_limit": 40,
+            "body_limit": 125,
+            "cta_limit": 20,
+            "style": "conversational, benefit-focused",
+            "image_ratio": "1:1 or 16:9"
+          },
+          "created_at": "2025-08-30T20:52:57.749392"
+        }
+      }
+    ],
+    "social_posts": []
+  },
+  "store_assets": {
+    "store_name": "Tech Gadgets Success Hub",
+    "tagline": "Your #1 Resource for Tech Gadgets Success",
+    "color_scheme": {
+      "primary": "#2563eb",
+      "secondary": "#7c3aed",
+      "accent": "#f59e0b"
+    },
+    "logo_concept": "Modern, professional logo incorporating tech gadgets elements",
+    "product_images": [
+      "product_cover_product_1756587158_0.jpg",
+      "product_cover_product_1756587158_1.jpg",
+      "product_cover_product_1756587159_2.jpg"
+    ],
+    "store_policies": {
+      "return_policy": "30-day money-back guarantee",
+      "privacy_policy": "We protect your privacy and data",
+      "terms_of_service": "Standard digital product terms"
+    }
+  },
+  "business_plan": {
+    "business_name": "Tech Gadgets Success Hub",
+    "mission": "Help entrepreneurs achieve success in tech gadgets",
+    "target_market": "entrepreneurs",
+    "revenue_model": "Digital product sales + recurring subscriptions",
+    "pricing_strategy": "Competitive pricing with value-based positioning",
+    "marketing_channels": [
+      "Social media",
+      "Email marketing",
+      "Content marketing",
+      "Paid ads"
+    ],
+    "financial_projections": {
+      "month_1_revenue": 1355,
+      "month_3_revenue": 4065,
+      "month_6_revenue": 9485,
+      "year_1_revenue": 27100
+    },
+    "success_metrics": [
+      "Monthly recurring revenue",
+      "Customer acquisition cost",
+      "Customer lifetime value",
+      "Product conversion rates"
+    ]
+  },
+  "summary": {
+    "total_products": 3,
+    "total_value": 271,
+    "marketing_assets": 6,
+    "projected_monthly_revenue": 1355
+  },
+  "next_steps": [
+    "Review and customize your products",
+    "Set up your store with the provided assets",
+    "Launch your email marketing campaigns",
+    "Start your advertising campaigns",
+    "Monitor metrics and optimize"
+  ]
+}

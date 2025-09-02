@@ -1,0 +1,446 @@
+{
+  "business_name": "Digital Marketing Success Hub",
+  "created_at": "2025-08-27T20:29:27.882757",
+  "elapsed_time": 29.370644,
+  "niche": "digital marketing",
+  "products": [
+    {
+      "title": "The Ultimate Digital Marketing Blueprint",
+      "description": "A comprehensive guide to creating a successful digital marketing strategy, covering all essential aspects from SEO to social media marketing.",
+      "price": 97,
+      "type": "ebook",
+      "difficulty": "beginner",
+      "market_demand": "high",
+      "id": "product_1756326543_0",
+      "niche": "digital marketing",
+      "created_at": "2025-08-27T20:29:03.849619",
+      "features": [
+        "Comprehensive guide with actionable strategies",
+        "Real-world case studies and examples",
+        "Step-by-step implementation roadmap",
+        "Bonus templates and worksheets",
+        "Lifetime updates and revisions"
+      ],
+      "outline": [
+        "Chapter 1: Introduction and Overview",
+        "Chapter 2: Getting Started",
+        "Chapter 3: Core Principles",
+        "Chapter 4: Advanced Strategies",
+        "Chapter 5: Implementation Guide",
+        "Chapter 6: Case Studies",
+        "Chapter 7: Next Steps",
+        "Appendix: Resources and Tools"
+      ],
+      "sales_copy": "\ud83d\ude80 The Ultimate Digital Marketing Blueprint\n\nA comprehensive guide to creating a successful digital marketing strategy, covering all essential aspects from SEO to social media marketing.\n\n\u2705 What You'll Get:\n\u2022 Complete step-by-step system\n\u2022 Proven strategies that work\n\u2022 Real-world examples and case studies\n\u2022 Actionable implementation guide\n\u2022 Lifetime access and updates\n\n\ud83d\udcb0 Special Launch Price: Just $97\n(Regular price: $147)\n\n\u23f0 Limited Time Offer - Don't Miss Out!\n\nGet instant access and start transforming your results today.",
+      "tags": [
+        "digital marketing",
+        "ebook",
+        "guide",
+        "training",
+        "beginner",
+        "getting started",
+        "basics"
+      ]
+    },
+    {
+      "title": "Facebook Ads Mastery Course",
+      "description": "Learn how to create and optimize profitable Facebook ad campaigns that drive traffic and conversions for your business.",
+      "price": 197,
+      "type": "course",
+      "difficulty": "intermediate",
+      "market_demand": "high",
+      "id": "product_1756326544_1",
+      "niche": "digital marketing",
+      "created_at": "2025-08-27T20:29:04.504829",
+      "features": [
+        "Video lessons with clear explanations",
+        "Downloadable resources and materials",
+        "Interactive exercises and quizzes",
+        "Private community access",
+        "Certificate of completion"
+      ],
+      "outline": [
+        "Module 1: Foundation and Basics",
+        "Module 2: Core Strategies",
+        "Module 3: Advanced Techniques",
+        "Module 4: Implementation Guide",
+        "Module 5: Case Studies and Examples",
+        "Bonus: Templates and Resources"
+      ],
+      "sales_copy": "\ud83d\ude80 Facebook Ads Mastery Course\n\nLearn how to create and optimize profitable Facebook ad campaigns that drive traffic and conversions for your business.\n\n\u2705 What You'll Get:\n\u2022 Complete step-by-step system\n\u2022 Proven strategies that work\n\u2022 Real-world examples and case studies\n\u2022 Actionable implementation guide\n\u2022 Lifetime access and updates\n\n\ud83d\udcb0 Special Launch Price: Just $197\n(Regular price: $247)\n\n\u23f0 Limited Time Offer - Don't Miss Out!\n\nGet instant access and start transforming your results today.",
+      "tags": [
+        "digital marketing",
+        "course",
+        "guide",
+        "training"
+      ]
+    },
+    {
+      "title": "Email Marketing Automation Software",
+      "description": "Automate your email marketing campaigns with this user-friendly software, saving time and increasing engagement with your audience.",
+      "price": 297,
+      "type": "software",
+      "difficulty": "advanced",
+      "market_demand": "high",
+      "id": "product_1756326545_2",
+      "niche": "digital marketing",
+      "created_at": "2025-08-27T20:29:05.156318",
+      "features": [
+        "Comprehensive guide with actionable strategies",
+        "Real-world case studies and examples",
+        "Step-by-step implementation roadmap",
+        "Bonus templates and worksheets",
+        "Lifetime updates and revisions"
+      ],
+      "outline": [
+        "Chapter 1: Introduction and Overview",
+        "Chapter 2: Getting Started",
+        "Chapter 3: Core Principles",
+        "Chapter 4: Advanced Strategies",
+        "Chapter 5: Implementation Guide",
+        "Chapter 6: Case Studies",
+        "Chapter 7: Next Steps",
+        "Appendix: Resources and Tools"
+      ],
+      "sales_copy": "\ud83d\ude80 Email Marketing Automation Software\n\nAutomate your email marketing campaigns with this user-friendly software, saving time and increasing engagement with your audience.\n\n\u2705 What You'll Get:\n\u2022 Complete step-by-step system\n\u2022 Proven strategies that work\n\u2022 Real-world examples and case studies\n\u2022 Actionable implementation guide\n\u2022 Lifetime access and updates\n\n\ud83d\udcb0 Special Launch Price: Just $297\n(Regular price: $347)\n\n\u23f0 Limited Time Offer - Don't Miss Out!\n\nGet instant access and start transforming your results today.",
+      "tags": [
+        "digital marketing",
+        "software",
+        "guide",
+        "training",
+        "advanced",
+        "expert",
+        "professional"
+      ]
+    }
+  ],
+  "marketing_content": {
+    "email_sequences": [
+      {
+        "product_id": "product_1756326543_0",
+        "product_name": "The Ultimate Digital Marketing Blueprint",
+        "emails": [
+          {
+            "subject": "Welcome! Unlock your digital marketing success",
+            "body": "Welcome to The Ultimate Digital Marketing Blueprint! This guide will help you create a winning digital marketing strategy to grow your business. Get started today!",
+            "cta": "Get started now",
+            "sendTiming": 0,
+            "id": 1,
+            "cta_text": "Learn More",
+            "send_day": 1
+          },
+          {
+            "subject": "Struggling with digital marketing? We have the solution",
+            "body": "Are you struggling to see results with your digital marketing efforts? Our Blueprint offers a comprehensive solution to all your marketing challenges. Get a sneak peek now!",
+            "cta": "Preview the solution",
+            "sendTiming": 2,
+            "id": 2,
+            "cta_text": "Learn More",
+            "send_day": 2
+          },
+          {
+            "subject": "See how entrepreneurs like you found success",
+            "body": "Discover how entrepreneurs just like you have used The Ultimate Digital Marketing Blueprint to achieve their marketing goals. Read their success stories and get inspired!",
+            "cta": "Read case studies",
+            "sendTiming": 4,
+            "id": 3,
+            "cta_text": "Learn More",
+            "send_day": 3
+          },
+          {
+            "subject": "Last chance to get The Ultimate Digital Marketing Blueprint",
+            "body": "Time is running out to get your hands on The Ultimate Digital Marketing Blueprint at the special price of $97. Don't miss out on this opportunity to transform your business!",
+            "cta": "Get your copy now",
+            "sendTiming": 6,
+            "id": 4,
+            "cta_text": "Learn More",
+            "send_day": 4
+          },
+          {
+            "subject": "Don't miss out - Get The Ultimate Digital Marketing Blueprint today",
+            "body": "This is your final chance to access The Ultimate Digital Marketing Blueprint and take your digital marketing strategy to the next level. Don't wait any longer - get your copy now!",
+            "cta": "Get your copy now",
+            "sendTiming": 8,
+            "id": 5,
+            "cta_text": "Learn More",
+            "send_day": 5
+          }
+        ]
+      },
+      {
+        "product_id": "product_1756326544_1",
+        "product_name": "Facebook Ads Mastery Course",
+        "emails": [
+          {
+            "subject": "Welcome to Facebook Ads Mastery!",
+            "body": "Welcome to our Facebook Ads Mastery Course! Get ready to learn how to create profitable ad campaigns that drive traffic and conversions for your business.",
+            "cta": "Start learning now",
+            "sendTiming": 0,
+            "id": 1,
+            "cta_text": "Learn More",
+            "send_day": 1
+          },
+          {
+            "subject": "Struggling with Facebook ads?",
+            "body": "Are you struggling to create profitable Facebook ad campaigns? Our course will teach you how to optimize your ads for success.",
+            "cta": "Preview the solution",
+            "sendTiming": 2,
+            "id": 2,
+            "cta_text": "Learn More",
+            "send_day": 2
+          },
+          {
+            "subject": "See real results from our students",
+            "body": "Check out these case studies of entrepreneurs who have seen success with our Facebook Ads Mastery Course.",
+            "cta": "View case studies",
+            "sendTiming": 4,
+            "id": 3,
+            "cta_text": "Learn More",
+            "send_day": 3
+          },
+          {
+            "subject": "Limited time offer: Enroll now!",
+            "body": "Don't miss out on the chance to master Facebook ads at a discounted price. Enroll now before this offer expires.",
+            "cta": "Enroll now",
+            "sendTiming": 6,
+            "id": 4,
+            "cta_text": "Learn More",
+            "send_day": 4
+          },
+          {
+            "subject": "Last chance to join Facebook Ads Mastery!",
+            "body": "This is your final opportunity to enroll in our Facebook Ads Mastery Course and start driving traffic and conversions for your business.",
+            "cta": "Enroll now",
+            "sendTiming": 8,
+            "id": 5,
+            "cta_text": "Learn More",
+            "send_day": 5
+          }
+        ]
+      },
+      {
+        "product_id": "product_1756326545_2",
+        "product_name": "Email Marketing Automation Software",
+        "emails": [
+          {
+            "subject": "Welcome to Email Marketing Automation Software!",
+            "body": "Welcome to our email marketing automation software! Save time and increase engagement with your audience. Get started today!",
+            "cta": "Get Started Now",
+            "send_timing": 1,
+            "id": 1,
+            "cta_text": "Learn More",
+            "send_day": 1
+          },
+          {
+            "subject": "Struggling to keep up with your email marketing campaigns?",
+            "body": "Are you tired of spending hours on manual email marketing tasks? Our software can automate your campaigns and save you time. Try it out!",
+            "cta": "Learn More",
+            "send_timing": 2,
+            "id": 2,
+            "cta_text": "Learn More",
+            "send_day": 2
+          },
+          {
+            "subject": "See how entrepreneurs like you are finding success with our software",
+            "body": "Check out these case studies and see how entrepreneurs are saving time and increasing engagement with our email marketing automation software.",
+            "cta": "Read Case Studies",
+            "send_timing": 3,
+            "id": 3,
+            "cta_text": "Learn More",
+            "send_day": 3
+          },
+          {
+            "subject": "Limited Time Offer: Get 20% off Email Marketing Automation Software",
+            "body": "Don't miss out on this exclusive offer! Automate your email marketing campaigns at a discounted price. Get started now!",
+            "cta": "Claim Discount",
+            "send_timing": 4,
+            "id": 4,
+            "cta_text": "Learn More",
+            "send_day": 4
+          },
+          {
+            "subject": "Last Chance: Upgrade your email marketing with our software",
+            "body": "Time is running out to take advantage of our software. Don't miss this opportunity to save time and increase engagement with your audience!",
+            "cta": "Upgrade Now",
+            "send_timing": 5,
+            "id": 5,
+            "cta_text": "Learn More",
+            "send_day": 5
+          }
+        ]
+      }
+    ],
+    "ad_campaigns": [
+      {
+        "product_id": "product_1756326543_0",
+        "product_name": "The Ultimate Digital Marketing Blueprint",
+        "platform": "facebook",
+        "ads": {
+          "platform": "facebook",
+          "product": "The Ultimate Digital Marketing Blueprint",
+          "variations": [
+            {
+              "headline": "Unlock Success with Digital Marketing",
+              "body": "Boost your online presence and grow your business with our proven blueprint!",
+              "cta": "Get Started Now",
+              "variation_name": "Benefits-focused"
+            },
+            {
+              "headline": "Join 1000+ Entrepreneurs Succeeding",
+              "body": "See why entrepreneurs are raving about our digital marketing blueprint!",
+              "cta": "Limited Time Offer",
+              "variation_name": "Social Proof"
+            },
+            {
+              "headline": "Last Chance to Transform Your Marketing",
+              "body": "Don't miss out on the ultimate guide to digital marketing success.",
+              "cta": "Buy Now",
+              "variation_name": "Urgency/Scarcity"
+            }
+          ],
+          "platform_specs": {
+            "headline_limit": 40,
+            "body_limit": 125,
+            "cta_limit": 20,
+            "style": "conversational, benefit-focused",
+            "image_ratio": "1:1 or 16:9"
+          },
+          "created_at": "2025-08-27T20:29:12.005485"
+        }
+      },
+      {
+        "product_id": "product_1756326544_1",
+        "product_name": "Facebook Ads Mastery Course",
+        "platform": "facebook",
+        "ads": {
+          "platform": "facebook",
+          "product": "Facebook Ads Mastery Course",
+          "variations": [
+            {
+              "variation_name": "Benefit-Focused",
+              "headline": "Transform Your Business with Facebook Ads Mastery...",
+              "body": "Discover the proven system that's helping thousands achieve breakthrough results. Get started for just $197.",
+              "cta": "Get Started Now"
+            },
+            {
+              "variation_name": "Social Proof",
+              "headline": "Join 10,000+ Success Stories",
+              "body": "See why customers love Facebook Ads Mastery.... Real results, real testimonials, real transformation. Limited time offer.",
+              "cta": "Join Today"
+            },
+            {
+              "variation_name": "Urgency",
+              "headline": "Last Chance: Facebook Ads Mastery... Special Price",
+              "body": "Don't miss out! Special pricing ends soon. Get everything you need to succeed for just $197.",
+              "cta": "Claim Offer"
+            }
+          ],
+          "platform_specs": {
+            "headline_limit": 40,
+            "body_limit": 125,
+            "cta_limit": 20,
+            "style": "conversational, benefit-focused",
+            "image_ratio": "1:1 or 16:9"
+          },
+          "created_at": "2025-08-27T20:29:18.623848"
+        }
+      },
+      {
+        "product_id": "product_1756326545_2",
+        "product_name": "Email Marketing Automation Software",
+        "platform": "facebook",
+        "ads": {
+          "platform": "facebook",
+          "product": "Email Marketing Automation Software",
+          "variations": [
+            {
+              "headline": "Automate Your Email Marketing Efforts",
+              "body": "Increase engagement and save time with our user-friendly software",
+              "cta": "Get Started Now",
+              "variation_name": "Benefits-focused"
+            },
+            {
+              "headline": "Join 10,000+ Happy Customers",
+              "body": "See why entrepreneurs and business owners love our email marketing automation software",
+              "cta": "Try It Today",
+              "variation_name": "Social Proof"
+            },
+            {
+              "headline": "Limited Time Offer: Save $100 Today",
+              "body": "Don't miss out on this exclusive discount - automate your email marketing now",
+              "cta": "Claim Discount",
+              "variation_name": "Urgency/Scarcity"
+            }
+          ],
+          "platform_specs": {
+            "headline_limit": 40,
+            "body_limit": 125,
+            "cta_limit": 20,
+            "style": "conversational, benefit-focused",
+            "image_ratio": "1:1 or 16:9"
+          },
+          "created_at": "2025-08-27T20:29:26.382031"
+        }
+      }
+    ],
+    "social_posts": []
+  },
+  "store_assets": {
+    "store_name": "Digital Marketing Success Hub",
+    "tagline": "Your #1 Resource for Digital Marketing Success",
+    "color_scheme": {
+      "primary": "#2563eb",
+      "secondary": "#7c3aed",
+      "accent": "#f59e0b"
+    },
+    "logo_concept": "Modern, professional logo incorporating digital marketing elements",
+    "product_images": [
+      "product_cover_product_1756326543_0.jpg",
+      "product_cover_product_1756326544_1.jpg",
+      "product_cover_product_1756326545_2.jpg"
+    ],
+    "store_policies": {
+      "return_policy": "30-day money-back guarantee",
+      "privacy_policy": "We protect your privacy and data",
+      "terms_of_service": "Standard digital product terms"
+    }
+  },
+  "business_plan": {
+    "business_name": "Digital Marketing Success Hub",
+    "mission": "Help entrepreneurs achieve success in digital marketing",
+    "target_market": "entrepreneurs",
+    "revenue_model": "Digital product sales + recurring subscriptions",
+    "pricing_strategy": "Competitive pricing with value-based positioning",
+    "marketing_channels": [
+      "Social media",
+      "Email marketing",
+      "Content marketing",
+      "Paid ads"
+    ],
+    "financial_projections": {
+      "month_1_revenue": 2955,
+      "month_3_revenue": 8865,
+      "month_6_revenue": 20685,
+      "year_1_revenue": 59100
+    },
+    "success_metrics": [
+      "Monthly recurring revenue",
+      "Customer acquisition cost",
+      "Customer lifetime value",
+      "Product conversion rates"
+    ]
+  },
+  "summary": {
+    "total_products": 3,
+    "total_value": 591,
+    "marketing_assets": 6,
+    "projected_monthly_revenue": 2955
+  },
+  "next_steps": [
+    "Review and customize your products",
+    "Set up your store with the provided assets",
+    "Launch your email marketing campaigns",
+    "Start your advertising campaigns",
+    "Monitor metrics and optimize"
+  ]
+}
