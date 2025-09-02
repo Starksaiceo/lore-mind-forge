@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pip._vendor.platformdirs import PlatformDirs, __version__
+from platformdirs import PlatformDirs, __version__
 
 PROPS = (
     "user_data_dir",
