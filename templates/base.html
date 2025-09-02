@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AI CEO - Autonomous Business Platform{% endblock %}</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{% block description %}AI CEO - The autonomous AI that builds businesses, creates products, and generates revenue 24/7. Transform your business with intelligent automation.{% endblock %}">
+    <meta name="keywords" content="AI CEO, autonomous business, AI automation, business intelligence, revenue generation">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="{% block og_title %}AI CEO - Autonomous Business Platform{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Transform your business with AI-powered automation that works 24/7{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg">
+    <link rel="icon" type="image/png" href="/static/img/favicon.png">
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Framework -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/app.css">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Alpine.js for Interactivity -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Chart.js for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom JavaScript Configuration -->
+    <script>
+        // Tailwind CSS Configuration
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5B8CFF',
+                        secondary: '#0F172A',
+                        accent: '#22C55E',
+                        'surface-dark': '#0B1220',
+                        'surface-light': '#F8FAFC'
+                    },
+                    fontFamily: {
+                        'heading': ['Sora', 'Inter', 'system-ui', 'sans-serif'],
+                        'body': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+        
+        // Brand Settings (White-label Support)
+        window.brandSettings = {
+            {% if brand_settings %}
+                primaryColor: '{{ brand_settings.primary_color }}',
+                secondaryColor: '{{ brand_settings.secondary_color }}',
+                accentColor: '{{ brand_settings.accent_color }}',
+                logo: '{{ brand_settings.logo_url }}',
+                favicon: '{{ brand_settings.favicon_url }}'
+            {% endif %}
+        };
+    </script>
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="font-body antialiased">
+    <!-- Navigation -->
+    <nav class="navbar" x-data="{ mobileMenuOpen: false }">
+        <div class="container">
+            <div class="navbar-content">
+                <!-- Brand Logo -->
+                <div class="navbar-brand">
+                    <a href="/" class="brand-logo flex items-center gap-sm">
+                        <img src="{{ url_for('static', filename='img/metallic-s-logo.png') }}" alt="AI CEO" class="w-8 h-8">
+                        <span class="font-heading font-bold text-xl">AI CEO</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <ul class="navbar-nav hidden md:flex">
+                    {% if current_user.is_authenticated %}
+                        <li><a href="/dashboard" class="nav-link">Dashboard</a></li>
+                        <li><a href="/one-click-generator" class="nav-link">Generator</a></li>
+                        <li><a href="/products" class="nav-link">Products</a></li>
+                        {% if current_user.role == 'admin' %}
+                            <li><a href="/admin" class="nav-link">Admin</a></li>
+                        {% endif %}
+                    {% else %}
+                        <li><a href="#features" class="nav-link">Features</a></li>
+                        <li><a href="#pricing" class="nav-link">Pricing</a></li>
+                        <li><a href="/login" class="nav-link">Login</a></li>
+                    {% endif %}
+                </ul>
+
+                <!-- Right Side Actions -->
+                <div class="flex items-center gap-md">
+                    {% if current_user.is_authenticated %}
+                        <a href="/logout" class="btn btn-outline">User Login</a>
+                    {% else %}
+                        <a href="/login" class="btn btn-outline">Login</a>
+                        <a href="/register" class="btn btn-primary">
+                            Get Started Free
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="{% if show_sidebar %}main-content{% endif %}">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="navbar border-t mt-xl">
+        <div class="container">
+            <div class="text-center py-lg text-secondary-600 dark:text-secondary-300">
+                <p>&copy; 2024 AI CEO. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+    
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 flex items-center gap-4">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            <span class="text-lg font-medium">Loading...</span>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="/static/js/app.js"></script>
+    
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+    
+    {% block extra_scripts %}{% endblock %}
+
+    <script>
+        // IMMEDIATE PAGE INTERACTION FIX - AGGRESSIVE MODE
+        (function() {
+            console.log('🚀 IMMEDIATE: Enabling page interactions - AGGRESSIVE MODE');
+
+            // Force enable interactions IMMEDIATELY - TRIPLE CHECK
+            function forceInteractions() {
+                if (document.body) {
+                    document.body.style.pointerEvents = 'auto !important';
+                    document.body.style.overflow = 'auto !important';
+                    document.body.style.visibility = 'visible !important';
+                    document.body.style.display = 'block !important';
+                    document.body.style.height = 'auto !important';
+                    document.body.style.userSelect = 'auto !important';
+                }
+
+                if (document.documentElement) {
+                    document.documentElement.style.pointerEvents = 'auto !important';
+                    document.documentElement.style.overflow = 'auto !important';
+                    document.documentElement.style.height = 'auto !important';
+                }
+
+                // Force all interactive elements
+                const interactiveSelectors = ['button', 'a', 'input', 'select', 'textarea', '[role="button"]', '.btn', '[onclick]'];
+                interactiveSelectors.forEach(selector => {
+                    const elements = document.querySelectorAll(selector);
+                    elements.forEach(el => {
+                        el.style.pointerEvents = 'auto !important';
+                        el.style.cursor = 'pointer !important';
+                        el.style.zIndex = '9999';
+                        el.style.position = 'relative';
+                    });
+                });
+
+                console.log('✅ AGGRESSIVE: All interactions forcibly enabled');
+            }
+
+            // Run immediately and repeatedly
+            forceInteractions();
+            setTimeout(forceInteractions, 10);
+            setTimeout(forceInteractions, 50);
+            setTimeout(forceInteractions, 100);
+        })();
+
+        // Enhanced DOMContentLoaded fix
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Page loaded - applying comprehensive interaction fix');
+
+            // AGGRESSIVE INTERACTION ENABLEMENT
+            function forceInteractivity() {
+                const allElements = document.querySelectorAll('*');
+
+                allElements.forEach(el => {
+                    // Force interactive elements to be clickable
+                    if (el.tagName.match(/BUTTON|A|INPUT|SELECT|TEXTAREA/) || 
+                        el.hasAttribute('onclick') || 
+                        el.classList.contains('btn') ||
+                        el.getAttribute('role') === 'button') {
+
+                        el.style.pointerEvents = 'auto';
+                        el.style.cursor = 'pointer';
+                        el.style.zIndex = '100';
+                        el.style.position = 'relative';
+                    }
+
+                    // Remove pointer-events: none unless it's a background element
+                    if (window.getComputedStyle(el).pointerEvents === 'none' && 
+                        !el.classList.contains('background-element')) {
+                        el.style.pointerEvents = 'auto';
+                    }
+                });
+
+                // Force body and html to be scrollable
+                document.body.style.overflow = 'auto';
+                document.body.style.height = 'auto';
+                document.documentElement.style.overflow = 'auto';
+                document.documentElement.style.height = 'auto';
+
+                console.log('✅ FORCED: All interactions enabled');
+                console.log('✅ FORCED: Scrolling enabled');
+                console.log('✅ FORCED: All buttons clickable');
+            }
+
+            // Apply fix immediately and repeatedly
+            forceInteractivity();
+            setTimeout(forceInteractivity, 100);
+            setTimeout(forceInteractivity, 500);
+            setTimeout(forceInteractivity, 1000);
+
+            // Override any CSS that might disable interactions
+            const style = document.createElement('style');
+            style.textContent = `
+                * { pointer-events: auto !important; }
+                button, a, input, select, textarea, [role="button"], .btn {
+                    pointer-events: auto !important;
+                    cursor: pointer !important;
+                    z-index: 100 !important;
+                }
+                html, body {
+                    overflow: auto !important;
+                    pointer-events: auto !important;
+                }
+            `;
+            document.head.appendChild(style);
+
+            console.log('✅ Emergency CSS override applied');
+        });
+
+        // Global JavaScript functions
+        window.showLoading = function(element) {
+            if (!element) return;
+            element.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            element.disabled = true;
+        }
+
+        window.hideLoading = function(element, originalText) {
+            if (!element) return;
+            element.innerHTML = originalText || 'Button';
+            element.disabled = false;
+        }
+
+        window.showNotification = function(message, type = 'info') {
+            console.log('📢 Notification:', message);
+
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 p-4 rounded-lg text-white z-50 transition-all duration-300 ${
+                type === 'success' ? 'bg-green-500' : 
+                type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+            }`;
+            notification.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">✕</button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Test function
+        window.testJavaScript = function() {
+            console.log('🧪 JavaScript test successful!');
+            alert('JavaScript is working!');
+            showNotification('JavaScript test passed!', 'success');
+            return true;
+        }
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Error Handling Script -->
+    <script>
+        // Enhanced error handling
+        window.addEventListener('error', function(e) {
+            console.error('🚨 JavaScript Error:', e.error);
+            console.error('🚨 Error Location:', e.filename, 'Line:', e.lineno, 'Column:', e.colno);
+            console.error('🚨 Full Error Object:', e);
+        });
+
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('🚨 Unhandled Promise Rejection:', e.reason);
+            console.error('🚨 Promise:', e.promise);
+        });
+
+        // Test basic functionality with more detailed logging
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ Base template loaded successfully');
+            console.log('✅ DOM ready at:', new Date().toISOString());
+            console.log('🔍 Document readyState:', document.readyState);
+            console.log('🔍 Window location:', window.location.href);
+
+            // Test if all required elements exist
+            const requiredElements = ['head', 'body', 'main'];
+            requiredElements.forEach(tag => {
+                const element = document.querySelector(tag);
+                if (element) {
+                    console.log(`✅ Element ${tag} found`);
+                } else {
+                    console.warn(`❌ Element ${tag} missing`);
+                }
+            });
+
+            // Add global click debugging
+            document.addEventListener('click', function(e) {
+                console.log('🔍 Global click detected on:', e.target.tagName, e.target.className || 'no-class');
+            });
+        });
+
+        // Function to test if JavaScript is responsive
+        window.testJavaScript = function() {
+            console.log('🧪 JavaScript test function called successfully!');
+            alert('JavaScript is responsive!');
+            return true;
+        };
+
+        // Enhanced notification function with more debugging
+        function showNotification(message, type = 'info') {
+            console.log(`📢 Showing notification: ${message} (${type})`);
+
+            const notification = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+            notification.className = `fixed top-4 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 max-w-sm`;
+            notification.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">✕</button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+            console.log('📢 Notification element added to DOM');
+
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                    console.log('📢 Notification auto-removed');
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

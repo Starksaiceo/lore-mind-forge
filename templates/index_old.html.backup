@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI CEO SaaS - Autonomous Business Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: #FFFFFF !important;
+            background-attachment: fixed;
+            color: #000000;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('{{ url_for("static", filename="img/metallic-s-logo.png") }}');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 600px 600px;
+            opacity: 0.05;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            position: relative;
+            z-index: 2;
+        }
+
+        footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        .glass-effect {
+            background: #FFFFFF !important;
+            backdrop-filter: none;
+            border: 1px solid #E5E7EB !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .text-metallic {
+            color: #1E3A8A !important;
+            font-weight: bold;
+        }
+
+        .btn-metallic {
+            background: #1E3A8A !important;
+            border: 1px solid #1E3A8A !important;
+            color: #FFFFFF !important;
+            transition: all 0.2s ease;
+        }
+
+        .btn-metallic:hover {
+            background: #2563EB !important;
+            border-color: #2563EB !important;
+            color: #FFFFFF !important;
+            transform: none;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+        }
+
+        .hero-gradient {
+            background: #FFFFFF !important;
+        }
+
+        /* Card styles */
+        .feature-card {
+            background: #FFFFFF !important;
+            backdrop-filter: none;
+            border: 1px solid #E5E7EB !important;
+            transition: all 0.2s ease;
+        }
+
+        .feature-card:hover {
+            background: #FFFFFF !important;
+            border-color: #1E3A8A !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(30, 58, 138, 0.15);
+        }
+
+        /*Navbar customizations */
+        .navbar {
+            background: #FFFFFF !important;
+            backdrop-filter: none;
+            border-bottom: 1px solid #E5E7EB !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            color: #1E3A8A !important;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link {
+            color: #1E3A8A !important;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #2563EB !important;
+            text-decoration: underline;
+        }
+
+        /* Button styles */
+        .btn-primary {
+            background: #1E3A8A !important;
+            border: 1px solid #1E3A8A !important;
+            color: #FFFFFF !important;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: #2563EB !important;
+            border-color: #2563EB !important;
+            color: #FFFFFF !important;
+            transform: none;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-outline-primary {
+            border: 1px solid #1E3A8A !important;
+            color: #1E3A8A !important;
+            background: transparent !important;
+        }
+
+        .btn-outline-primary:hover {
+            background: #1E3A8A !important;
+            color: #FFFFFF !important;
+        }
+
+        .btn-outline-light {
+            background: #000000 !important;
+            border: 1px solid #000000 !important;
+            color: #FFFFFF !important;
+        }
+
+        .btn-outline-light:hover {
+            background: #111827 !important;
+            border-color: #111827 !important;
+            color: #FFFFFF !important;
+        }
+    </style>
+</head>
+<body class="text-dark">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <i class="fas fa-robot"></i> <span class="text-metallic">AI CEO SaaS</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pricing">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary ms-2" href="{{ url_for('register') }}">Get Started</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-4 text-metallic">
+                AI CEO SaaS
+            </h1>
+            <p class="lead mb-5" style="color: #000000; font-weight: 500;">
+                The world's first autonomous business platform that generates products, manages stores, and scales revenue automatically using advanced AI.
+            </p>
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-4">
+                    <div class="card glass-effect">
+                        <div class="card-body">
+                            <h5 style="color: #000000;"><i class="fas fa-chart-line" style="color: #1E3A8A;"></i> <span style="color: #1E3A8A; font-weight: bold;">{{ "${:,.0f}".format(platform_metrics.total_revenue) if platform_metrics and platform_metrics.total_revenue > 0 else "$0" }}+</span></h5>
+                            <p style="color: #000000;">Revenue Generated</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card glass-effect">
+                        <div class="card-body">
+                            <h5 style="color: #000000;"><i class="fas fa-store" style="color: #1E3A8A;"></i> <span style="color: #1E3A8A; font-weight: bold;">{{ platform_metrics.total_products if platform_metrics else 0 }}</span></h5>
+                            <p style="color: #000000;">Products Created</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card glass-effect">
+                        <div class="card-body">
+                            <h5 style="color: #000000;"><i class="fas fa-users" style="color: #1E3A8A;"></i> <span style="color: #1E3A8A; font-weight: bold;">{{ platform_metrics.total_users if platform_metrics else 0 }}</span></h5>
+                            <p style="color: #000000;">Active Users</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="{{ url_for('register') }}" class="btn btn-metallic btn-lg me-3">
+                <i class="fas fa-rocket"></i> Start Free Trial
+            </a>
+            <a href="#features" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-play"></i> Watch Demo
+            </a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5" style="background: #F9FAFB;">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold text-metallic mb-4">Autonomous Business Features</h2>
+                <p class="lead" style="color: #374151; font-weight: 400;">Let AI handle the heavy lifting while you focus on strategy</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass-effect p-6 rounded-lg border border-slate-300">
+                    <div class="text-4xl mb-4">🛍️</div>
+                    <h3 class="text-xl font-bold mb-2" style="color: #1E3A8A;">AI Product Generation</h3>
+                    <p style="color: #000000; font-weight: 400;">Automatically create trending digital products using advanced AI that analyzes market data and consumer behavior.</p>
+                </div>
+
+                <div class="glass-effect p-6 rounded-lg border border-slate-300">
+                    <div class="text-4xl mb-4">🏪</div>
+                    <h3 class="text-xl font-bold mb-2" style="color: #1E3A8A;">Shopify Integration</h3>
+                    <p style="color: #000000; font-weight: 400;">Seamlessly upload and manage products on your Shopify store with automated inventory and pricing optimization.</p>
+                </div>
+
+                <div class="glass-effect p-6 rounded-lg border border-slate-300">
+                    <div class="text-4xl mb-4">💳</div>
+                    <h3 class="text-xl font-bold mb-2" style="color: #1E3A8A;">Stripe Payments</h3>
+                    <p style="color: #000000; font-weight: 400;">Built-in payment processing with Stripe for secure transactions and automated revenue tracking.</p>
+                </div>
+
+                <div class="glass-effect p-6 rounded-lg border border-slate-300">
+                    <div class="text-4xl mb-4">📊</div>
+                    <h3 class="text-xl font-bold mb-2" style="color: #1E3A8A;">Real-time Analytics</h3>
+                    <p style="color: #000000; font-weight: 400;">Track revenue, conversions, and performance metrics with beautiful dashboards and actionable insights.</p>
+                </div>
+
+                <div class="glass-effect p-6 rounded-lg border border-slate-300">
+                    <div class="text-4xl mb-4">📈</div>
+                    <h3 class="text-xl font-bold mb-2" style="color: #1E3A8A;">Marketing Automation</h3>
+                    <p style="color: #000000; font-weight: 400;">AI-powered social media content generation and advertising campaign optimization across platforms.</p>
+                </div>
+
+                <div class="glass-effect p-6 rounded-lg border border-slate-300">
+                    <div class="text-4xl mb-4">⚙️</div>
+                    <h3 class="text-xl font-bold mb-2" style="color: #1E3A8A;">Full Automation</h3>
+                    <p style="color: #000000; font-weight: 400;">Set and forget - the AI CEO handles product creation, uploads, marketing, and scaling autonomously.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-5" style="background: #FFFFFF;">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold" style="color: #1E3A8A;">Simple Pricing</h2>
+                <p class="lead" style="color: #374151; font-weight: 400;">Choose the plan that fits your business needs</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card pricing-card glass-effect h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title" style="color: #1E3A8A;">Starter</h5>
+                            <h2 class="card-text" style="color: #1E3A8A;">$29<small style="color: #374151;">/month</small></h2>
+                            <ul class="list-unstyled my-4">
+                                <li style="color: #000000;"><i class="fas fa-check" style="color: #1E3A8A;"></i> Basic AI CEO</li>
+                                <li style="color: #000000;"><i class="fas fa-check" style="color: #1E3A8A;"></i> 5 products/month</li>
+                                <li style="color: #000000;"><i class="fas fa-check" style="color: #1E3A8A;"></i> Shopify integration</li>
+                                <li style="color: #000000;"><i class="fas fa-check" style="color: #1E3A8A;"></i> Basic analytics</li>
+                            </ul>
+                            <a href="{{ url_for('register') }}" class="btn btn-outline-primary">Get Started</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card pricing-card featured glass-effect h-100">
+                        <div class="card-body text-center">
+                            <span class="badge bg-primary mb-2">Most Popular</span>
+                            <h5 class="card-title" style="color: #1E3A8A;">Pro</h5>
+                            <h2 class="card-text" style="color: #1E3A8A;">$99<small style="color: #374151;">/month</small></h2>
+                            <ul class="list-unstyled my-4">
+                                <li style="color: #000000;"><i class="fas fa-check" style="color: #1E3A8A;"></i> Advanced AI CEO</li>
+                                <li style="color: #000000;"><i class="fas fa-check" style="color: #1E3A8A;"></i> Unlimited products</li>
+                                <li style="color: #000000;"><i class="fas fa-check" style="color: #1E3A8A;"></i> Full automation</li>
+                                <li style="color: #000000;"><i class="fas fa-check" style="color: #1E3A8A;"></i> Advanced analytics</li>
+                                <li style="color: #000000;"><i class="fas fa-check" style="color: #1E3A8A;"></i> Team collaboration</li>
+                            </ul>
+                            <a href="{{ url_for('register') }}" class="btn btn-primary">Start Free Trial</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card pricing-card glass-effect h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title" style="color: #1E3A8A;">Enterprise</h5>
+                            <h2 class="card-text" style="color: #1E3A8A;">$299<small style="color: #374151;">/month</small></h2>
+                            <ul class="list-unstyled my-4">
+                                <li style="color: #000000;"><i class="fas fa-check" style="color: #1E3A8A;"></i> Custom AI CEO</li>
+                                <li style="color: #000000;"><i class="fas fa-check" style="color: #1E3A8A;"></i> White-label solution</li>
+                                <li style="color: #000000;"><i class="fas fa-check" style="color: #1E3A8A;"></i> Priority support</li>
+                                <li style="color: #000000;"><i class="fas fa-check" style="color: #1E3A8A;"></i> Custom integrations</li>
+                                <li style="color: #000000;"><i class="fas fa-check" style="color: #1E3A8A;"></i> Dedicated account manager</li>
+                            </ul>
+                            <a href="{{ url_for('register') }}" class="btn btn-outline-primary">Contact Sales</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5" style="background: #F9FAFB;">
+        <div class="container text-center">
+            <h2 class="display-5 fw-bold mb-4" style="color: #1E3A8A;">Ready to Automate Your Business?</h2>
+            <p class="lead mb-4" style="color: #000000; font-weight: 500;">Join thousands of entrepreneurs who have automated their revenue with AI CEO</p>
+            <a href="{{ url_for('register') }}" class="btn btn-metallic btn-lg">
+                <i class="fas fa-rocket"></i> Start Your Free Trial
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4" style="background: #FFFFFF; border-top: 1px solid #E5E7EB;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 style="color: #000000;"><i class="fas fa-robot" style="color: #1E3A8A;"></i> <span style="color: #1E3A8A;">AI CEO SaaS</span></h5>
+                    <p style="color: #374151;">Autonomous business automation platform powered by advanced AI.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p style="color: #374151;">&copy; 2024 AI CEO SaaS. All rights reserved.</p>
+                    <p>
+                        <a href="#" style="color: #1E3A8A;">Privacy Policy</a> |
+                        <a href="#" style="color: #1E3A8A;">Terms of Service</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

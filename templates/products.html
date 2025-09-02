@@ -1,0 +1,85 @@
+
+{% extends "base.html" %}
+
+{% block title %}Products - AI CEO SaaS{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-900">
+                    <i class="fas fa-box mr-3"></i>Products Management
+                </h1>
+                <a href="{{ url_for('one_click') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                    <i class="fas fa-plus mr-2"></i>
+                    Create New Product
+                </a>
+            </div>
+
+            {% if products %}
+                <div class="bg-white shadow overflow-hidden sm:rounded-md">
+                    <ul class="divide-y divide-gray-200">
+                        {% for product in products %}
+                            <li>
+                                <div class="px-4 py-4 sm:px-6">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <div>
+                                                <p class="text-sm font-medium text-blue-600 truncate">
+                                                    {{ product.title }}
+                                                </p>
+                                                <p class="text-sm text-gray-500">
+                                                    {{ product.description[:100] }}{% if product.description|length > 100 %}...{% endif %}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center space-x-4">
+                                            <div class="text-right">
+                                                <p class="text-sm font-medium text-gray-900">${{ "%.2f"|format(product.price) }}</p>
+                                                <p class="text-xs text-gray-500">{{ product.category }}</p>
+                                            </div>
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                                {% if product.status == 'published' %}bg-green-100 text-green-800
+                                                {% elif product.status == 'draft' %}bg-yellow-100 text-yellow-800
+                                                {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                                {{ product.status.title() }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <div class="flex justify-between text-sm text-gray-500">
+                                            <span>Created: {{ product.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                                            {% if product.revenue > 0 %}
+                                                <span class="text-green-600 font-medium">Revenue: ${{ "%.2f"|format(product.revenue) }}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <div class="text-center py-12">
+                    <i class="fas fa-box-open text-gray-400 text-6xl mb-4"></i>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">No products yet</h3>
+                    <p class="text-gray-500 mb-6">Get started by creating your first product with the AI generator.</p>
+                    <a href="{{ url_for('one_click') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                        <i class="fas fa-plus mr-2"></i>
+                        Create Your First Product
+                    </a>
+                </div>
+            {% endif %}
+
+            <!-- Back to Dashboard -->
+            <div class="mt-8">
+                <a href="{{ url_for('dashboard') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,126 @@
+<!-- Modern Navigation Bar -->
+<nav class="navbar" x-data="{ mobileMenuOpen: false }">
+    <div class="container">
+        <div class="navbar-content">
+            <!-- Brand Logo -->
+            <div class="navbar-brand">
+                <a href="/" class="brand-logo flex items-center gap-sm">
+                    <img src="{{ url_for('static', filename='img/metallic-s-logo.png') }}" alt="AI CEO" class="w-8 h-8">
+                    <span class="font-heading font-bold text-xl">AI CEO</span>
+                </a>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <ul class="navbar-nav hidden md:flex">
+                {% if current_user.is_authenticated %}
+                    <li><a href="/dashboard" class="nav-link">Dashboard</a></li>
+                    <li><a href="/one-click-generator" class="nav-link">1-Click Generator</a></li>
+                    <li><a href="/success-dashboard" class="nav-link">Success</a></li>
+                    <li><a href="/products" class="nav-link">Products</a></li>
+                    <li><a href="/marketing" class="nav-link">Marketing</a></li>
+                    {% if current_user.role == 'admin' %}
+                        <li><a href="/admin" class="nav-link">Admin</a></li>
+                    {% endif %}
+                {% else %}
+                    <li><a href="#features" class="nav-link">Features</a></li>
+                    <li><a href="/pricing" class="nav-link">Pricing</a></li>
+                    <li><a href="/login" class="nav-link">Login</a></li>
+                {% endif %}
+            </ul>
+
+            <!-- Right Side Actions -->
+            <div class="flex items-center gap-md">
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" @click="window.aiCEOApp.toggleTheme()" aria-label="Toggle theme">
+                    <span class="theme-toggle-icon">
+                        <i data-lucide="moon" class="w-5 h-5"></i>
+                    </span>
+                </button>
+
+                <!-- User Actions -->
+                {% if current_user.is_authenticated %}
+                    <!-- User Menu -->
+                    <div class="relative" x-data="{ userMenuOpen: false }">
+                        <button @click="userMenuOpen = !userMenuOpen" class="flex items-center gap-sm btn btn-ghost">
+                            <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-semibold">
+                                {{ current_user.email[0].upper() }}
+                            </div>
+                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                        </button>
+                        
+                        <div x-show="userMenuOpen" @click.away="userMenuOpen = false" 
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute right-0 mt-2 w-56 card p-sm shadow-lg">
+                            <div class="p-sm border-b">
+                                <p class="text-sm font-medium">{{ current_user.email }}</p>
+                                <p class="text-xs text-gray-500">{{ user_plan.title() if user_plan else 'Free Plan' }}</p>
+                            </div>
+                            <div class="p-sm">
+                                <a href="/voice-preferences" class="flex items-center gap-sm p-sm hover:bg-gray-100 rounded">
+                                    <i data-lucide="mic" class="w-4 h-4"></i>
+                                    Voice Settings
+                                </a>
+                                <a href="/analytics" class="flex items-center gap-sm p-sm hover:bg-gray-100 rounded">
+                                    <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+                                    Analytics
+                                </a>
+                                <a href="/pricing" class="flex items-center gap-sm p-sm hover:bg-gray-100 rounded">
+                                    <i data-lucide="credit-card" class="w-4 h-4"></i>
+                                    Billing
+                                </a>
+                                <hr class="my-2">
+                                <a href="/logout" class="flex items-center gap-sm p-sm hover:bg-red-50 text-red-600 rounded">
+                                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                                    User Login
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="/register" class="btn btn-primary">
+                        <i data-lucide="rocket" class="w-4 h-4"></i>
+                        Get Started Free
+                    </a>
+                {% endif %}
+
+                <!-- Mobile Menu Toggle -->
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden btn btn-ghost">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div x-show="mobileMenuOpen" 
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 transform -translate-y-2"
+             x-transition:enter-end="opacity-100 transform translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 transform translate-y-0"
+             x-transition:leave-end="opacity-0 transform -translate-y-2"
+             class="md:hidden border-t mt-2 pt-2">
+            {% if current_user.is_authenticated %}
+                <a href="/dashboard" class="block p-sm hover:bg-gray-100 rounded">Dashboard</a>
+                <a href="/one-click-generator" class="block p-sm hover:bg-gray-100 rounded">1-Click Generator</a>
+                <a href="/success-dashboard" class="block p-sm hover:bg-gray-100 rounded">Success</a>
+                <a href="/products" class="block p-sm hover:bg-gray-100 rounded">Products</a>
+                <a href="/marketing" class="block p-sm hover:bg-gray-100 rounded">Marketing</a>
+                {% if current_user.role == 'admin' %}
+                    <a href="/admin" class="block p-sm hover:bg-gray-100 rounded">Admin</a>
+                {% endif %}
+                <hr class="my-2">
+                <a href="/logout" class="block p-sm hover:bg-red-50 text-red-600 rounded">User Login</a>
+            {% else %}
+                <a href="#features" class="block p-sm hover:bg-gray-100 rounded">Features</a>
+                <a href="/pricing" class="block p-sm hover:bg-gray-100 rounded">Pricing</a>
+                <a href="/login" class="block p-sm hover:bg-gray-100 rounded">Login</a>
+                <a href="/register" class="block p-sm bg-primary text-white rounded text-center">Get Started Free</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>

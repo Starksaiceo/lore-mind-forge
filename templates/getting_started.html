@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - AI CEO Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+        .step-completed {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        }
+        .step-active {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+        }
+        .step-pending {
+            background: #E5E7EB;
+        }
+        .connect-button {
+            transition: all 0.2s ease;
+        }
+        .connect-button:hover {
+            transform: scale(1.02);
+        }
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            max-width: 400px;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        .toast.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <img src="{{ url_for('static', filename='img/metallic-s-logo.png') }}" alt="AI CEO" class="h-8 w-8">
+                    <span class="ml-2 text-xl font-bold text-gray-900">AI CEO Platform</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-600">Welcome, {{ current_user.email if current_user.is_authenticated else 'Guest' }}!</span>
+                    {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('dashboard') }}" class="text-blue-600 hover:text-blue-700 text-sm font-medium">Dashboard</a>
+                    <a href="{{ url_for('logout') }}" class="text-gray-600 hover:text-gray-700 text-sm">Logout</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Progress Steps -->
+    <div class="bg-white border-b border-gray-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-8">
+                    <div class="flex items-center">
+                        <div id="step-1" class="step-indicator step-active w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold">
+                            1
+                        </div>
+                        <span class="ml-2 font-medium text-gray-900">Choose Your Path</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-12 h-1 bg-gray-300 rounded"></div>
+                        <div id="step-2" class="step-indicator step-pending w-10 h-10 rounded-full flex items-center justify-center text-gray-600 font-semibold ml-2">
+                            2
+                        </div>
+                        <span class="ml-2 font-medium text-gray-500">Connect Platforms</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-12 h-1 bg-gray-300 rounded"></div>
+                        <div id="step-3" class="step-indicator step-pending w-10 h-10 rounded-full flex items-center justify-center text-gray-600 font-semibold ml-2">
+                            3
+                        </div>
+                        <span class="ml-2 font-medium text-gray-500">Launch Business</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Step 1: Choose Your Path -->
+        <div id="step1-content" class="step-content">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Choose Your Business Path</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    AI CEO can either manage your existing stores or build everything from scratch. 
+                    Choose the path that fits your situation best.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Connect Existing Store -->
+                <div class="card-hover bg-white rounded-2xl shadow-lg border border-gray-200 p-8 cursor-pointer" onclick="selectPath('existing')">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-link text-2xl text-blue-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Connect Existing Store</h3>
+                        <p class="text-gray-600 mb-6">
+                            Already have a Shopify store, social media accounts, or online business? 
+                            Connect them and let AI CEO take over management, content creation, and growth.
+                        </p>
+                        <div class="space-y-2 text-sm text-gray-500 mb-8">
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Import existing products & data</span>
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>AI manages current platforms</span>
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Keep existing audience</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
+                            Connect My Store
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Build From Scratch -->
+                <div class="card-hover bg-white rounded-2xl shadow-lg border border-gray-200 p-8 cursor-pointer" onclick="selectPath('scratch')">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-rocket text-2xl text-green-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">Build From Scratch</h3>
+                        <p class="text-gray-600 mb-6">
+                            Starting fresh? AI CEO will create your store, products, social media presence, 
+                            and marketing campaigns completely from scratch using market intelligence.
+                        </p>
+                        <div class="space-y-2 text-sm text-gray-500 mb-8">
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>AI builds entire storefront</span>
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Creates trending products</span>
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Launch with zero setup</span>
+                            </div>
+                        </div>
+                        <button class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
+                            Build My Business
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Connect Platforms -->
+        <div id="step2-content" class="step-content hidden">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Connect Your Platforms</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Connect your accounts with one-click OAuth. No copying and pasting API keys - just click Connect and approve.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <!-- Store/Sales Card -->
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-store text-blue-600 mr-2"></i>
+                        Store & Sales
+                    </h3>
+                    <div id="store-connections" class="space-y-3">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Social Media Card -->
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-share-alt text-green-600 mr-2"></i>
+                        Social Media
+                    </h3>
+                    <div id="social-connections" class="space-y-3">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- AI & Tools Card -->
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-robot text-purple-600 mr-2"></i>
+                        AI & Tools
+                    </h3>
+                    <div id="ai-connections" class="space-y-3">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <button id="continue-to-launch" class="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white font-semibold py-4 px-8 rounded-lg text-lg transition-all transform hover:scale-105">
+                    Continue to Launch <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+                <p class="text-sm text-gray-500 mt-3">You can connect more platforms later</p>
+            </div>
+        </div>
+
+        <!-- Step 3: Launch Business -->
+        <div id="step3-content" class="step-content hidden">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Launch Your AI Business</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Configure your business strategy and let AI CEO handle everything from products to marketing.
+                </p>
+            </div>
+
+            <div class="max-w-2xl mx-auto">
+                <form id="launch-form" class="space-y-6">
+                    <!-- Business Strategy -->
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Business Strategy</h3>
+                        <div class="grid gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Choose Strategy</label>
+                                <select id="business-strategy" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="ecommerce">E-commerce Store (Physical/Digital Products)</option>
+                                    <option value="digital">Digital Products Only</option>
+                                    <option value="content">Content & Lead Generation</option>
+                                    <option value="services">Service Business</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Target Market</label>
+                                <input type="text" id="target-market" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., fitness enthusiasts, small business owners">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Budget & Scale -->
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Budget & Scale</h3>
+                        <div class="grid gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Monthly Marketing Budget</label>
+                                <select id="marketing-budget" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="100">$100 - Conservative Growth</option>
+                                    <option value="500" selected>$500 - Moderate Growth</option>
+                                    <option value="1000">$1,000 - Aggressive Growth</option>
+                                    <option value="custom">Custom Amount</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Content Frequency</label>
+                                <select id="content-frequency" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="daily">Daily Posts</option>
+                                    <option value="weekly" selected>Weekly Posts</option>
+                                    <option value="custom">Custom Schedule</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Brand Identity -->
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Brand Identity</h3>
+                        <div class="grid gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Business Name</label>
+                                <input type="text" id="business-name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="AI will generate if left blank">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Brand Personality</label>
+                                <select id="brand-personality" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="professional">Professional & Trustworthy</option>
+                                    <option value="friendly">Friendly & Approachable</option>
+                                    <option value="edgy">Bold & Edgy</option>
+                                    <option value="luxury">Premium & Luxury</option>
+                                    <option value="fun">Fun & Playful</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Launch Button -->
+                    <div class="text-center pt-6">
+                        <button type="submit" class="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white font-bold py-4 px-12 rounded-lg text-xl transition-all transform hover:scale-105 shadow-lg">
+                            🚀 Launch My AI Business Empire
+                        </button>
+                        <p class="text-sm text-gray-500 mt-4">
+                            AI CEO will start building your business immediately. You can monitor progress from your dashboard.
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <div class="bg-white border border-gray-200 rounded-lg shadow-lg p-4">
+            <div class="flex items-center">
+                <div id="toast-icon" class="flex-shrink-0 mr-3">
+                    <i class="fas fa-check-circle text-green-500"></i>
+                </div>
+                <div>
+                    <p id="toast-message" class="text-sm font-medium text-gray-900">Success message</p>
+                </div>
+                <div class="ml-auto pl-3">
+                    <button onclick="hideToast()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        let currentStep = 1;
+        let selectedPath = null;
+        let connections = {};
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadConnectionStatus();
+            checkUrlParams();
+        });
+
+        function checkUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('success')) {
+                showToast('success', urlParams.get('success').replace(/_/g, ' '));
+            }
+            if (urlParams.get('error')) {
+                showToast('error', urlParams.get('error').replace(/_/g, ' '));
+            }
+        }
+
+        function selectPath(path) {
+            selectedPath = path;
+            nextStep();
+        }
+
+        function nextStep() {
+            if (currentStep < 3) {
+                // Hide current step
+                document.querySelector(`#step${currentStep}-content`).classList.add('hidden');
+                
+                // Update step indicator
+                document.querySelector(`#step-${currentStep}`).classList.remove('step-active');
+                document.querySelector(`#step-${currentStep}`).classList.add('step-completed');
+                
+                // Show next step
+                currentStep++;
+                document.querySelector(`#step${currentStep}-content`).classList.remove('hidden');
+                document.querySelector(`#step-${currentStep}`).classList.remove('step-pending');
+                document.querySelector(`#step-${currentStep}`).classList.add('step-active');
+
+                if (currentStep === 2) {
+                    loadConnectionStatus();
+                }
+            }
+        }
+
+        async function loadConnectionStatus() {
+            try {
+                const response = await fetch('/oauth/status');
+                connections = await response.json();
+                renderConnections();
+            } catch (error) {
+                console.error('Failed to load connection status:', error);
+                showToast('error', 'Failed to load connection status');
+            }
+        }
+
+        function renderConnections() {
+            const storeConnections = document.getElementById('store-connections');
+            const socialConnections = document.getElementById('social-connections');
+            const aiConnections = document.getElementById('ai-connections');
+
+            // Clear existing content
+            storeConnections.innerHTML = '';
+            socialConnections.innerHTML = '';
+            aiConnections.innerHTML = '';
+
+            // Group integrations by category
+            const categories = {
+                store: ['shopify'],
+                social: ['google', 'meta', 'linkedin', 'x'],
+                ai: ['openrouter']
+            };
+
+            Object.entries(categories).forEach(([category, platforms]) => {
+                const container = document.getElementById(`${category}-connections`);
+                
+                platforms.forEach(platform => {
+                    if (connections[platform]) {
+                        const connection = connections[platform];
+                        container.appendChild(createConnectionCard(platform, connection));
+                    }
+                });
+            });
+        }
+
+        function createConnectionCard(platform, connection) {
+            const card = document.createElement('div');
+            card.className = 'border border-gray-200 rounded-lg p-3';
+            
+            const isConnected = connection.connected;
+            const statusColor = isConnected ? 'text-green-600' : 'text-gray-400';
+            const statusIcon = isConnected ? 'fa-check-circle' : 'fa-circle';
+            const buttonClass = isConnected ? 'bg-gray-100 text-gray-700' : 'bg-blue-600 text-white hover:bg-blue-700';
+            const buttonText = isConnected ? 'Connected' : 'Connect';
+
+            card.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="${connection.icon_class} text-lg mr-2"></i>
+                        <div>
+                            <div class="font-medium text-gray-900">${connection.display_name}</div>
+                            <div class="text-xs text-gray-500">${connection.description}</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <i class="fas ${statusIcon} ${statusColor} text-sm"></i>
+                        <button onclick="connectPlatform('${platform}', '${connection.auth_type}')" 
+                                class="${buttonClass} connect-button px-3 py-1 text-xs rounded-md font-medium transition-all ${isConnected ? 'cursor-default' : 'cursor-pointer'}"
+                                ${isConnected ? 'disabled' : ''}>
+                            ${buttonText}
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function connectPlatform(platform, authType) {
+            if (authType === 'oauth') {
+                if (platform === 'shopify') {
+                    const shopDomain = prompt('Enter your Shopify store domain (e.g., mystore.myshopify.com):');
+                    if (shopDomain) {
+                        window.location.href = `/oauth/connect/${platform}?shop=${shopDomain}`;
+                    }
+                } else {
+                    window.location.href = `/oauth/connect/${platform}`;
+                }
+            } else {
+                const apiKey = prompt(`Enter your ${platform.toUpperCase()} API key:`);
+                if (apiKey) {
+                    saveApiKey(platform, apiKey);
+                }
+            }
+        }
+
+        async function saveApiKey(platform, apiKey) {
+            try {
+                const response = await fetch(`/oauth/api_key/${platform}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ api_key: apiKey })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    showToast('success', result.message);
+                    await loadConnectionStatus();
+                } else {
+                    showToast('error', result.error);
+                }
+            } catch (error) {
+                console.error('API key save failed:', error);
+                showToast('error', 'Failed to save API key');
+            }
+        }
+
+        // Continue to launch button
+        document.getElementById('continue-to-launch').onclick = nextStep;
+
+        // Launch form submission
+        document.getElementById('launch-form').onsubmit = async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                path: selectedPath,
+                strategy: document.getElementById('business-strategy').value,
+                target_market: document.getElementById('target-market').value,
+                marketing_budget: document.getElementById('marketing-budget').value,
+                content_frequency: document.getElementById('content-frequency').value,
+                business_name: document.getElementById('business-name').value,
+                brand_personality: document.getElementById('brand-personality').value
+            };
+
+            try {
+                const response = await fetch('/launch-business', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    showToast('success', 'Business launch initiated! Redirecting to dashboard...');
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 2000);
+                } else {
+                    showToast('error', result.error);
+                }
+            } catch (error) {
+                console.error('Launch failed:', error);
+                showToast('error', 'Failed to launch business');
+            }
+        };
+
+        function showToast(type, message) {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toast-icon');
+            const messageEl = document.getElementById('toast-message');
+
+            // Set icon based on type
+            if (type === 'success') {
+                icon.innerHTML = '<i class="fas fa-check-circle text-green-500"></i>';
+            } else {
+                icon.innerHTML = '<i class="fas fa-exclamation-circle text-red-500"></i>';
+            }
+
+            messageEl.textContent = message;
+            toast.classList.add('show');
+
+            // Auto-hide after 5 seconds
+            setTimeout(hideToast, 5000);
+        }
+
+        function hideToast() {
+            document.getElementById('toast').classList.remove('show');
+        }
+    </script>
+</body>
+</html>

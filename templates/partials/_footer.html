@@ -1,0 +1,76 @@
+<!-- Modern Footer -->
+<footer class="navbar border-t mt-xl">
+    <div class="container">
+        <div class="grid grid-2 md:grid-4 gap-lg py-xl">
+            <!-- Brand Section -->
+            <div>
+                <div class="flex items-center gap-sm mb-md">
+                    <img src="{{ url_for('static', filename='img/metallic-s-logo.png') }}" alt="AI CEO" class="w-6 h-6">
+                    <span class="font-heading font-bold text-lg">AI CEO</span>
+                </div>
+                <p class="text-sm text-gray-600 mb-md">
+                    The autonomous AI that builds businesses, creates products, and generates revenue 24/7.
+                </p>
+                <div class="flex gap-sm">
+                    <a href="#" class="btn btn-ghost btn-sm" aria-label="Twitter">
+                        <i data-lucide="twitter" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#" class="btn btn-ghost btn-sm" aria-label="LinkedIn">
+                        <i data-lucide="linkedin" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#" class="btn btn-ghost btn-sm" aria-label="GitHub">
+                        <i data-lucide="github" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Product Links -->
+            <div>
+                <h4 class="font-semibold mb-md">Product</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="/dashboard" class="text-gray-600 hover:text-primary">Dashboard</a></li>
+                    <li><a href="/one-click-generator" class="text-gray-600 hover:text-primary">1-Click Generator</a></li>
+                    <li><a href="/products" class="text-gray-600 hover:text-primary">Product Management</a></li>
+                    <li><a href="/marketing" class="text-gray-600 hover:text-primary">Marketing Tools</a></li>
+                    <li><a href="/analytics" class="text-gray-600 hover:text-primary">Analytics</a></li>
+                </ul>
+            </div>
+
+            <!-- Company Links -->
+            <div>
+                <h4 class="font-semibold mb-md">Company</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="/pricing" class="text-gray-600 hover:text-primary">Pricing</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-primary">About</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-primary">Blog</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-primary">Careers</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-primary">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Support Links -->
+            <div>
+                <h4 class="font-semibold mb-md">Support</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="text-gray-600 hover:text-primary">Help Center</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-primary">Documentation</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-primary">API Reference</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-primary">Community</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-primary">Status</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="border-t py-md flex flex-col md:flex-row justify-between items-center">
+            <div class="text-sm text-gray-600 mb-md md:mb-0">
+                &copy; {{ moment().format('YYYY') if moment else '2024' }} AI CEO. All rights reserved.
+            </div>
+            <div class="flex items-center gap-lg text-sm">
+                <a href="#" class="text-gray-600 hover:text-primary">Privacy Policy</a>
+                <a href="#" class="text-gray-600 hover:text-primary">Terms of Service</a>
+                <a href="#" class="text-gray-600 hover:text-primary">Cookie Policy</a>
+            </div>
+        </div>
+    </div>
+</footer>

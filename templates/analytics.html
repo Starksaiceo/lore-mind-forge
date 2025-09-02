@@ -1,0 +1,137 @@
+
+{% extends "base.html" %}
+
+{% block title %}Analytics Dashboard - AI CEO SaaS{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50">
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            <h1 class="text-3xl font-bold text-gray-900 mb-8">
+                <i class="fas fa-chart-bar mr-3"></i>Analytics Dashboard
+            </h1>
+
+            {% if analytics.error %}
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <strong>Error:</strong> {{ analytics.error }}
+                </div>
+            {% else %}
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="p-5">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-cogs text-blue-400 text-2xl"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt class="text-sm font-medium text-gray-500 truncate">Total Events</dt>
+                                        <dd class="text-lg font-medium text-gray-900">{{ analytics.total_events }}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="p-5">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-green-400 text-2xl"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt class="text-sm font-medium text-gray-500 truncate">Successful Events</dt>
+                                        <dd class="text-lg font-medium text-gray-900">{{ analytics.successful_events }}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="p-5">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-percentage text-purple-400 text-2xl"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt class="text-sm font-medium text-gray-500 truncate">Success Rate</dt>
+                                        <dd class="text-lg font-medium text-gray-900">{{ analytics.success_rate }}%</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white overflow-hidden shadow rounded-lg">
+                        <div class="p-5">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-layer-group text-yellow-400 text-2xl"></i>
+                                </div>
+                                <div class="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt class="text-sm font-medium text-gray-500 truncate">Event Types</dt>
+                                        <dd class="text-lg font-medium text-gray-900">{{ analytics.event_types|length }}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Types Breakdown -->
+                <div class="bg-white shadow rounded-lg p-6 mb-8">
+                    <h2 class="text-lg font-medium text-gray-900 mb-4">Event Types Breakdown</h2>
+                    <div class="space-y-3">
+                        {% for event_type, count in analytics.event_types.items() %}
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-600">{{ event_type.replace('_', ' ').title() }}</span>
+                                <div class="flex items-center">
+                                    <span class="text-sm font-medium text-gray-900 mr-2">{{ count }}</span>
+                                    <div class="w-32 bg-gray-200 rounded-full h-2">
+                                        <div class="bg-blue-600 h-2 rounded-full" style="width: {{ (count / analytics.total_events * 100) if analytics.total_events > 0 else 0 }}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Recent Events -->
+                <div class="bg-white shadow rounded-lg p-6">
+                    <h2 class="text-lg font-medium text-gray-900 mb-4">Recent Events</h2>
+                    <div class="space-y-3">
+                        {% for event in analytics.recent_events %}
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div class="flex items-center">
+                                    {% if event.success %}
+                                        <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                    {% else %}
+                                        <i class="fas fa-times-circle text-red-500 mr-3"></i>
+                                    {% endif %}
+                                    <span class="text-sm font-medium">{{ event.event_type.replace('_', ' ').title() }}</span>
+                                </div>
+                                <span class="text-xs text-gray-500">{{ event.timestamp }}</span>
+                            </div>
+                        {% else %}
+                            <p class="text-gray-500 text-center py-4">No recent events found.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Back to Dashboard -->
+            <div class="mt-8">
+                <a href="{{ url_for('dashboard') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

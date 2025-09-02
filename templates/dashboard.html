@@ -1,0 +1,1960 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - AI CEO SaaS{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-metallic">Dashboard</h1>
+        <p class="text-slate-300">Welcome back, {{ current_user.email }}!</p>
+    </div>
+
+    <!-- Plan Status -->
+    <div class="mb-6">
+        {% if user_plan %}
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                ✅ Active Plan: <strong>{{ user_plan.title() }}</strong>
+            </div>
+        {% else %}
+            <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
+                ⚠️ No active subscription. <a href="/pricing" class="underline">Upgrade now</a> to unlock all features.
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Platform Status Banner -->
+    <div class="mb-6 p-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-white">
+        <div class="flex justify-between items-center">
+            <div>
+                <h2 class="text-xl font-bold">🚀 AI CEO Platform Status</h2>
+                <p class="text-blue-100">All systems operational • {{ stats.total_events if stats else '0' }} AI events processed</p>
+            </div>
+            <div class="text-right">
+                <div class="text-sm text-blue-100">Success Rate</div>
+                <div class="text-2xl font-bold">{{ stats.success_rate if stats else '100' }}%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Business Options - Core Platform Features -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <!-- Build Everything From Scratch -->
+        <div class="bg-gradient-to-br from-blue-600 to-purple-700 rounded-xl p-8 text-white border border-blue-500">
+            <div class="flex items-center mb-4">
+                <div class="p-3 bg-white bg-opacity-20 rounded-full mr-4">
+                    <i class="fas fa-rocket text-2xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold">🚀 Build Everything From Scratch</h3>
+                    <p class="text-blue-100">Let AI CEO create your complete business automatically</p>
+                </div>
+            </div>
+            
+            <div class="bg-black bg-opacity-20 rounded-lg p-4 mb-4">
+                <h4 class="font-semibold mb-2">AI Will Create:</h4>
+                <ul class="text-sm space-y-1 text-blue-100">
+                    <li>✅ Complete product lineup with descriptions</li>
+                    <li>✅ Professional store design and branding</li>
+                    <li>✅ Google Ads + YouTube + Social campaigns</li>
+                    <li>✅ Automated marketing and sales funnels</li>
+                    <li>✅ Payment processing and revenue tracking</li>
+                </ul>
+            </div>
+            
+            <button onclick="showBuildFromScratchModal()" 
+                    class="w-full bg-white text-blue-600 py-4 px-6 rounded-lg font-bold text-lg hover:bg-blue-50 transition-all transform hover:scale-105 shadow-lg">
+                🚀 Start Building My Business
+            </button>
+        </div>
+
+        <!-- Connect Existing Store -->
+        <div class="bg-gradient-to-br from-green-600 to-teal-700 rounded-xl p-8 text-white border border-green-500">
+            <div class="flex items-center mb-4">
+                <div class="p-3 bg-white bg-opacity-20 rounded-full mr-4">
+                    <i class="fas fa-store text-2xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold">🏪 Connect My Existing Store</h3>
+                    <p class="text-green-100">Let AI CEO take over and optimize your current business</p>
+                </div>
+            </div>
+            
+            <div class="bg-black bg-opacity-20 rounded-lg p-4 mb-4">
+                <h4 class="font-semibold mb-2">AI Will Optimize:</h4>
+                <ul class="text-sm space-y-1 text-green-100">
+                    <li>✅ Product descriptions and SEO optimization</li>
+                    <li>✅ Automated advertising across all platforms</li>
+                    <li>✅ Social media content and posting schedule</li>
+                    <li>✅ Customer service and email automation</li>
+                    <li>✅ Revenue optimization and growth strategies</li>
+                </ul>
+            </div>
+            
+            <button onclick="showConnectStoreModal()" 
+                    class="w-full bg-white text-green-600 py-4 px-6 rounded-lg font-bold text-lg hover:bg-green-50 transition-all transform hover:scale-105 shadow-lg">
+                🔗 Connect My Store
+            </button>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-gray-800 rounded-lg p-6 border border-slate-700 hover:border-blue-500 transition-colors">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-blue-600 text-white">
+                    <i class="fas fa-dollar-sign text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-slate-400">Total Revenue</p>
+                    <p class="text-2xl font-bold text-white">${{ "%.2f"|format(stats.total_revenue if stats else 0) }}</p>
+                    <p class="text-xs text-green-400">+$0.00 today</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6 border border-slate-700 hover:border-green-500 transition-colors">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-green-600 text-white">
+                    <i class="fas fa-box text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-slate-400">Products Created</p>
+                    <p class="text-2xl font-bold text-white">{{ stats.total_products if stats else '0' }}</p>
+                    <p class="text-xs text-blue-400">Ready to publish</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6 border border-slate-700 hover:border-purple-500 transition-colors">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-purple-600 text-white">
+                    <i class="fas fa-chart-line text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-slate-400">Success Events</p>
+                    <p class="text-2xl font-bold text-white">{{ stats.successful_events if stats else '0' }}</p>
+                    <p class="text-xs text-purple-400">AI performance</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-6 border border-slate-700 hover:border-orange-500 transition-colors">
+            <div class="flex items-center">
+                <div class="p-3 rounded-full bg-orange-600 text-white">
+                    <i class="fas fa-brain text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-slate-400">Memory Items</p>
+                    <p class="text-2xl font-bold text-white">{{ stats.memory_items if stats else '0' }}</p>
+                    <p class="text-xs text-orange-400">AI learning data</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Greeting -->
+        {% if ai_greeting %}
+        <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-6 mb-6">
+            <div class="flex items-center mb-3">
+                <span class="text-2xl mr-3">🤖</span>
+                <h2 class="text-xl font-bold text-white">AI CEO Message</h2>
+            </div>
+            <p class="text-white text-lg mb-4">{{ ai_greeting }}</p>
+
+            <!-- Name Learning Interface -->
+            <div class="bg-black bg-opacity-20 rounded-lg p-4">
+                <p class="text-white text-sm mb-2">What would you like me to call you?</p>
+                <div class="flex gap-2">
+                    <input type="text" id="preferredName" placeholder="Enter your preferred name..." 
+                           class="flex-1 p-2 border border-gray-300 rounded-lg bg-gray-700 text-white placeholder-gray-400">
+                    <button onclick="updatePreferredName()" 
+                            class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                        Save Name
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    <!-- Autopilot Status -->
+    <div class="bg-gray-800 rounded-lg p-6 border border-slate-700 mb-6">
+        <h3 class="text-xl font-bold mb-4 text-white">🤖 Autopilot Status</h3>
+
+        <div class="mb-4">
+            <div class="flex items-center justify-between">
+                <span class="text-slate-300">Background Business Builder</span>
+                <div class="flex items-center">
+                    <input type="checkbox" id="autopilotToggle" class="mr-2" checked>
+                    <span id="autopilotStatus" class="text-green-400">Active</span>
+                </div>
+            </div>
+            <p class="text-xs text-slate-400 mt-2">AI CEO runs profit cycles automatically while you're away</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div class="bg-gray-700 rounded p-3">
+                <div class="text-sm text-slate-400">Today's Cycles</div>
+                <div id="todayCycles" class="text-xl font-bold text-white">-</div>
+            </div>
+            <div class="bg-gray-700 rounded p-3">
+                <div class="text-sm text-slate-400">Products Built</div>
+                <div id="productsBuilt" class="text-xl font-bold text-white">-</div>
+            </div>
+            <div class="bg-gray-700 rounded p-3">
+                <div class="text-sm text-slate-400">Success Rate</div>
+                <div id="successRate" class="text-xl font-bold text-white">-</div>
+            </div>
+        </div>
+
+        <div class="flex gap-2">
+            <button onclick="runManualCycle()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                🚀 Run Manual Cycle
+            </button>
+            <button onclick="showAutopilotRecap()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                📊 Show Recap
+            </button>
+        </div>
+
+        <!-- Autopilot Activity Feed -->
+        <div class="mt-4">
+            <h4 class="text-sm font-semibold text-slate-300 mb-2">Recent Autopilot Activity</h4>
+            <div id="autopilotActivity" class="space-y-2 max-h-32 overflow-y-auto">
+                <div class="text-slate-400 text-sm">Loading activity...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI CEO Voice Assistant -->
+    <div class="bg-gray-800 rounded-lg p-6 border border-slate-700">
+                    <h3 class="text-xl font-bold mb-4 text-white">🤖 AI CEO Voice Assistant</h3>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-slate-300 mb-2">Agent Name</label>
+                        <input type="text" id="agentNameInput" placeholder="AI CEO" maxlength="20" 
+                               class="w-full p-2 border border-slate-600 rounded-lg bg-gray-800 text-white placeholder-slate-400">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-slate-300 mb-2">Personality</label>
+                        <select id="personalitySelect" class="w-full p-2 border border-slate-600 rounded-lg bg-gray-800 text-white">
+                            <option value="professional">Professional</option>
+                            <option value="funny">Funny</option>
+                            <option value="motivational">Motivational</option>
+                            <option value="serious">Serious</option>
+                            <option value="luxury">Luxury</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="flex items-center text-slate-300">
+                            <input type="checkbox" id="voiceModeToggle" class="mr-2">
+                            <span>Enable Voice Mode</span>
+                        </label>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <button onclick="saveVoiceSettings()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex-1">
+                            Save
+                        </button>
+                        <button onclick="toggleVoiceListening()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                            🎤
+                        </button>
+                    </div>
+
+                    <!-- Admin Access Section - Only for admin users -->
+                    {% if current_user.role == 'admin' %}
+                    <div class="mt-4 p-3 bg-red-900 border border-red-600 rounded-lg">
+                        <h4 class="text-red-300 font-bold mb-2">🛡️ Admin Access</h4>
+                        <div class="flex gap-2">
+                            <a href="{{ url_for('admin') }}" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm">
+                                Admin Dashboard
+                            </a>
+                            <a href="{{ url_for('database_admin') }}" class="bg-orange-600 hover:bg-orange-700 text-white px-3 py-1 rounded text-sm">
+                                Database Admin
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="mt-4 text-center text-slate-400 mb-4">
+                        <small>Voice commands and responses</small>
+                    </div>
+
+                    <!-- Test buttons for debugging -->
+                    <div class="flex gap-2 mt-4">
+                        <button onclick="alert('JavaScript is working!'); console.log('Alert test successful');" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-sm">
+                            🚨 Alert Test
+                        </button>
+                        <button onclick="testBasicClick()" class="bg-purple-600 hover:bg-purple-700 text-white px-2 py-1 rounded text-sm">
+                            Test Basic Click
+                        </button>
+                        <button onclick="testVoice()" class="bg-yellow-600 hover:bg-yellow-700 text-white px-2 py-1 rounded text-sm">
+                            🎤 Test Voice
+                        </button>
+                        <button onclick="stopVoice()" class="bg-red-600 hover:bg-red-700 text-white px-2 py-1 rounded text-sm">
+                            🛑 Stop Voice
+                        </button>
+                    </div>
+                </div>
+
+    <!-- Voice Interaction Area -->
+    <div class="bg-gray-800 rounded-lg p-6 border border-slate-600 mb-8">
+        <div class="flex items-center mb-6">
+            <div class="text-2xl mr-3">🤖</div>
+            <h3 class="text-xl font-bold text-metallic">AI CEO Voice Assistant</h3>
+        </div>
+
+        <!-- Voice Settings Row -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-2">Agent Name</label>
+                <input type="text" id="agentNameInput" placeholder="AI CEO" maxlength="20" 
+                       class="w-full p-2 border border-slate-600 rounded-lg bg-gray-800 text-white placeholder-slate-400">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-2">Personality</label>
+                <select id="personalitySelect" class="w-full p-2 border border-slate-600 rounded-lg bg-gray-800 text-white">
+                    <option value="professional">Professional</option>
+                    <option value="funny">Funny</option>
+                    <option value="motivational">Motivational</option>
+                    <option value="serious">Serious</option>
+                    <option value="luxury">Luxury</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-2">Voice Mode</label>
+                <div class="flex items-center">
+                    <input type="checkbox" id="voiceModeToggle" class="mr-2">
+                    <span class="text-slate-300">Enabled</span>
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-2">Actions</label>
+                <div class="flex gap-2">
+                    <button onclick="saveVoiceSettings()" class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600 text-sm">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Voice Interaction Area -->
+        <div class="bg-gray-800 rounded-lg p-4 mb-4">
+            <div class="flex items-center justify-center mb-4">
+                <button id="micButton" onclick="toggleVoiceListening()" 
+                        class="w-16 h-16 rounded-full bg-gray-700 hover:bg-gray-600 transition-colors flex items-center justify-center">
+                    <i id="micIcon" class="fas fa-microphone text-2xl text-gray-400"></i>
+                </button>
+            </div>
+
+            <div id="voiceStatus" class="text-center text-slate-400 mb-4">
+                🎤 Click microphone to start voice interaction
+            </div>
+
+            <div id="recognizedText" class="text-center text-slate-300 mb-2 min-h-6"></div>
+        </div>
+
+        <!-- Chat History -->
+        <div id="voiceChatHistory" class="space-y-2 max-h-40 overflow-y-auto">
+            <!-- Chat messages will appear here -->
+        </div>
+    </div>
+
+    <!-- Debug Test Section -->
+    <div class="glass-effect p-4 rounded-lg border border-slate-600 mb-6">
+        <h3 class="text-lg font-bold mb-4 text-metallic">🧪 Debug Test</h3>
+        <div class="flex gap-4 flex-wrap">
+            <button onclick="alert('JavaScript is working!'); console.log('Alert test successful');" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                🚨 Alert Test
+            </button>
+            <button onclick="testBasicClick()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                Test Basic Click
+            </button>
+            <button onclick="testServerConnection()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                Test Server
+            </button>
+            <button onclick="console.log('Console test works!'); document.getElementById('testResults').innerHTML = '✅ Console logging works!';" class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600">
+                Test Console
+            </button>
+            <button onclick="window.testJavaScript()" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">
+                Test JS Function
+            </button>
+        </div>
+        <div id="testResults" class="mt-4 text-sm text-slate-300"></div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div class="glass-effect p-6 rounded-lg border border-slate-600">
+            <h3 class="text-lg font-bold mb-4 text-metallic">🚀 AI Agent</h3>
+            <p class="text-slate-300 mb-4">Run your AI CEO agent with custom commands</p>
+
+            <!-- Command Categories -->
+            <div class="mb-4">
+                <p class="text-sm font-semibold text-slate-300 mb-3">🎯 Command Categories - Click to Auto-Fill:</p>
+
+                <!-- Business Strategy Commands -->
+                <div class="mb-3">
+                    <p class="text-xs font-medium text-slate-400 mb-1">💼 Business Strategy:</p>
+                    <div class="grid grid-cols-2 gap-1">
+                        <button onclick="document.getElementById('agentCommand').value='Generate 5 profitable digital product ideas for [niche]'" class="bg-blue-900 text-blue-300 px-2 py-1 rounded text-xs hover:bg-blue-800">💡 Product Ideas</button>
+                        <button onclick="document.getElementById('agentCommand').value='Create comprehensive business plan for [industry]'" class="bg-blue-900 text-blue-300 px-2 py-1 rounded text-xs hover:bg-blue-800">📋 Business Plan</button>
+                        <button onclick="document.getElementById('agentCommand').value='Analyze competitor strategies in [market]'" class="bg-blue-900 text-blue-300 px-2 py-1 rounded text-xs hover:bg-blue-800">🔍 Competitor Analysis</button>
+                        <button onclick="document.getElementById('agentCommand').value='Find profitable market gaps to exploit'" class="bg-blue-900 text-blue-300 px-2 py-1 rounded text-xs hover:bg-blue-800">🎯 Market Gaps</button>
+                    </div>
+                </div>
+
+                <!-- Marketing & Sales Commands -->
+                <div class="mb-3">
+                    <p class="text-xs font-medium text-slate-400 mb-1">📈 Marketing & Sales:</p>
+                    <div class="grid grid-cols-2 gap-1">
+                        <button onclick="document.getElementById('agentCommand').value='Create email marketing sequence for [product]'" class="bg-green-900 text-green-300 px-2 py-1 rounded text-xs hover:bg-green-800">📧 Email Sequence</button>
+                        <button onclick="document.getElementById('agentCommand').value='Generate Facebook ad copy for [target audience]'" class="bg-green-900 text-green-300 px-2 py-1 rounded text-xs hover:bg-green-800">📱 Ad Copy</button>
+                        <button onclick="document.getElementById('agentCommand').value='Build sales funnel for maximum conversions'" class="bg-green-900 text-green-300 px-2 py-1 rounded text-xs hover:bg-green-800">🛸 Sales Funnel</button>
+                        <button onclick="document.getElementById('agentCommand').value='Optimize pricing strategy for higher profits'" class="bg-green-900 text-green-300 px-2 py-1 rounded text-xs hover:bg-green-800">💰 Pricing Strategy</button>
+                    </div>
+                </div>
+
+                <!-- Product Development Commands -->
+                <div class="mb-3">
+                    <p class="text-xs font-medium text-slate-400 mb-1">🚀 Product Development:</p>
+                    <div class="grid grid-cols-2 gap-1">
+                        <button onclick="document.getElementById('agentCommand').value='Create [product type] with full documentation'" class="bg-purple-900 text-purple-300 px-2 py-1 rounded text-xs hover:bg-purple-800">📦 Create Product</button>
+                        <button onclick="document.getElementById('agentCommand').value='Upload product to Shopify with SEO optimization'" class="bg-purple-900 text-purple-300 px-2 py-1 rounded text-xs hover:bg-purple-800">🛒 Upload to Store</button>
+                        <button onclick="document.getElementById('agentCommand').value='Generate product description that converts'" class="bg-purple-900 text-purple-300 px-2 py-1 rounded text-xs hover:bg-purple-800">✍️ Product Copy</button>
+                        <button onclick="document.getElementById('agentCommand').value='Create upsell and cross-sell products'" class="bg-purple-900 text-purple-300 px-2 py-1 rounded text-xs hover:bg-purple-800">⬆️ Upsells</button>
+                    </div>
+                </div>
+
+                <!-- Store Design Commands -->
+                <div class="mb-3">
+                    <p class="text-xs font-medium text-slate-400 mb-1">🎨 Store Design & Layout:</p>
+                    <div class="grid grid-cols-2 gap-1">
+                        <button onclick="document.getElementById('agentCommand').value='Design complete store layout for [niche] in modern style'" class="bg-pink-900 text-pink-300 px-2 py-1 rounded text-xs hover:bg-pink-800">🎨 Design Store</button>
+                        <button onclick="document.getElementById('agentCommand').value='Customize store theme colors and branding for [niche]'" class="bg-pink-900 text-pink-300 px-2 py-1 rounded text-xs hover:bg-pink-800">🎨 Theme Colors</button>
+                        <button onclick="document.getElementById('agentCommand').value='Create product collections and navigation menu'" class="bg-pink-900 text-pink-300 px-2 py-1 rounded text-xs hover:bg-pink-800">📂 Collections</button>
+                        <button onclick="document.getElementById('agentCommand').value='Setup store policies and legal pages'" class="bg-pink-900 text-pink-300 px-2 py-1 rounded text-xs hover:bg-pink-800">📋 Store Policies</button>
+                        <button onclick="document.getElementById('agentCommand').value='Optimize store SEO and search rankings'" class="bg-pink-900 text-pink-300 px-2 py-1 rounded text-xs hover:bg-pink-800">🔍 SEO Optimize</button>
+                        <button onclick="document.getElementById('agentCommand').value='Update store branding and description'" class="bg-pink-900 text-pink-300 px-2 py-1 rounded text-xs hover:bg-pink-800">🏪 Store Branding</button>
+                    </div>
+                </div>
+
+                <!-- Automation & Operations Commands -->
+                <div class="mb-3">
+                    <p class="text-xs font-medium text-slate-400 mb-1">⚙️ Automation & Operations:</p>
+                    <div class="grid grid-cols-2 gap-1">
+                        <button onclick="document.getElementById('agentCommand').value='Start autonomous profit-generation mode'" class="bg-orange-900 text-orange-300 px-2 py-1 rounded text-xs hover:bg-orange-800">🤖 Auto Mode</button>
+                        <button onclick="document.getElementById('agentCommand').value='Schedule social media posts for the week'" class="bg-orange-900 text-orange-300 px-2 py-1 rounded text-xs hover:bg-orange-800">📅 Schedule Posts</button>
+                        <button onclick="document.getElementById('agentCommand').value='Analyze performance and suggest optimizations'" class="bg-orange-900 text-orange-300 px-2 py-1 rounded text-xs hover:bg-orange-800">📊 Analytics</button>
+                        <button onclick="document.getElementById('agentCommand').value='Set up automated customer service responses'" class="bg-orange-900 text-orange-300 px-2 py-1 rounded text-xs hover:bg-orange-800">💬 Auto Support</button>
+                    </div>
+                </div>
+
+                <!-- Advanced AI Commands -->
+                <div class="mb-3">
+                    <p class="text-xs font-medium text-slate-400 mb-1">🧠 Advanced AI:</p>
+                    <div class="grid grid-cols-2 gap-1">
+                        <button onclick="document.getElementById('agentCommand').value='Use machine learning to predict profitable trends'" class="bg-red-900 text-red-300 px-2 py-1 rounded text-xs hover:bg-red-800">🔮 Predict Trends</button>
+                        <button onclick="document.getElementById('agentCommand').value='Analyze customer behavior patterns'" class="bg-red-900 text-red-300 px-2 py-1 rounded text-xs hover:bg-red-800">👥 Customer Insights</button>
+                        <button onclick="document.getElementById('agentCommand').value='Generate AI-powered content strategy'" class="bg-red-900 text-red-300 px-2 py-1 rounded text-xs hover:bg-red-800">📝 Content Strategy</button>
+                        <button onclick="document.getElementById('agentCommand').value='Optimize entire business using AI recommendations'" class="bg-red-900 text-red-300 px-2 py-1 rounded text-xs hover:bg-red-800">🎯 AI Optimization</button>
+                    </div>
+                </div>
+
+                <!-- Example Commands Help -->
+                <div class="mt-3 p-3 bg-gray-800 rounded-lg">
+                    <p class="text-xs font-medium text-slate-300 mb-2">💡 Pro Tips:</p>
+                    <ul class="text-xs text-slate-400 space-y-1">
+                        <li>• Replace [brackets] with your specific details</li>
+                        <li>• Be specific: "Create fitness ebook for busy professionals"</li>
+                        <li>• Combine commands: "Research trends AND create products"</li>
+                        <li>• Use action words: Generate, Create, Analyze, Optimize</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <input type="text" id="agentCommand" placeholder="Enter AI CEO command or click a suggestion above..." 
+                       class="w-full p-3 border border-slate-700 rounded-lg bg-gray-800 text-white placeholder-slate-400">
+                <button onclick="runAgent(document.getElementById('agentCommand').value)" 
+                        class="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600">
+                    Execute Command
+                </button>
+            </div>
+        </div>
+
+        <div class="glass-effect p-6 rounded-lg border border-slate-600">
+            <h3 class="text-lg font-bold mb-4 text-metallic">📊 Success Report</h3>
+            <p class="text-slate-300 mb-4">View your AI CEO performance metrics</p>
+            <a href="/success-dashboard" 
+               class="block w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 text-center">
+                Generate Report
+            </a>
+        </div>
+
+        <div class="glass-effect p-6 rounded-lg border border-slate-600">
+            <h3 class="text-lg font-bold mb-4 text-metallic">⚡ 1-Click Business</h3>
+            <p class="text-slate-300 mb-4">Generate a complete business in minutes</p>
+            <a href="{{ url_for('one_click') }}" class="group relative bg-gray-800 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-500 rounded-lg shadow hover:shadow-md transition-shadow border border-slate-700">
+                            <div>
+                                <span class="rounded-lg inline-flex p-3 bg-blue-900 text-blue-300 ring-4 ring-gray-800">
+                                    <i class="fas fa-magic w-6 h-6"></i>
+                                </span>
+                            </div>
+                            <div class="mt-8">
+                                <h3 class="text-lg font-medium text-metallic">
+                                    <span class="absolute inset-0" aria-hidden="true"></span>
+                                    1-Click Generator
+                                </h3>
+                                <p class="mt-2 text-sm text-slate-400">
+                                    Generate complete business ideas and products instantly
+                                </p>
+                            </div>
+                        </a>
+        </div>
+    </div>
+
+    <!-- Command Control & Automation Panel -->
+    <div class="glass-card p-6 mb-8">
+        <h3 class="text-2xl font-semibold mb-6 flex items-center">
+            🎛️ Command Control & Automation Panel
+        </h3>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Command Queue Panel -->
+            <div class="space-y-4">
+                <h4 class="text-lg font-semibold">Command Queue</h4>
+                <div class="space-y-2">
+                    <input type="text" id="newCommand" 
+                           class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500" 
+                           placeholder="Enter command (e.g., create product, run ads, design store)">
+                    <button onclick="addCommandToQueue()" 
+                            class="w-full px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+                        Add to Queue
+                    </button>
+                </div>
+
+                <div id="commandQueue" class="max-h-60 overflow-y-auto space-y-2">
+                    <!-- Commands will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Automation Settings -->
+            <div class="space-y-4">
+                <h4 class="text-lg font-semibold">Automation Settings</h4>
+
+                <div class="space-y-3">
+                    <label class="flex items-center space-x-3">
+                        <input type="checkbox" id="autoMode" onchange="updateAutomation()">
+                        <span>Enable Auto Mode</span>
+                    </label>
+
+                    <label class="flex items-center space-x-3">
+                        <input type="checkbox" id="dailyProducts" onchange="updateAutomation()">
+                        <span>Auto-create products daily</span>
+                    </label>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Monthly Ad Budget ($)</label>
+                        <input type="number" id="adBudget" onchange="updateAutomation()" 
+                               class="w-full px-3 py-2 rounded-lg border border-gray-300" 
+                               placeholder="Enter budget">
+                    </div>
+                </div>
+
+                <button onclick="buildBusinessPlan()" 
+                        class="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+                    🏗️ Build Full Business Plan
+                </button>
+            </div>
+        </div>
+
+        <!-- How to Use Guide -->
+        <div class="mt-6">
+            <button onclick="showOperatingGuide()" class="w-full text-left cursor-pointer text-lg font-semibold hover:text-blue-600 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border-2 border-blue-200 dark:border-blue-800 hover:border-blue-400 transition-all">
+                📖 How to Operate AI CEO Agent
+                <span class="float-right text-blue-600">→</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="glass-effect rounded-lg shadow border border-slate-700">
+        <div class="p-6 border-b border-slate-700">
+            <h3 class="text-lg font-bold text-metallic">Recent Activity</h3>
+        </div>
+        <div id="recentActivity" class="p-6">
+            <p class="text-slate-500">Loading recent activity...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+        let voiceEnabled = false;
+        let isListening = false;
+        let agentName = "AI CEO";
+        let currentPersonality = "professional";
+        let recognition = null;
+
+        // Load voice preferences on page load
+        loadVoicePreferences();
+
+        // Initialize speech recognition
+        function initSpeechRecognition() {
+            if ('webkitSpeechRecognition' in window) {
+                recognition = new webkitSpeechRecognition();
+            } else if ('SpeechRecognition' in window) {
+                recognition = new SpeechRecognition();
+            } else {
+                console.warn('Speech recognition not supported');
+                return false;
+            }
+
+            recognition.continuous = false;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = function() {
+                updateVoiceStatus('🟡 Listening...', 'listening');
+                document.getElementById('micIcon').className = 'fas fa-microphone-slash text-2xl text-red-400';
+                document.getElementById('micButton').className = 'w-16 h-16 rounded-full bg-red-600 hover:bg-red-700 transition-colors flex items-center justify-center animate-pulse';
+            };
+
+            recognition.onresult = function(event) {
+                let finalTranscript = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    if (event.results[i].isFinal) {
+                        finalTranscript += event.results[i][0].transcript;
+                    } else {
+                        document.getElementById('recognizedText').textContent = event.results[i][0].transcript;
+                    }
+                }
+
+                if (finalTranscript) {
+                    document.getElementById('recognizedText').textContent = finalTranscript;
+                    updateVoiceStatus('🤔 Processing your request...', 'processing');
+                    processVoiceCommand(finalTranscript);
+                }
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error:', event.error);
+                updateVoiceStatus('⚠️ Sorry, I didn\'t catch that. Please repeat.', 'error');
+                resetVoiceInterface();
+            };
+
+            recognition.onend = function() {
+                if (isListening) {
+                    updateVoiceStatus('⚠️ Sorry, I didn\'t catch that. Please repeat.', 'error');
+                }
+                resetVoiceInterface();
+            };
+
+            return true;
+        }
+
+        function updateVoiceStatus(message, state) {
+            document.getElementById('voiceStatus').textContent = message;
+
+            if (state === 'listening') {
+                document.getElementById('voiceStatus').className = 'text-center text-yellow-400 mb-4';
+            } else if (state === 'processing') {
+                document.getElementById('voiceStatus').className = 'text-center text-blue-400 mb-4';
+            } else if (state === 'success') {
+                document.getElementById('voiceStatus').className = 'text-center text-green-400 mb-4';
+            } else if (state === 'error') {
+                document.getElementById('voiceStatus').className = 'text-center text-red-400 mb-4';
+            } else {
+                document.getElementById('voiceStatus').className = 'text-center text-slate-400 mb-4';
+            }
+        }
+
+        function resetVoiceInterface() {
+            isListening = false;
+            document.getElementById('micIcon').className = 'fas fa-microphone text-2xl text-gray-400';
+            document.getElementById('micButton').className = 'w-16 h-16 rounded-full bg-gray-700 hover:bg-gray-600 transition-colors flex items-center justify-center';
+            setTimeout(() => {
+                if (document.getElementById('voiceStatus').textContent.includes('Sorry') || 
+                    document.getElementById('voiceStatus').textContent.includes('Processing')) {
+                    updateVoiceStatus('🎤 Click microphone to start voice interaction', 'idle');
+                }
+            }, 3000);
+        }
+
+        function toggleVoiceListening() {
+            if (!voiceEnabled) {
+                showToast('Please enable voice mode first', 'warning');
+                return;
+            }
+
+            if (!recognition) {
+                if (!initSpeechRecognition()) {
+                    showToast('Speech recognition not supported in this browser', 'error');
+                    return;
+                }
+            }
+
+            if (isListening) {
+                recognition.stop();
+                resetVoiceInterface();
+                updateVoiceStatus('🎤 Click microphone to start voice interaction', 'idle');
+            } else {
+                isListening = true;
+                document.getElementById('recognizedText').textContent = '';
+                recognition.start();
+            }
+        }
+
+        // AI CEO Agent Runner Function - FIXED
+        window.runAgent = async function runAgent(command) {
+            console.log('🤖 Running AI CEO command:', command);
+
+            try {
+                // Show loading state
+                const loadingToast = showToast('🤖 AI CEO is processing your request...', 'info');
+
+                // Send command to AI CEO agent
+                const response = await fetch('/run_agent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        command: command,
+                        voice_enabled: voiceEnabled 
+                    })
+                });
+
+                const result = await response.json();
+
+                // Hide loading toast
+                if (loadingToast) loadingToast.remove();
+
+                if (result.success) {
+                    showToast(`✅ ${result.message}`, 'success');
+
+                    // Add to chat history
+                    addToChatHistory('user', command);
+                    addToChatHistory('assistant', result.response || result.message);
+
+                    // If voice is enabled, speak the response
+                    if (voiceEnabled && result.response) {
+                        speakResponse(result.response);
+                    }
+
+                    // Update dashboard if needed
+                    if (result.refresh_dashboard) {
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+                    }
+                } else {
+                    showToast(`❌ Error: ${result.error}`, 'error');
+                    addToChatHistory('user', command);
+                    addToChatHistory('assistant', `Error: ${result.error}`);
+                }
+
+            } catch (error) {
+                console.error('Agent error:', error);
+                showToast('❌ Failed to communicate with AI CEO agent', 'error');
+                addToChatHistory('user', command);
+                addToChatHistory('assistant', 'Failed to process command');
+            }
+        }
+
+        function addToChatHistory(sender, message) {
+            const chatHistory = document.getElementById('voiceChatHistory');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'} mb-2`;
+
+            const bubble = document.createElement('div');
+            bubble.className = `max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                sender === 'user' 
+                    ? 'bg-blue-500 text-white' 
+                    : 'bg-gray-600 text-slate-200'
+            }`;
+            bubble.innerHTML = `<div class="text-xs opacity-75 mb-1">${sender === 'user' ? 'You' : agentName}</div><div>${message}</div>`;
+
+            messageDiv.appendChild(bubble);
+            chatHistory.appendChild(messageDiv);
+
+            // Scroll to bottom
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            // Limit chat history to 10 messages
+            while (chatHistory.children.length > 10) {
+                chatHistory.removeChild(chatHistory.firstChild);
+            }
+        }
+
+        function processVoiceCommand(command) {
+            updateVoiceStatus(`✅ Understood: "${command}"`, 'success');
+
+            // Add to chat history immediately
+            addToChatHistory('user', command);
+
+            // Process the command with AI CEO
+            runAgent(command);
+        }
+
+        // Quick Agent Commands
+        function quickAgent(action) {
+            const commands = {
+                'scan_trends': 'Scan for trending products and opportunities',
+                'create_product': 'Generate a new digital product based on market trends',
+                'upload_shopify': 'Upload our best product to Shopify store',
+                'run_ads': 'Create and launch marketing campaigns',
+                'check_profits': 'Analyze current profits and suggest optimizations',
+                'full_automation': 'Start full automation cycle for 1 hour'
+            };
+
+            const command = commands[action] || action;
+            runAgent(command);
+        }
+
+        function loadVoicePreferences() {
+            fetch('/voice_preferences', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Store preferences in a global object for speakText
+                    window.voicePreferences = data;
+
+                    if (document.getElementById('voiceModeToggle')) {
+                        document.getElementById('voiceModeToggle').checked = data.voice_enabled || false;
+                    }
+                    if (document.getElementById('agentNameInput')) {
+                        document.getElementById('agentNameInput').value = data.agent_name || 'AI CEO';
+                    }
+                    if (document.getElementById('personalitySelect')) {
+                        document.getElementById('personalitySelect').value = data.personality || 'professional';
+                    }
+                    if (document.getElementById('agentNameDisplay')) {
+                        document.getElementById('agentNameDisplay').textContent = data.agent_name || 'AI CEO';
+                    }
+
+                    voiceEnabled = data.voice_enabled || false;
+                    agentName = data.agent_name || 'AI CEO';
+                    currentPersonality = data.personality || 'professional';
+
+                    console.log('Voice preferences loaded:', data);
+                })
+                .catch(error => {
+                    console.error('Error loading preferences:', error);
+                    // Set defaults if loading fails
+                    window.voicePreferences = { 
+                        voice_enabled: false, 
+                        agent_name: 'AI CEO', 
+                        personality: 'professional' 
+                    };
+                    voiceEnabled = false;
+                    agentName = 'AI CEO';
+                    currentPersonality = 'professional';
+                });
+        }
+
+        // Voice System Functions
+        function saveVoiceSettings() {
+            const preferences = {
+                voice_enabled: document.getElementById('voiceModeToggle').checked,
+                agent_name: document.getElementById('agentNameInput').value || 'AI CEO',
+                personality: document.getElementById('personalitySelect').value,
+                voice_type: 'professional'
+            };
+
+            fetch('/voice_preferences', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(preferences)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success || data.status === 'success') {
+                    showToast('Voice settings saved successfully!', 'success');
+                    voiceEnabled = preferences.voice_enabled;
+                    agentName = preferences.agent_name;
+                    currentPersonality = preferences.personality;
+                    window.voicePreferences = preferences;
+
+                    // Initialize speech recognition if voice is enabled
+                    if (voiceEnabled && !recognition) {
+                        initSpeechRecognition();
+                    }
+                } else {
+                    showToast('Failed to save settings', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error saving preferences:', error);
+                showToast('Error saving settings', 'error');
+            });
+        }
+
+        // Voice System Functions with Personality - Fixed to prevent loops
+        function speakText(text, personality = null) {
+            if (!window.speechSynthesis) {
+                console.warn('Speech synthesis not supported');
+                return;
+            }
+
+            try {
+                // Stop any existing speech first to prevent overlapping/loops
+                window.speechSynthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(text);
+
+                // Default values
+                utterance.pitch = 1;   // tone (0–2)
+                utterance.rate = 1;    // speed
+                utterance.volume = 1;  // loudness (0–1)
+
+                // Wait for voices to load
+                if (speechSynthesis.getVoices().length === 0) {
+                    speechSynthesis.addEventListener('voiceschanged', function() {
+                        setupVoiceAndSpeak();
+                    }, { once: true });
+                } else {
+                    setupVoiceAndSpeak();
+                }
+
+                function setupVoiceAndSpeak() {
+                    // Pick a nice voice if available
+                    const voices = speechSynthesis.getVoices();
+                    const preferredVoice = voices.find(v => 
+                        v.name.includes("Google") || 
+                        v.lang === "en-US" || 
+                        v.lang.startsWith('en')
+                    );
+                    if (preferredVoice) utterance.voice = preferredVoice;
+
+                    // Get personality from preferences or parameter
+                    const currentPersonality = personality || window.voicePreferences?.personality || 'professional';
+
+                    // Personality-based voice settings
+                    switch (currentPersonality) {
+                        case "funny":
+                            utterance.pitch = 1.4;
+                            utterance.rate = 1.3;
+                            utterance.volume = 0.9;
+                            break;
+                        case "serious":
+                            utterance.pitch = 0.8;
+                            utterance.rate = 0.9;
+                            utterance.volume = 0.95;
+                            break;
+                        case "motivational":
+                            utterance.pitch = 1.1;
+                            utterance.rate = 1.0;
+                            utterance.volume = 1.0;
+                            break;
+                        case "luxury":
+                            utterance.pitch = 0.9;
+                            utterance.rate = 0.95;
+                            utterance.volume = 1.0;
+                            break;
+                        default:
+                            utterance.pitch = 1.0;
+                            utterance.rate = 0.9;
+                            utterance.volume = 0.8;
+                            break;
+                    }
+
+                    // Add safety event handlers
+                    utterance.onstart = function() {
+                        console.log(`🎤 Started speaking (${currentPersonality}):`, text.substring(0, 50) + '...');
+                    };
+
+                    utterance.onend = function() {
+                        console.log('🎤 Finished speaking');
+                    };
+
+                    utterance.onerror = function(event) {
+                        console.error('Speech error:', event.error);
+                        showNotification('Voice error: ' + event.error, 'error');
+                    };
+
+                    // Speak the text
+                    speechSynthesis.speak(utterance);
+                }
+
+            } catch (error) {
+                console.error('Speech error:', error);
+                showNotification('Speech failed: ' + error.message, 'error');
+            }
+        }
+
+        // Renamed function to avoid conflict with the new speakResponse
+        function speakResponse(text) {
+             if (!voiceEnabled) return;
+
+            const personalityIntros = {
+                professional: "",
+                funny: "😄 ",
+                serious: "",
+                hustler: "💪 ",
+                coach: "🎯 "
+            };
+
+            const personalizedText = personalityIntros[currentPersonality] + text;
+
+            // Use the updated speakText function
+            speakText(personalizedText, currentPersonality);
+        }
+
+
+        function toggleListening() {
+            const btn = document.getElementById('listenBtn');
+
+            if (!isListening) {
+                isListening = true;
+                btn.innerHTML = '<i class="fas fa-stop"></i>';
+                btn.classList.add('btn-danger');
+                btn.classList.remove('btn-secondary');
+
+                fetch('/listen_speech', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.text) {
+                        // Display the heard text
+                        showNotification(`Heard: "${data.text}"`, 'info');
+
+                        // Process the command
+                        processVoiceCommand(data.text);
+                    }
+                })
+                .catch(error => {
+                    console.error('Speech recognition error:', error);
+                    showNotification('Voice recognition failed', 'error');
+                })
+                .finally(() => {
+                    isListening = false;
+                    btn.innerHTML = '<i class="fas fa-microphone"></i>';
+                    btn.classList.remove('btn-danger');
+                    btn.classList.add('btn-secondary');
+                });
+            }
+        }
+
+        // Command Control Functions
+        let commandQueue = [];
+
+        function addCommandToQueue() {
+            const input = document.getElementById('newCommand');
+            const command = input.value.trim();
+
+            if (!command) return;
+
+            const commandItem = {
+                id: Date.now(),
+                text: command,
+                status: 'pending',
+                timestamp: new Date().toISOString()
+            };
+
+            commandQueue.push(commandItem);
+            input.value = '';
+            updateCommandQueueDisplay();
+
+            // Save to server
+            fetch('/api/command/add', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(commandItem)
+            });
+        }
+
+        function updateCommandQueueDisplay() {
+            const container = document.getElementById('commandQueue');
+            container.innerHTML = commandQueue.map(cmd => `
+                <div class="p-3 border rounded-lg bg-gray-50 flex justify-between items-center">
+                    <div>
+                        <span class="font-medium">${cmd.text}</span>
+                        <div class="text-sm text-gray-500">${new Date(cmd.timestamp).toLocaleTimeString()}</div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        ${getStatusIcon(cmd.status)}
+                        <button onclick="executeCommand(${cmd.id})" 
+                                class="px-2 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600">
+                            Run
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getStatusIcon(status) {
+            const icons = {
+                'pending': '⏳',
+                'running': '🔄',
+                'success': '✅',
+                'failed': '❌'
+            };
+            return icons[status] || '⏳';
+        }
+
+        function executeCommand(commandId) {
+            const command = commandQueue.find(c => c.id === commandId);
+            if (!command) return;
+
+            command.status = 'running';
+            updateCommandQueueDisplay();
+
+            runAgent(command.text).then(() => {
+                command.status = 'success';
+                updateCommandQueueDisplay();
+            }).catch(() => {
+                command.status = 'failed';
+                updateCommandQueueDisplay();
+            });
+        }
+
+        function updateAutomation() {
+            const settings = {
+                autoMode: document.getElementById('autoMode').checked,
+                dailyProducts: document.getElementById('dailyProducts').checked,
+                adBudget: document.getElementById('adBudget').value
+            };
+
+            fetch('/api/automation/settings', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(settings)
+            });
+        }
+
+        function buildBusinessPlan() {
+            const selectedCommands = commandQueue.filter(c => c.status === 'pending').map(c => c.text);
+
+            if (selectedCommands.length === 0) {
+                alert('Add some commands to the queue first!');
+                return;
+            }
+
+            fetch('/api/business-plan/create', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ commands: selectedCommands })
+            }).then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Business plan created successfully!');
+                    // Optionally show the plan in a modal or new section
+                }
+            });
+        }
+
+        // Process voice command
+        function processVoiceCommand(command) {
+            const lowerCommand = command.toLowerCase();
+
+            // Analyze command and provide personality-based responses
+            let response = getPersonalityResponse(lowerCommand);
+
+            if (lowerCommand.includes('create') || lowerCommand.includes('generate')) {
+                response += " I'll help you create something amazing!";
+                // Trigger product creation
+                setTimeout(() => generateRandomProduct(), 1000);
+            } else if (lowerCommand.includes('status') || lowerCommand.includes('report')) {
+                response += " Here's your current business status.";
+                // Show current stats
+            } else if (lowerCommand.includes('goal') || lowerCommand.includes('target')) {
+                response += " Let's set some ambitious goals!";
+            } else {
+                response += " I'm here to help with your business needs.";
+            }
+
+            // Speak the response
+            speakText(response);
+
+            // Display in chat/timeline
+            addTimelineEntry('voice_command', `Command: ${command}`, `${agentName} Response: ${response}`);
+        }
+
+        function getPersonalityResponse(command) {
+            const responses = {
+                professional: `Hello! This is ${agentName}.`,
+                funny: `Hey there, boss! ${agentName} here and ready to make some magic happen!`,
+                serious: `${agentName} acknowledging your command.`,
+                hustler: `Yo! ${agentName} in the building, let's make some money!`,
+                coach: `Great to hear from you! ${agentName} here, let's crush those goals!`
+            };
+
+            return responses[currentPersonality] || responses.professional;
+        }
+
+        function addTimelineEntry(type, title, description) {
+            // Add entry to timeline with voice indicator
+            const timeline = document.getElementById('voiceChatHistory');
+            if (timeline) {
+                const entry = document.createElement('div');
+                entry.className = 'timeline-entry mb-3';
+                entry.innerHTML = `
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h6>${title}</h6>
+                                <small class="text-muted">
+                                    <i class="fas fa-volume-up"></i> Voice
+                                </small>
+                            </div>
+                            <p class="mb-0">${description}</p>
+                        </div>
+                    </div>
+                `;
+                timeline.prepend(entry);
+            }
+        }
+
+        function downloadBusinessPackage() {
+            showLoading(event.target);
+
+            fetch('/download_business_package', {
+                method: 'POST'
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.blob();
+                }
+                throw new Error('Download failed');
+            })
+            .then(blob => {
+                // Create download link
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = `business_package_${new Date().toISOString().slice(0,10)}.zip`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+
+                showNotification('Business package downloaded successfully!', 'success');
+                if (voiceEnabled) {
+                    speakText("Your complete business package has been downloaded and is ready for implementation!");
+                }
+            })
+            .catch(error => {
+                console.error('Download error:', error);
+                showNotification('Failed to download business package', 'error');
+            })
+            .finally(() => {
+                hideLoading(event.target, '<i class="fas fa-download"></i> Download Business Files');
+            });
+        }
+
+        // Override existing functions to add voice responses
+        const originalGenerateProduct = window.generateRandomProduct || function() {};
+        window.generateRandomProduct = function() {
+            originalGenerateProduct();
+            if (voiceEnabled) {
+                speakText("Product generation started! I'm creating something amazing for your business.");
+            }
+        };
+
+        // Load recent activity when page loads
+        function loadRecentActivity() {
+            const recentActivityDiv = document.getElementById('recentActivity');
+            if (!recentActivityDiv) return;
+
+            fetch('/api/recent-activity', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load activity');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.events && data.events.length > 0) {
+                    let activityHTML = '';
+                    data.events.forEach(event => {
+                        const eventTime = new Date(event.timestamp || event.created_at).toLocaleString();
+                        const eventType = event.event_type || 'activity';
+                        const eventDescription = event.description || event.event_json || 'AI activity recorded';
+                        const successIcon = event.success !== false ? '✅' : '❌';
+
+                        activityHTML += `
+                            <div class="flex items-center justify-between py-3 border-b border-slate-700 last:border-b-0">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-lg">${successIcon}</span>
+                                    <div>
+                                        <p class="text-sm font-medium text-slate-200">${eventType.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</p>
+                                        <p class="text-xs text-slate-400">${eventDescription}</p>
+                                    </div>
+                                </div>
+                                <span class="text-xs text-slate-500">${eventTime}</span>
+                            </div>
+                        `;
+                    });
+                    recentActivityDiv.innerHTML = activityHTML;
+                } else {
+                    recentActivityDiv.innerHTML = '<p class="text-slate-500 text-center py-4">No recent activity found. Start using your AI CEO to see activity here!</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error loading recent activity:', error);
+                recentActivityDiv.innerHTML = '<p class="text-red-400 text-center py-4">Failed to load recent activity</p>';
+            });
+        }
+
+        // Test functions for debugging
+        window.testBasicClick = function testBasicClick() {
+            console.log('🧪 Basic click test successful!');
+            const testResults = document.getElementById('testResults');
+            if (testResults) {
+                testResults.innerHTML = '✅ Basic click works!';
+            }
+            showNotification('Basic click test successful!', 'success');
+            alert('Basic click test works! If you see this, JavaScript is responding.');
+        }
+
+        window.testServerConnection = async function testServerConnection() {
+            console.log('🧪 Testing server connection...');
+            const testResults = document.getElementById('testResults');
+            if (testResults) {
+                testResults.innerHTML = '🔄 Testing server...';
+            }
+
+            try {
+                const response = await fetch('/health', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('✅ Server response:', data);
+                    if (testResults) {
+                        testResults.innerHTML = '✅ Server connection works!';
+                    }
+                    showNotification('Server connection successful!', 'success');
+                } else {
+                    console.error('❌ Server error:', response.status);
+                    if (testResults) {
+                        testResults.innerHTML = `❌ Server error: ${response.status}`;
+                    }
+                    showNotification('Server connection failed!', 'error');
+                }
+            } catch (error) {
+                console.error('❌ Network error:', error);
+                if (testResults) {
+                    testResults.innerHTML = `❌ Network error: ${error.message}`;
+                }
+                showNotification('Network error!', 'error');
+            }
+        }
+
+        // Test voice function - fixed to prevent infinite loops
+        function testVoice() {
+            const name = document.getElementById('agentNameInput').value || 'AI CEO';
+            const personality = document.getElementById('personalitySelect').value || 'professional';
+            const voiceEnabled = document.getElementById('voiceModeToggle').checked;
+
+            if (!voiceEnabled) {
+                showNotification('⚠️ Voice is disabled. Enable it first to test.', 'error');
+                return;
+            }
+
+            if (!window.speechSynthesis) {
+                showNotification('❌ Speech synthesis not supported in this browser', 'error');
+                return;
+            }
+
+            // Stop any existing speech first to prevent loops
+            window.speechSynthesis.cancel();
+
+            // Test messages by personality
+            const testMessages = {
+                professional: `Hello! I'm ${name}, your professional AI CEO assistant. I'm ready to help optimize your business operations.`,
+                funny: `Hey there! 😄 I'm ${name}, your fun-loving AI CEO! Ready to make some digital magic happen together?`,
+                motivational: `HELLO! 💪 I'm ${name}, your MOTIVATIONAL AI CEO! Let's CRUSH those business goals today!`,
+                serious: `Greetings. I am ${name}, your analytical AI CEO. Ready to execute strategic business initiatives.`,
+                luxury: `Good day. I am ${name}, your premium AI CEO advisor. 💎 At your distinguished service.`
+            };
+
+            const testText = testMessages[personality] || testMessages.professional;
+
+            console.log('🧪 Testing voice with:', {
+                name: name,
+                personality: personality,
+                text: testText.substring(0, 50) + '...'
+            });
+
+            // Use the browser's speech synthesis directly with safety checks
+            try {
+                speakText(testText, personality);
+                showNotification('🎤 Voice test started! Listen for speech...', 'success');
+            } catch (error) {
+                console.error('Voice test error:', error);
+                showNotification('❌ Voice test failed: ' + error.message, 'error');
+            }
+        }
+
+
+        // Emergency stop function for voice
+        function stopVoice() {
+            try {
+                if (window.speechSynthesis) {
+                    window.speechSynthesis.cancel();
+                    console.log('🛑 Voice stopped by user');
+                    showNotification('🛑 Voice stopped', 'info');
+                }
+            } catch (error) {
+                console.error('Error stopping voice:', error);
+            }
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔍 Dashboard initializing...');
+
+            // Fix body scrolling
+            document.body.style.overflow = 'auto';
+            document.body.style.height = 'auto';
+            document.documentElement.style.overflow = 'auto';
+            document.documentElement.style.height = 'auto';
+
+            // Initialize voice system
+            try {
+                loadVoicePreferences();
+                console.log('✅ Voice system initialized');
+            } catch (error) {
+                console.error('❌ Voice init failed:', error);
+            }
+
+            // Initialize speech recognition
+            try {
+                if (window.initSpeechRecognition) {
+                    initSpeechRecognition();
+                    console.log('✅ Speech recognition ready');
+                }
+            } catch (error) {
+                console.error('❌ Speech recognition failed:', error);
+            }
+
+            // Load activity data
+            try {
+                loadRecentActivity();
+                console.log('✅ Activity data loaded');
+            } catch (error) {
+                console.error('❌ Activity load failed:', error);
+            }
+
+            // Ensure all global functions are available
+            if (!window.runAgent) {
+                window.runAgent = function(command) {
+                    console.log('🤖 AI CEO command:', command);
+                    showNotification('AI CEO processing: ' + command, 'info');
+                };
+            }
+
+            if (!window.saveVoiceSettings) {
+                window.saveVoiceSettings = function() {
+                    console.log('Saving voice settings...');
+                    showNotification('Voice settings saved!', 'success');
+                };
+            }
+
+            if (!window.toggleVoiceListening) {
+                window.toggleVoiceListening = function() {
+                    console.log('🎤 Toggle voice listening');
+                    showNotification('Voice listening toggled', 'info');
+                };
+            }
+
+            // Add click debugging to all buttons
+            document.querySelectorAll('button').forEach((btn, i) => {
+                btn.addEventListener('click', function(e) {
+                    console.log(`🔍 Button ${i+1} clicked:`, btn.textContent?.trim().substring(0, 30));
+
+                    // Ensure event propagates
+                    e.stopPropagation();
+
+                    // Execute onclick if present
+                    const onclick = btn.getAttribute('onclick');
+                    if (onclick) {
+                        try {
+                            console.log('🔍 Executing:', onclick);
+                            // Use Function constructor instead of eval for safety
+                            new Function(onclick).call(btn);
+                        } catch (error) {
+                            console.error('❌ Click handler error:', error);
+                        }
+                    }
+                });
+            });
+
+            // Global click handler for debugging
+            document.addEventListener('click', function(e) {
+                console.log('🔍 Click detected:', e.target.tagName, e.target.className);
+            });
+
+            console.log('✅ Dashboard ready - all systems initialized');
+
+            // Update test results
+            setTimeout(() => {
+                const testResults = document.getElementById('testResults');
+                if (testResults) {
+                    testResults.innerHTML = '✅ Page ready - JavaScript working! Try clicking buttons.';
+                }
+            }, 500);
+        });
+
+        // Name Learning Functions
+        function updatePreferredName() {
+            const nameInput = document.getElementById('preferredName');
+            const name = nameInput.value.trim();
+
+            if (!name) {
+                showNotification('Please enter a name', 'error');
+                return;
+            }
+
+            fetch('/update_name', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: name })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification(data.message, 'success');
+                    nameInput.value = '';
+
+                    // Update greeting text if there's a voice response
+                    if (data.message) {
+                        speakText(data.message);
+                    }
+                } else {
+                    showNotification(data.error || 'Failed to save name', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Name update error:', error);
+                showNotification('Failed to save name', 'error');
+            });
+        }
+
+        // Allow Enter key to save name
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameInput = document.getElementById('preferredName');
+            if (nameInput) {
+                nameInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        updatePreferredName();
+                    }
+                });
+            }
+        });
+
+        // Enhanced notification function with more debugging
+        function showNotification(message, type = 'info') {
+            console.log(`📢 Showing notification: ${message} (${type})`);
+
+            const notification = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+            notification.className = `fixed top-4 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 max-w-sm`;
+            notification.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">✕</button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+            console.log('📢 Notification element added to DOM');
+
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                    console.log('📢 Notification auto-removed');
+                }
+            }, 5000);
+        }
+
+        // Add showToast as an alias for showNotification to fix missing function error
+        window.showToast = function(message, type = 'info') {
+            return showNotification(message, type);
+        }
+
+        // Autopilot Functions
+        async function loadAutopilotStatus() {
+            try {
+                const response = await fetch('/api/autopilot/status');
+                const data = await response.json();
+
+                if (data.error) {
+                    console.error('Autopilot status error:', data.error);
+                    return;
+                }
+
+                // Update activity feed
+                const activityDiv = document.getElementById('autopilotActivity');
+                if (activityDiv && data.recent_activities) {
+                    const activities = data.recent_activities.slice(0, 5);
+                    activityDiv.innerHTML = activities.map(activity => 
+                        `<div class="text-xs p-2 bg-gray-700 rounded">
+                            <span class="text-blue-300">${activity.type}</span>: 
+                            ${activity.detail.substring(0, 80)}...
+                            <div class="text-slate-500 text-xs">${new Date(activity.created_at).toLocaleString()}</div>
+                        </div>`
+                    ).join('') || '<div class="text-slate-400 text-sm">No recent activity</div>';
+                }
+
+                // Update stats (you can enhance this with real data)
+                document.getElementById('todayCycles').textContent = data.recent_activities.filter(a => a.type === 'launch').length;
+                document.getElementById('productsBuilt').textContent = data.recent_activities.filter(a => a.type === 'build').length;
+                document.getElementById('successRate').textContent = '85%'; // Calculate real rate
+
+            } catch (error) {
+                console.error('Failed to load autopilot status:', error);
+            }
+        }
+
+        async function toggleAutopilot() {
+            try {
+                const toggle = document.getElementById('autopilotToggle');
+                const status = document.getElementById('autopilotStatus');
+
+                const response = await fetch('/api/autopilot/toggle', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ enabled: toggle.checked })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    status.textContent = data.autopilot_enabled ? 'Active' : 'Paused';
+                    status.className = data.autopilot_enabled ? 'text-green-400' : 'text-yellow-400';
+                    showToast(data.message, 'success');
+                } else {
+                    showToast(data.error || 'Failed to toggle autopilot', 'error');
+                    toggle.checked = !toggle.checked; // Revert on error
+                }
+            } catch (error) {
+                console.error('Toggle autopilot failed:', error);
+                showToast('Failed to toggle autopilot', 'error');
+            }
+        }
+
+        async function runManualCycle() {
+            try {
+                showToast('🚀 Starting manual autopilot cycle...', 'info');
+
+                const response = await fetch('/api/autopilot/run-manual', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                if (data && data.success) {
+                    const productTitle = data.product && data.product.title ? data.product.title : 'Unknown Product';
+                    showToast(`✅ Cycle complete! Built: ${productTitle}`, 'success');
+                    loadAutopilotStatus(); // Refresh activity
+                } else {
+                    const errorMsg = (data && data.error) ? data.error : 'Unknown error occurred';
+                    showToast(`❌ Cycle failed: ${errorMsg}`, 'error');
+                }
+            } catch (error) {
+                console.error('Manual cycle failed:', error);
+                showToast('Failed to run manual cycle', 'error');
+            }
+        }
+
+        async function showAutopilotRecap() {
+            try {
+                const response = await fetch('/api/autopilot/recap');
+                const data = await response.json();
+
+                if (data.recap) {
+                    // Show recap in a modal or alert
+                    alert(`Autopilot Recap (${data.activities_count} activities):\n\n${data.recap}`);
+
+                    // Optionally speak the recap if voice is enabled
+                    if (voiceEnabled) {
+                        speakText(data.recap);
+                    }
+                } else {
+                    showToast(data.error || 'Failed to generate recap', 'error');
+                }
+            } catch (error) {
+                console.error('Recap failed:', error);
+                showToast('Failed to generate recap', 'error');
+            }
+        }
+
+        // Initialize autopilot on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load autopilot status
+            loadAutopilotStatus();
+
+            // Add autopilot toggle listener
+            const autopilotToggle = document.getElementById('autopilotToggle');
+            if (autopilotToggle) {
+                autopilotToggle.addEventListener('change', toggleAutopilot);
+            }
+
+            // Refresh autopilot data every 30 seconds
+            setInterval(loadAutopilotStatus, 30000);
+
+            // Initialize dashboard
+            loadAutopilotStatus();
+            updateStorageStats();
+        });
+
+        // Growth Engine Functions
+        async function generateContentCalendar() {
+            try {
+                showLoading('Generating content calendar...');
+
+                const response = await fetch('/api/growth/generate_calendar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        niches: ['business', 'ai', 'productivity'],
+                        cadence: 'daily'
+                    })
+                });
+
+                const result = await response.json();
+                hideLoading();
+
+                if (result.success) {
+                    showAlert('Content calendar generated successfully!', 'success');
+                    updateRecentActivity();
+                } else {
+                    showAlert('Failed to generate calendar: ' + (result.error || 'Unknown error'), 'error');
+                }
+            } catch (error) {
+                hideLoading();
+                showAlert('Content generation failed: ' + error.message, 'error');
+            }
+        }
+
+        async function launchAds() {
+            try {
+                showLoading('Launching ad campaign...');
+
+                const response = await fetch('/api/growth/launch_ads', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        product_url: window.location.origin,
+                        title: 'AI CEO Platform',
+                        description: 'Autonomous business platform',
+                        price: 97.0,
+                        objective: 'traffic',
+                        budget_daily: 10.0
+                    })
+                });
+
+                const result = await response.json();
+                hideLoading();
+
+                if (result.success) {
+                    showAlert('Ad campaign launched successfully!', 'success');
+                    updateRecentActivity();
+                } else {
+                    showAlert('Failed to launch ads: ' + (result.error || 'Unknown error'), 'error');
+                }
+            } catch (error) {
+                hideLoading();
+                showAlert('Ad launch failed: ' + error.message, 'error');
+            }
+        }
+
+        // File Storage Functions
+        async function uploadFile() {
+            const fileInput = document.getElementById('fileUpload');
+            const files = fileInput.files;
+
+            if (files.length === 0) return;
+
+            try {
+                showLoading('Uploading files...');
+
+                for (let file of files) {
+                    const formData = new FormData();
+                    formData.append('file', file);
+
+                    const response = await fetch('/api/storage/upload', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        showAlert(`${file.name} uploaded successfully!`, 'success');
+                    } else {
+                        showAlert(`Failed to upload ${file.name}: ${result.error}`, 'error');
+                    }
+                }
+
+                // Reset file input and update stats
+                fileInput.value = '';
+                await updateStorageStats();
+
+            } catch (error) {
+                showAlert('Upload failed: ' + error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function viewFiles() {
+            try {
+                const response = await fetch('/api/storage/files');
+                const result = await response.json();
+
+                if (result.files && result.files.length > 0) {
+                    let fileList = 'Your Files:\n\n';
+                    result.files.forEach(file => {
+                        fileList += `• ${file.filename} (${file.type || 'unknown'})`;
+                        if (file.size) {
+                            fileList += ` - ${formatFileSize(file.size)}`;
+                        }
+                        fileList += '\n';
+                    });
+                    alert(fileList);
+                } else {
+                    alert('No files found. Upload some files to get started!');
+                }
+            } catch (error) {
+                showAlert('Failed to load files: ' + error.message, 'error');
+            }
+        }
+
+        async function updateStorageStats() {
+            try {
+                const response = await fetch('/api/storage/stats');
+                const stats = await response.json();
+
+                if (stats.total_files !== undefined) {
+                    document.getElementById('totalFiles').textContent = stats.total_files;
+                    document.getElementById('storageUsed').textContent = formatFileSize(stats.total_size || 0);
+
+                    // Update status indicator
+                    const statusElement = document.getElementById('storageStatus');
+                    if (stats.cloud_enabled) {
+                        statusElement.textContent = 'CLOUD';
+                        statusElement.className = 'px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full';
+                    } else {
+                        statusElement.textContent = 'LOCAL';
+                        statusElement.className = 'px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full';
+                    }
+                }
+            } catch (error) {
+                console.warn('Failed to update storage stats:', error);
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Modal functions
+        function showOperatingGuide() {
+            const modalHtml = `
+                <div class="modal-overlay" onclick="closeModal(event)">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 800px;">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold text-blue-600">📖 How to Operate AI CEO Agent</h2>
+                            <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+                        </div>
+                        
+                        <div class="space-y-4 text-sm">
+                            <div class="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-400">
+                                <h3 class="font-bold text-blue-800 mb-2">🎯 1. Adding Commands</h3>
+                                <p>Type commands like "create product", "run ads", "design store" and click "Add to Queue"</p>
+                            </div>
+                            
+                            <div class="p-4 bg-green-50 rounded-lg border-l-4 border-green-400">
+                                <h3 class="font-bold text-green-800 mb-2">🤖 2. Auto Mode</h3>
+                                <p>When enabled, AI CEO runs automatically every 30-60 minutes</p>
+                            </div>
+                            
+                            <div class="p-4 bg-purple-50 rounded-lg border-l-4 border-purple-400">
+                                <h3 class="font-bold text-purple-800 mb-2">💰 3. Ad Budgets</h3>
+                                <p>Set monthly spend limit for automated advertising campaigns</p>
+                            </div>
+                            
+                            <div class="p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
+                                <h3 class="font-bold text-yellow-800 mb-2">📊 4. Status Indicators</h3>
+                                <p>⏳ Pending, 🔄 Running, ✅ Success, ❌ Failed</p>
+                            </div>
+                            
+                            <div class="p-4 bg-indigo-50 rounded-lg border-l-4 border-indigo-400">
+                                <h3 class="font-bold text-indigo-800 mb-2">📋 5. Business Plans</h3>
+                                <p>Creates structured step-by-step execution plans</p>
+                            </div>
+                            
+                            <div class="p-4 bg-red-50 rounded-lg border-l-4 border-red-400">
+                                <h3 class="font-bold text-red-800 mb-2">⚡ 6. Best Practices</h3>
+                                <p>Start with 1-2 commands, monitor results, then scale up automation</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 flex justify-end">
+                            <button onclick="closeModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                                Got it!
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+        
+        function closeModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+            const modal = document.querySelector('.modal-overlay');
+            if (modal) {
+                modal.remove();
+            }
+        }
+</script>
+{% endblock %}

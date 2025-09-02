@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% block title %}Voice Preferences - AI CEO{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-white mb-4">🎤 Voice Preferences</h1>
+            <p class="text-xl text-gray-300">Customize your AI CEO's personality and voice settings</p>
+        </div>
+
+        <!-- Preferences Form -->
+        <div class="max-w-2xl mx-auto">
+            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
+                <form id="preferencesForm" class="space-y-6">
+                    <!-- Agent Name -->
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-white mb-2">
+                            🤖 Agent Name
+                        </label>
+                        <input 
+                            type="text" 
+                            id="name" 
+                            name="name" 
+                            value="{{ preferences.name }}"
+                            class="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Enter your AI CEO's name"
+                        >
+                    </div>
+
+                    <!-- Personality -->
+                    <div>
+                        <label for="personality" class="block text-sm font-medium text-white mb-2">
+                            🧠 Personality
+                        </label>
+                        <select 
+                            id="personality" 
+                            name="personality" 
+                            class="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                            <option value="professional" {% if preferences.personality == 'professional' %}selected{% endif %}>Professional</option>
+                            <option value="friendly" {% if preferences.personality == 'friendly' %}selected{% endif %}>Friendly</option>
+                            <option value="enthusiastic" {% if preferences.personality == 'enthusiastic' %}selected{% endif %}>Enthusiastic</option>
+                            <option value="calm" {% if preferences.personality == 'calm' %}selected{% endif %}>Calm</option>
+                            <option value="analytical" {% if preferences.personality == 'analytical' %}selected{% endif %}>Analytical</option>
+                            <option value="visionary" {% if preferences.personality == 'visionary' %}selected{% endif %}>Visionary</option>
+                            <option value="results_driven" {% if preferences.personality == 'results_driven' %}selected{% endif %}>Results-Driven</option>
+                            <option value="innovative" {% if preferences.personality == 'innovative' %}selected{% endif %}>Innovative</option>
+                        </select>
+                    </div>
+
+                    <!-- Voice Enabled -->
+                    <div class="flex items-center space-x-3">
+                        <input 
+                            type="checkbox" 
+                            id="voice_enabled" 
+                            name="voice_enabled" 
+                            {% if preferences.voice_enabled %}checked{% endif %}
+                            class="w-5 h-5 text-blue-600 bg-white/20 border-white/30 rounded focus:ring-blue-500 focus:ring-2"
+                        >
+                        <label for="voice_enabled" class="text-sm font-medium text-white">
+                            🔊 Enable voice interactions
+                        </label>
+                    </div>
+
+                    <!-- Save Button -->
+                    <div class="pt-4">
+                        <button 
+                            type="submit" 
+                            id="saveButton"
+                            class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200"
+                        >
+                            💾 Save Preferences
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Status Messages -->
+                <div id="statusMessage" class="mt-4 text-center" style="display: none;"></div>
+            </div>
+
+            <!-- Test Voice Button -->
+            <div class="mt-8 text-center">
+                <button 
+                    id="testVoiceButton"
+                    class="bg-gradient-to-r from-green-600 to-teal-600 text-white py-3 px-8 rounded-lg font-semibold hover:from-green-700 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200"
+                >
+                    🎤 Test Voice
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('preferencesForm');
+    const saveButton = document.getElementById('saveButton');
+    const statusMessage = document.getElementById('statusMessage');
+    const testVoiceButton = document.getElementById('testVoiceButton');
+
+    // Load current preferences on page load
+    loadPreferences();
+
+    // Save preferences
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        savePreferences();
+    });
+
+    // Test voice
+    testVoiceButton.addEventListener('click', function() {
+        testVoice();
+    });
+
+    // Load current preferences
+    function loadPreferences() {
+        fetch('/voice_preferences', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+            .then(response => {
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers.get('content-type'));
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                // Check if response is actually JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Response is not JSON: ' + contentType);
+                }
+                
+                return response.json();
+            })
+            .then(data => {
+                console.log('Loaded preferences:', data);
+                
+                if (data.error) {
+                    console.error('Error loading preferences:', data.error);
+                    showStatus('❌ Failed to load preferences: ' + data.error, 'error');
+                    return;
+                }
+
+                document.getElementById('name').value = data.name || 'AI CEO';
+                document.getElementById('personality').value = data.personality || 'professional';
+                document.getElementById('voice_enabled').checked = data.voice_enabled || false;
+            })
+            .catch(error => {
+                console.error('Error loading preferences:', error);
+                showStatus('❌ Failed to load preferences. Using defaults.', 'warning');
+                // Set defaults if loading fails
+                document.getElementById('name').value = 'AI CEO';
+                document.getElementById('personality').value = 'professional';
+                document.getElementById('voice_enabled').checked = false;
+            });
+    }
+
+    // Save preferences
+    function savePreferences() {
+        const formData = {
+            name: document.getElementById('name').value,
+            personality: document.getElementById('personality').value,
+            voice_enabled: document.getElementById('voice_enabled').checked
+        };
+
+        console.log('Saving preferences:', formData);
+
+        saveButton.textContent = '💾 Saving...';
+        saveButton.disabled = true;
+
+        fetch('/voice_preferences', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            console.log('Save response status:', response.status);
+            console.log('Save response headers:', response.headers.get('content-type'));
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            // Check if response is actually JSON
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Response is not JSON: ' + contentType);
+            }
+            
+            return response.json();
+        })
+        .then(data => {
+            console.log('Save response data:', data);
+            
+            if (data.status === 'success') {
+                showStatus('✅ Preferences saved successfully!', 'success');
+            } else {
+                showStatus('❌ ' + (data.message || 'Failed to save preferences'), 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error saving preferences:', error);
+            showStatus('❌ Failed to save preferences: ' + error.message, 'error');
+        })
+        .finally(() => {
+            saveButton.textContent = '💾 Save Preferences';
+            saveButton.disabled = false;
+        });
+    }
+
+    function testVoice() {
+        const name = document.getElementById('name').value;
+        const personality = document.getElementById('personality').value;
+        const voiceEnabled = document.getElementById('voice_enabled').checked;
+
+        if (!voiceEnabled) {
+            showStatus('⚠️ Voice is disabled. Enable it first to test.', 'warning');
+            return;
+        }
+
+        const testText = `Hello! I'm ${name}, your AI CEO with a ${personality} personality. How can I help you today?`;
+
+        fetch('/speak_text', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({text: testText})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showStatus('🎤 Voice test completed! Check console for details.', 'success');
+                console.log('Voice test result:', data);
+            } else {
+                showStatus('❌ Voice test failed: ' + (data.message || 'Unknown error'), 'error');
+            }
+        })
+        .catch(error => {
+            console.log('Voice test error:', error);
+            showStatus('❌ Voice test failed. Please try again.', 'error');
+        });
+    }
+
+    function showStatus(message, type) {
+        statusMessage.textContent = message;
+        statusMessage.className = `mt-4 text-center p-3 rounded-lg ${
+            type === 'success' ? 'bg-green-600/20 text-green-300 border border-green-500/30' :
+            type === 'error' ? 'bg-red-600/20 text-red-300 border border-red-500/30' :
+            'bg-yellow-600/20 text-yellow-300 border border-yellow-500/30'
+        }`;
+        statusMessage.style.display = 'block';
+
+        setTimeout(() => {
+            statusMessage.style.display = 'none';
+        }, 5000);
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Platform Connections - AI CEO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .connection-card {
+            transition: all 0.3s ease;
+        }
+        .connection-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .status-connected {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        }
+        .status-disconnected {
+            background: linear-gradient(135deg, #6B7280 0%, #4B5563 100%);
+        }
+        .status-error {
+            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <img src="{{ url_for('static', filename='img/metallic-s-logo.png') }}" alt="AI CEO" class="h-8 w-8">
+                    <span class="ml-2 text-xl font-bold text-gray-900">Platform Connections</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="{{ url_for('dashboard') }}" class="text-blue-600 hover:text-blue-700 text-sm font-medium">Dashboard</a>
+                    <a href="{{ url_for('getting_started') }}" class="text-green-600 hover:text-green-700 text-sm font-medium">Getting Started</a>
+                    <a href="{{ url_for('logout') }}" class="text-gray-600 hover:text-gray-700 text-sm">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header Section -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Platform Connections</h1>
+            <p class="text-gray-600">Connect your business platforms to enable AI CEO's autonomous management</p>
+        </div>
+
+        <!-- Connection Status Summary -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-green-100 rounded-lg">
+                        <i class="fas fa-check-circle text-green-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Connected</p>
+                        <p id="connected-count" class="text-2xl font-bold text-gray-900">0</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-yellow-100 rounded-lg">
+                        <i class="fas fa-clock text-yellow-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Pending</p>
+                        <p id="pending-count" class="text-2xl font-bold text-gray-900">0</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-red-100 rounded-lg">
+                        <i class="fas fa-exclamation-circle text-red-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Errors</p>
+                        <p id="error-count" class="text-2xl font-bold text-gray-900">0</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center">
+                    <div class="p-2 bg-blue-100 rounded-lg">
+                        <i class="fas fa-percentage text-blue-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Setup Progress</p>
+                        <p id="progress-percent" class="text-2xl font-bold text-gray-900">0%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Platform Categories -->
+        <div class="space-y-8">
+            <!-- E-commerce & Sales -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h2 class="text-xl font-bold text-gray-900 flex items-center">
+                        <i class="fas fa-store text-blue-600 mr-2"></i>
+                        E-commerce & Sales
+                    </h2>
+                    <p class="text-gray-600 mt-1">Connect your stores and payment systems</p>
+                </div>
+                <div id="ecommerce-connections" class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+
+            <!-- Social Media & Marketing -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h2 class="text-xl font-bold text-gray-900 flex items-center">
+                        <i class="fas fa-share-alt text-green-600 mr-2"></i>
+                        Social Media & Marketing
+                    </h2>
+                    <p class="text-gray-600 mt-1">Connect your social accounts for content automation</p>
+                </div>
+                <div id="social-connections" class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+
+            <!-- AI & Analytics -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h2 class="text-xl font-bold text-gray-900 flex items-center">
+                        <i class="fas fa-robot text-purple-600 mr-2"></i>
+                        AI & Analytics
+                    </h2>
+                    <p class="text-gray-600 mt-1">Connect AI services and analytics platforms</p>
+                </div>
+                <div id="ai-connections" class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="mt-8 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg p-6">
+            <div class="text-center">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Ready to Launch Your AI Business?</h3>
+                <p class="text-gray-600 mb-4">Connect at least 2 platforms to enable full AI automation</p>
+                <div class="space-x-4">
+                    <a href="{{ url_for('getting_started') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium inline-block">
+                        <i class="fas fa-rocket mr-2"></i>Launch Business
+                    </a>
+                    <a href="/store" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium inline-block">
+                        <i class="fas fa-store mr-2"></i>Visit Store
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Connection Modal -->
+    <div id="connection-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-md w-full p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="modal-title" class="text-lg font-bold">Connect Platform</h3>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="modal-content">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let connections = {};
+
+        // Load connections on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadConnections();
+        });
+
+        async function loadConnections() {
+            try {
+                const response = await fetch('/oauth/status');
+                connections = await response.json();
+                renderConnections();
+                updateSummary();
+            } catch (error) {
+                console.error('Failed to load connections:', error);
+            }
+        }
+
+        function renderConnections() {
+            const categories = {
+                ecommerce: ['shopify'],
+                social: ['google', 'meta', 'linkedin', 'x'],
+                ai: ['openrouter']
+            };
+
+            Object.entries(categories).forEach(([category, platforms]) => {
+                const container = document.getElementById(`${category}-connections`);
+                container.innerHTML = '';
+
+                platforms.forEach(platform => {
+                    if (connections[platform]) {
+                        container.appendChild(createConnectionCard(platform, connections[platform]));
+                    }
+                });
+            });
+        }
+
+        function createConnectionCard(platform, connection) {
+            const card = document.createElement('div');
+            card.className = 'connection-card bg-gray-50 border border-gray-200 rounded-lg p-4';
+
+            const isConnected = connection.connected;
+            const statusClass = isConnected ? 'status-connected' : 'status-disconnected';
+            const statusText = isConnected ? 'Connected' : 'Not Connected';
+            const statusIcon = isConnected ? 'fa-check-circle' : 'fa-circle';
+
+            card.innerHTML = `
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex items-center">
+                        <i class="${connection.icon_class} text-2xl text-gray-600 mr-3"></i>
+                        <div>
+                            <h3 class="font-bold text-gray-900">${connection.display_name}</h3>
+                            <p class="text-sm text-gray-600">${connection.description}</p>
+                        </div>
+                    </div>
+                    <div class="${statusClass} text-white px-2 py-1 rounded-full text-xs font-medium flex items-center">
+                        <i class="fas ${statusIcon} mr-1"></i>
+                        ${statusText}
+                    </div>
+                </div>
+                
+                ${isConnected ? `
+                    <div class="space-y-2 mb-4">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Status:</span>
+                            <span class="text-green-600 font-medium">Active</span>
+                        </div>
+                        ${connection.last_updated ? `
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Last Updated:</span>
+                            <span class="text-gray-900">${new Date(connection.last_updated).toLocaleDateString()}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="disconnect('${platform}')" class="flex-1 bg-red-50 text-red-600 py-2 px-3 rounded text-sm font-medium hover:bg-red-100">
+                            <i class="fas fa-unlink mr-1"></i>Disconnect
+                        </button>
+                        <button onclick="testConnection('${platform}')" class="flex-1 bg-blue-50 text-blue-600 py-2 px-3 rounded text-sm font-medium hover:bg-blue-100">
+                            <i class="fas fa-sync mr-1"></i>Test
+                        </button>
+                    </div>
+                ` : `
+                    <div class="mb-4">
+                        <p class="text-sm text-gray-600 mb-3">Connect this platform to enable AI automation</p>
+                        <ul class="text-xs text-gray-500 space-y-1">
+                            <li><i class="fas fa-check text-green-500 mr-1"></i>Automated content posting</li>
+                            <li><i class="fas fa-check text-green-500 mr-1"></i>AI-driven campaigns</li>
+                            <li><i class="fas fa-check text-green-500 mr-1"></i>Performance analytics</li>
+                        </ul>
+                    </div>
+                    <button onclick="connect('${platform}')" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded font-medium">
+                        <i class="fas fa-link mr-2"></i>Connect ${connection.display_name}
+                    </button>
+                `}
+            `;
+
+            return card;
+        }
+
+        function updateSummary() {
+            const connectedCount = Object.values(connections).filter(c => c.connected).length;
+            const totalCount = Object.keys(connections).length;
+            const errorCount = Object.values(connections).filter(c => c.status === 'error').length;
+            const progress = Math.round((connectedCount / totalCount) * 100);
+
+            document.getElementById('connected-count').textContent = connectedCount;
+            document.getElementById('pending-count').textContent = totalCount - connectedCount - errorCount;
+            document.getElementById('error-count').textContent = errorCount;
+            document.getElementById('progress-percent').textContent = `${progress}%`;
+        }
+
+        async function connect(platform) {
+            try {
+                if (platform === 'shopify') {
+                    const shopDomain = prompt('Enter your Shopify store domain (e.g., mystore.myshopify.com):');
+                    if (shopDomain) {
+                        window.location.href = `/oauth/connect/${platform}?shop=${shopDomain}`;
+                    }
+                } else if (connections[platform].auth_type === 'api_key') {
+                    const apiKey = prompt(`Enter your ${platform.toUpperCase()} API key:`);
+                    if (apiKey) {
+                        const response = await fetch(`/oauth/api_key/${platform}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ api_key: apiKey })
+                        });
+
+                        const result = await response.json();
+                        if (result.success) {
+                            alert('✅ ' + result.message);
+                            await loadConnections();
+                        } else {
+                            alert('❌ ' + result.error);
+                        }
+                    }
+                } else {
+                    window.location.href = `/oauth/connect/${platform}`;
+                }
+            } catch (error) {
+                console.error('Connection failed:', error);
+                alert('Connection failed. Please try again.');
+            }
+        }
+
+        async function disconnect(platform) {
+            try {
+                if (!confirm(`Are you sure you want to disconnect ${platform}?`)) {
+                    return;
+                }
+
+                const response = await fetch(`/oauth/disconnect/${platform}`, {
+                    method: 'POST'
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert('✅ ' + result.message);
+                    await loadConnections();
+                } else {
+                    alert('❌ ' + result.error);
+                }
+            } catch (error) {
+                console.error('Disconnect failed:', error);
+                alert('Disconnect failed. Please try again.');
+            }
+        }
+
+        async function testConnection(platform) {
+            try {
+                // This would test the connection to the platform
+                alert(`Testing ${platform} connection...`);
+                // Implementation would vary by platform
+            } catch (error) {
+                console.error('Test failed:', error);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('connection-modal').classList.add('hidden');
+        }
+
+        // Auto-refresh connections every 30 seconds
+        setInterval(loadConnections, 30000);
+    </script>
+</body>
+</html>
