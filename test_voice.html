@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice System Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6">AI CEO Voice System Test</h1>
+        
+        <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+            <h2 class="text-xl font-semibold mb-4">Voice Settings</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Agent Name</label>
+                    <input type="text" id="agentName" value="AI CEO" class="w-full px-3 py-2 border rounded">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Personality</label>
+                    <select id="personality" class="w-full px-3 py-2 border rounded">
+                        <option value="professional">Professional</option>
+                        <option value="friendly">Friendly</option>
+                        <option value="enthusiastic">Enthusiastic</option>
+                        <option value="calm">Calm</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="flex items-center">
+                        <input type="checkbox" id="voiceEnabled" class="mr-2">
+                        <span class="text-sm font-medium">Voice Enabled</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="flex gap-4">
+                <button onclick="saveSettings()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Save Settings
+                </button>
+                <button onclick="loadSettings()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                    Load Settings
+                </button>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+            <h2 class="text-xl font-semibold mb-4">Voice Testing</h2>
+            <div class="mb-4">
+                <textarea id="testText" class="w-full px-3 py-2 border rounded h-32" 
+                    placeholder="Enter text to test voice synthesis...">Hello! I'm your AI CEO assistant. Let's build something amazing together!</textarea>
+            </div>
+            
+            <div class="flex gap-4 mb-4">
+                <button onclick="testVoice()" class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+                    🎤 Test Voice
+                </button>
+                <button onclick="testSpeechRecognition()" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">
+                    🎙️ Test Speech Recognition
+                </button>
+            </div>
+            
+            <div id="results" class="bg-gray-50 p-4 rounded min-h-20"></div>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-xl font-semibold mb-4">System Status</h2>
+            <div id="systemStatus" class="space-y-2">
+                <p id="webSpeechStatus" class="text-gray-600">Checking Web Speech API...</p>
+                <p id="voiceSettingsStatus" class="text-gray-600">Checking voice settings...</p>
+                <p id="backendStatus" class="text-gray-600">Checking backend connection...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSettings = {
+            agent_name: 'AI CEO',
+            personality: 'professional',
+            voice_enabled: false
+        };
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkSystemStatus();
+            loadSettings();
+        });
+
+        function checkSystemStatus() {
+            // Check Web Speech API support
+            const webSpeechSupported = 'speechSynthesis' in window;
+            const speechRecognitionSupported = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
+            
+            document.getElementById('webSpeechStatus').innerHTML = webSpeechSupported ? 
+                '✅ Web Speech API: Supported' : '❌ Web Speech API: Not Supported';
+                
+            if (speechRecognitionSupported) {
+                document.getElementById('webSpeechStatus').innerHTML += ' | Speech Recognition: Supported';
+            } else {
+                document.getElementById('webSpeechStatus').innerHTML += ' | Speech Recognition: Not Supported';
+            }
+        }
+
+        function saveSettings() {
+            const settings = {
+                agent_name: document.getElementById('agentName').value,
+                personality: document.getElementById('personality').value,
+                voice_enabled: document.getElementById('voiceEnabled').checked,
+                voice_type: 'professional'
+            };
+
+            fetch('/voice_preferences', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(settings)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    updateResults('✅ Settings saved successfully!', 'text-green-600');
+                    currentSettings = settings;
+                } else {
+                    updateResults('❌ Failed to save settings: ' + data.error, 'text-red-600');
+                }
+            })
+            .catch(error => {
+                updateResults('❌ Error saving settings: ' + error.message, 'text-red-600');
+            });
+        }
+
+        function loadSettings() {
+            fetch('/voice_preferences', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('agentName').value = data.agent_name || 'AI CEO';
+                document.getElementById('personality').value = data.personality || 'professional';
+                document.getElementById('voiceEnabled').checked = data.voice_enabled || false;
+                
+                currentSettings = data;
+                updateResults('✅ Settings loaded successfully!', 'text-green-600');
+                document.getElementById('voiceSettingsStatus').innerHTML = '✅ Voice settings loaded';
+            })
+            .catch(error => {
+                updateResults('❌ Error loading settings: ' + error.message, 'text-red-600');
+                document.getElementById('voiceSettingsStatus').innerHTML = '❌ Failed to load voice settings';
+            });
+        }
+
+        function testVoice() {
+            const text = document.getElementById('testText').value;
+            if (!text) {
+                updateResults('❌ Please enter text to test', 'text-red-600');
+                return;
+            }
+
+            // Test backend voice endpoint
+            fetch('/speak_text', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: text })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    updateResults(`✅ Backend voice processing successful!\nAgent: ${data.agent_name}\nPersonality: ${data.personality}\nAdapted text: "${data.text}"`, 'text-green-600');
+                    
+                    // Also test browser speech synthesis
+                    if ('speechSynthesis' in window) {
+                        const utterance = new SpeechSynthesisUtterance(data.text);
+                        speechSynthesis.speak(utterance);
+                        updateResults(document.getElementById('results').innerHTML + '\n🔊 Browser speech synthesis activated', 'text-green-600');
+                    }
+                } else {
+                    updateResults('❌ Backend voice failed: ' + data.message, 'text-red-600');
+                }
+            })
+            .catch(error => {
+                updateResults('❌ Voice test error: ' + error.message, 'text-red-600');
+            });
+        }
+
+        function testSpeechRecognition() {
+            fetch('/listen_speech', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    updateResults(`✅ Speech recognition test successful!\nRecognized: "${data.text}"\nConfidence: ${(data.confidence * 100).toFixed(1)}%\nDemo mode: ${data.demo}`, 'text-green-600');
+                } else {
+                    updateResults('❌ Speech recognition failed: ' + data.message, 'text-red-600');
+                }
+            })
+            .catch(error => {
+                updateResults('❌ Speech recognition error: ' + error.message, 'text-red-600');
+            });
+        }
+
+        function updateResults(message, className = 'text-gray-800') {
+            const results = document.getElementById('results');
+            results.innerHTML = `<pre class="${className}">${message}</pre>`;
+        }
+    </script>
+</body>
+</html>

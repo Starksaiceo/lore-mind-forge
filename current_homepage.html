@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI CEO - Autonomous Business Platform</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Transform your business with AI-powered automation that builds products, manages stores, and generates revenue 24/7. The future of autonomous business is here.">
+    <meta name="keywords" content="AI CEO, autonomous business, AI automation, business intelligence, revenue generation">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="AI CEO - Autonomous Business Platform">
+    <meta property="og:description" content="Transform your business with AI-powered automation that works 24/7">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:5000/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg">
+    <link rel="icon" type="image/png" href="/static/img/favicon.png">
+    
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Framework -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/app.css">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Alpine.js for Interactivity -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Chart.js for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Custom JavaScript Configuration -->
+    <script>
+        // Tailwind CSS Configuration
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5B8CFF',
+                        secondary: '#0F172A',
+                        accent: '#22C55E',
+                        'surface-dark': '#0B1220',
+                        'surface-light': '#F8FAFC'
+                    },
+                    fontFamily: {
+                        'heading': ['Sora', 'Inter', 'system-ui', 'sans-serif'],
+                        'body': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+        
+        // Brand Settings (White-label Support)
+        window.brandSettings = {
+            
+        };
+    </script>
+    
+    
+</head>
+<body class="font-body antialiased">
+    <!-- Navigation -->
+    <nav class="navbar" x-data="{ mobileMenuOpen: false }">
+        <div class="container">
+            <div class="navbar-content">
+                <!-- Brand Logo -->
+                <div class="navbar-brand">
+                    <a href="/" class="brand-logo flex items-center gap-sm">
+                        <img src="/static/img/metallic-s-logo.png" alt="AI CEO" class="w-8 h-8">
+                        <span class="font-heading font-bold text-xl">AI CEO</span>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <ul class="navbar-nav hidden md:flex">
+                    
+                        <li><a href="#features" class="nav-link">Features</a></li>
+                        <li><a href="#pricing" class="nav-link">Pricing</a></li>
+                        <li><a href="/login" class="nav-link">Login</a></li>
+                    
+                </ul>
+
+                <!-- Right Side Actions -->
+                <div class="flex items-center gap-md">
+                    
+                        <a href="/login" class="btn btn-outline">Login</a>
+                        <a href="/register" class="btn btn-primary">
+                            Get Started Free
+                        </a>
+                    
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="">
+        
+<!-- Hero Section -->
+<section class="relative overflow-hidden bg-gradient-to-br from-blue-900 via-slate-900 to-gray-900">
+    <!-- Background -->
+    <div class="absolute inset-0">
+        <img src="/static/img/ai-vs-human-background.jpg" 
+             alt="AI vs Human CEO Background" 
+             class="w-full h-full object-cover opacity-90 brightness-110 contrast-110 saturate-110">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-slate-900/30 to-gray-900/40"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10">
+        <div class="container mx-auto px-6 py-24">
+            <div class="max-w-4xl mx-auto text-center">
+                <!-- Status Badge -->
+                <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white px-4 py-2 rounded-full text-sm font-medium mb-8">
+                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    AI CEO Platform • Live
+                </div>
+                
+                <!-- Main Headline -->
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                    The <span class="bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">Autonomous AI CEO</span><br>
+                    that Builds Your Business Empire
+                </h1>
+                
+                <!-- Subheadline -->
+                <p class="text-xl text-gray-200 mb-12 max-w-3xl mx-auto leading-relaxed">
+                    Unleash the power of artificial intelligence to build, manage, and scale your business autonomously. Our AI CEO creates products, optimizes marketing, and generates revenue 24/7.
+                </p>
+                
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+                    <a href="/register" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        Join Us
+                    </a>
+                    
+                    <a href="#features" class="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300">
+                        See How It Works
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-20 bg-secondary-50 dark:bg-secondary-800">
+    <div class="container">
+        <div class="text-center mb-2xl">
+            <h2 class="font-heading text-4xl font-bold text-secondary-900 dark:text-white mb-lg">
+                Everything You Need to Build an <span class="text-primary-500">Autonomous Business</span>
+            </h2>
+            <p class="text-xl text-secondary-600 dark:text-secondary-300 max-w-3xl mx-auto">
+                Our AI doesn't just automate tasks – it thinks, creates, and scales your business with human-level intelligence.
+            </p>
+        </div>
+
+        <div class="grid grid-3 gap-xl">
+            <!-- Feature 1 -->
+            <div class="card animate-on-scroll">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-xl flex items-center justify-center mx-auto mb-lg">
+                        <i data-lucide="brain" class="w-8 h-8 text-primary-500"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold mb-md">AI Product Generation</h3>
+                    <p class="text-secondary-600 dark:text-secondary-300 mb-lg">
+                        Advanced AI analyzes market trends and consumer behavior to automatically create trending digital products that sell.
+                    </p>
+                    <div class="flex items-center justify-center gap-sm text-sm text-accent-500">
+                        <i data-lucide="check" class="w-4 h-4"></i>
+                        <span>Smart market analysis</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="card animate-on-scroll">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-accent-100 dark:bg-accent-900 rounded-xl flex items-center justify-center mx-auto mb-lg">
+                        <i data-lucide="store" class="w-8 h-8 text-accent-500"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold mb-md">Store Management</h3>
+                    <p class="text-secondary-600 dark:text-secondary-300 mb-lg">
+                        Seamlessly integrates with Shopify, Gumroad, and other platforms to upload products and optimize pricing automatically.
+                    </p>
+                    <div class="flex items-center justify-center gap-sm text-sm text-accent-500">
+                        <i data-lucide="check" class="w-4 h-4"></i>
+                        <span>Multi-platform sync</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="card animate-on-scroll">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-xl flex items-center justify-center mx-auto mb-lg">
+                        <i data-lucide="trending-up" class="w-8 h-8 text-primary-500"></i>
+                    </div>
+                    <h3 class="font-heading text-xl font-bold mb-md">Revenue Optimization</h3>
+                    <p class="text-secondary-600 dark:text-secondary-300 mb-lg">
+                        AI-powered marketing campaigns, pricing strategies, and customer targeting to maximize your revenue potential.
+                    </p>
+                    <div class="flex items-center justify-center gap-sm text-sm text-accent-500">
+                        <i data-lucide="check" class="w-4 h-4"></i>
+                        <span>Automated marketing</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-20">
+    <div class="container">
+        <div class="text-center mb-2xl">
+            <h2 class="font-heading text-4xl font-bold text-secondary-900 dark:text-white mb-lg">
+                Trusted by <span class="text-primary-500">Entrepreneurs Worldwide</span>
+            </h2>
+        </div>
+
+        <div class="grid grid-3 gap-lg">
+            <div class="card">
+                <div class="flex items-center gap-md mb-md">
+                    <div class="w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold">
+                        JS
+                    </div>
+                    <div>
+                        <div class="font-semibold">John Smith</div>
+                        <div class="text-sm text-secondary-500">E-commerce Entrepreneur</div>
+                    </div>
+                </div>
+                <p class="text-secondary-600 dark:text-secondary-300">
+                    "AI CEO generated 12 products in my first week and I've already made $3,200 in sales. This is the future of business automation."
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="flex items-center gap-md mb-md">
+                    <div class="w-12 h-12 bg-accent-500 rounded-full flex items-center justify-center text-white font-bold">
+                        MJ
+                    </div>
+                    <div>
+                        <div class="font-semibold">Maria Johnson</div>
+                        <div class="text-sm text-secondary-500">Digital Marketer</div>
+                    </div>
+                </div>
+                <p class="text-secondary-600 dark:text-secondary-300">
+                    "I was skeptical at first, but the AI actually understands my market better than I do. It's like having a genius business partner."
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="flex items-center gap-md mb-md">
+                    <div class="w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center text-white font-bold">
+                        DL
+                    </div>
+                    <div>
+                        <div class="font-semibold">David Lee</div>
+                        <div class="text-sm text-secondary-500">Tech Startup Founder</div>
+                    </div>
+                </div>
+                <p class="text-secondary-600 dark:text-secondary-300">
+                    "The autonomous features are incredible. While I sleep, my AI CEO is testing new products and optimizing my store. Pure magic."
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing Section -->
+<section id="pricing" class="py-20 bg-secondary-50 dark:bg-secondary-800">
+    <div class="container">
+        <div class="text-center mb-2xl">
+            <h2 class="font-heading text-4xl font-bold text-secondary-900 dark:text-white mb-lg">
+                Simple, <span class="text-primary-500">Transparent Pricing</span>
+            </h2>
+            <p class="text-xl text-secondary-600 dark:text-secondary-300">
+                Choose the plan that fits your business goals. Start free, scale as you grow.
+            </p>
+        </div>
+
+        <div class="grid grid-3 gap-lg max-w-5xl mx-auto">
+            <!-- Starter Plan -->
+            <div class="card text-center">
+                <div class="mb-lg">
+                    <h3 class="font-heading text-xl font-bold mb-sm">Starter</h3>
+                    <div class="text-4xl font-bold text-primary-500 mb-sm">$29</div>
+                    <div class="text-secondary-500">per month</div>
+                </div>
+                
+                <ul class="text-left space-y-3 mb-lg">
+                    <li class="flex items-center gap-sm">
+                        <i data-lucide="check" class="w-4 h-4 text-accent-500"></i>
+                        <span>5 AI-generated products/month</span>
+                    </li>
+                    <li class="flex items-center gap-sm">
+                        <i data-lucide="check" class="w-4 h-4 text-accent-500"></i>
+                        <span>Shopify integration</span>
+                    </li>
+                    <li class="flex items-center gap-sm">
+                        <i data-lucide="check" class="w-4 h-4 text-accent-500"></i>
+                        <span>Basic analytics</span>
+                    </li>
+                    <li class="flex items-center gap-sm">
+                        <i data-lucide="check" class="w-4 h-4 text-accent-500"></i>
+                        <span>Email support</span>
+                    </li>
+                </ul>
+                
+                <a href="/register" class="btn btn-outline w-full">Get Started</a>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="card text-center relative border-2 border-primary-500">
+                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                    <span class="bg-primary-500 text-white px-md py-xs rounded-full text-sm font-medium">Most Popular</span>
+                </div>
+                
+                <div class="mb-lg">
+                    <h3 class="font-heading text-xl font-bold mb-sm">Pro</h3>
+                    <div class="text-4xl font-bold text-primary-500 mb-sm">$99</div>
+                    <div class="text-secondary-500">per month</div>
+                </div>
+                
+                <ul class="text-left space-y-3 mb-lg">
+                    <li class="flex items-center gap-sm">
+                        <i data-lucide="check" class="w-4 h-4 text-accent-500"></i>
+                        <span>Unlimited products</span>
+                    </li>
+                    <li class="flex items-center gap-sm">
+                        <i data-lucide="check" class="w-4 h-4 text-accent-500"></i>
+                        <span>All platform integrations</span>
+                    </li>
+                    <li class="flex items-center gap-sm">
+                        <i data-lucide="check" class="w-4 h-4 text-accent-500"></i>
+                        <span>Advanced AI marketing</span>
+                    </li>
+                    <li class="flex items-center gap-sm">
+                        <i data-lucide="check" class="w-4 h-4 text-accent-500"></i>
+                        <span>Priority support</span>
+                    </li>
+                </ul>
+                
+                <a href="/register" class="btn btn-primary w-full">Start Free Trial</a>
+            </div>
+
+            <!-- Enterprise Plan -->
+            <div class="card text-center">
+                <div class="mb-lg">
+                    <h3 class="font-heading text-xl font-bold mb-sm">Enterprise</h3>
+                    <div class="text-4xl font-bold text-primary-500 mb-sm">$299</div>
+                    <div class="text-secondary-500">per month</div>
+                </div>
+                
+                <ul class="text-left space-y-3 mb-lg">
+                    <li class="flex items-center gap-sm">
+                        <i data-lucide="check" class="w-4 h-4 text-accent-500"></i>
+                        <span>White-label solution</span>
+                    </li>
+                    <li class="flex items-center gap-sm">
+                        <i data-lucide="check" class="w-4 h-4 text-accent-500"></i>
+                        <span>Custom AI training</span>
+                    </li>
+                    <li class="flex items-center gap-sm">
+                        <i data-lucide="check" class="w-4 h-4 text-accent-500"></i>
+                        <span>Team collaboration</span>
+                    </li>
+                    <li class="flex items-center gap-sm">
+                        <i data-lucide="check" class="w-4 h-4 text-accent-500"></i>
+                        <span>Dedicated support</span>
+                    </li>
+                </ul>
+                
+                <a href="/register" class="btn btn-outline w-full">Contact Sales</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Final CTA -->
+<section class="py-20">
+    <div class="container">
+        <div class="text-center max-w-4xl mx-auto">
+            <h2 class="font-heading text-4xl font-bold text-secondary-900 dark:text-white mb-lg">
+                Ready to Build Your <span class="text-primary-500">Autonomous Business Empire?</span>
+            </h2>
+            <p class="text-xl text-secondary-600 dark:text-secondary-300 mb-xl">
+                Join thousands of entrepreneurs who have already transformed their business with AI automation. Your AI CEO is waiting.
+            </p>
+            
+            <div class="flex flex-col md:flex-row gap-md justify-center">
+                <a href="/register" class="btn btn-primary btn-lg">
+                    <i data-lucide="rocket" class="w-5 h-5"></i>
+                    Start Your Free Trial Today
+                </a>
+                <button onclick="playDemo()" class="btn btn-secondary btn-lg">
+                    <i data-lucide="play-circle" class="w-5 h-5"></i>
+                    See AI CEO in Action
+                </button>
+            </div>
+            
+            <div class="mt-lg text-sm text-secondary-500">
+                No credit card required • 14-day free trial • Cancel anytime
+            </div>
+        </div>
+    </div>
+</section>
+
+    </main>
+    
+    <!-- Footer -->
+    <footer class="navbar border-t mt-xl">
+        <div class="container">
+            <div class="text-center py-lg text-secondary-600 dark:text-secondary-300">
+                <p>&copy; 2024 AI CEO. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+    
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 flex items-center gap-4">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            <span class="text-lg font-medium">Loading...</span>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="/static/js/app.js"></script>
+    
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+    
+    
+<script>
+    function playDemo() {
+        window.aiCEOApp.showNotification('Demo video coming soon! For now, try the free trial.', 'info');
+    }
+    
+    // Initialize number animations when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        // Stagger animation of hero elements
+        const heroElements = document.querySelectorAll('.hero-content > *');
+        heroElements.forEach((el, index) => {
+            el.style.animationDelay = `${index * 0.1}s`;
+        });
+    });
+</script>
+
+
+    <script>
+        // IMMEDIATE PAGE INTERACTION FIX - AGGRESSIVE MODE
+        (function() {
+            console.log('🚀 IMMEDIATE: Enabling page interactions - AGGRESSIVE MODE');
+
+            // Force enable interactions IMMEDIATELY - TRIPLE CHECK
+            function forceInteractions() {
+                if (document.body) {
+                    document.body.style.pointerEvents = 'auto !important';
+                    document.body.style.overflow = 'auto !important';
+                    document.body.style.visibility = 'visible !important';
+                    document.body.style.display = 'block !important';
+                    document.body.style.height = 'auto !important';
+                    document.body.style.userSelect = 'auto !important';
+                }
+
+                if (document.documentElement) {
+                    document.documentElement.style.pointerEvents = 'auto !important';
+                    document.documentElement.style.overflow = 'auto !important';
+                    document.documentElement.style.height = 'auto !important';
+                }
+
+                // Force all interactive elements
+                const interactiveSelectors = ['button', 'a', 'input', 'select', 'textarea', '[role="button"]', '.btn', '[onclick]'];
+                interactiveSelectors.forEach(selector => {
+                    const elements = document.querySelectorAll(selector);
+                    elements.forEach(el => {
+                        el.style.pointerEvents = 'auto !important';
+                        el.style.cursor = 'pointer !important';
+                        el.style.zIndex = '9999';
+                        el.style.position = 'relative';
+                    });
+                });
+
+                console.log('✅ AGGRESSIVE: All interactions forcibly enabled');
+            }
+
+            // Run immediately and repeatedly
+            forceInteractions();
+            setTimeout(forceInteractions, 10);
+            setTimeout(forceInteractions, 50);
+            setTimeout(forceInteractions, 100);
+        })();
+
+        // Enhanced DOMContentLoaded fix
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Page loaded - applying comprehensive interaction fix');
+
+            // AGGRESSIVE INTERACTION ENABLEMENT
+            function forceInteractivity() {
+                const allElements = document.querySelectorAll('*');
+
+                allElements.forEach(el => {
+                    // Force interactive elements to be clickable
+                    if (el.tagName.match(/BUTTON|A|INPUT|SELECT|TEXTAREA/) || 
+                        el.hasAttribute('onclick') || 
+                        el.classList.contains('btn') ||
+                        el.getAttribute('role') === 'button') {
+
+                        el.style.pointerEvents = 'auto';
+                        el.style.cursor = 'pointer';
+                        el.style.zIndex = '100';
+                        el.style.position = 'relative';
+                    }
+
+                    // Remove pointer-events: none unless it's a background element
+                    if (window.getComputedStyle(el).pointerEvents === 'none' && 
+                        !el.classList.contains('background-element')) {
+                        el.style.pointerEvents = 'auto';
+                    }
+                });
+
+                // Force body and html to be scrollable
+                document.body.style.overflow = 'auto';
+                document.body.style.height = 'auto';
+                document.documentElement.style.overflow = 'auto';
+                document.documentElement.style.height = 'auto';
+
+                console.log('✅ FORCED: All interactions enabled');
+                console.log('✅ FORCED: Scrolling enabled');
+                console.log('✅ FORCED: All buttons clickable');
+            }
+
+            // Apply fix immediately and repeatedly
+            forceInteractivity();
+            setTimeout(forceInteractivity, 100);
+            setTimeout(forceInteractivity, 500);
+            setTimeout(forceInteractivity, 1000);
+
+            // Override any CSS that might disable interactions
+            const style = document.createElement('style');
+            style.textContent = `
+                * { pointer-events: auto !important; }
+                button, a, input, select, textarea, [role="button"], .btn {
+                    pointer-events: auto !important;
+                    cursor: pointer !important;
+                    z-index: 100 !important;
+                }
+                html, body {
+                    overflow: auto !important;
+                    pointer-events: auto !important;
+                }
+            `;
+            document.head.appendChild(style);
+
+            console.log('✅ Emergency CSS override applied');
+        });
+
+        // Global JavaScript functions
+        window.showLoading = function(element) {
+            if (!element) return;
+            element.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            element.disabled = true;
+        }
+
+        window.hideLoading = function(element, originalText) {
+            if (!element) return;
+            element.innerHTML = originalText || 'Button';
+            element.disabled = false;
+        }
+
+        window.showNotification = function(message, type = 'info') {
+            console.log('📢 Notification:', message);
+
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 p-4 rounded-lg text-white z-50 transition-all duration-300 ${
+                type === 'success' ? 'bg-green-500' : 
+                type === 'error' ? 'bg-red-500' : 'bg-blue-500'
+            }`;
+            notification.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">✕</button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // Test function
+        window.testJavaScript = function() {
+            console.log('🧪 JavaScript test successful!');
+            alert('JavaScript is working!');
+            showNotification('JavaScript test passed!', 'success');
+            return true;
+        }
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Error Handling Script -->
+    <script>
+        // Enhanced error handling
+        window.addEventListener('error', function(e) {
+            console.error('🚨 JavaScript Error:', e.error);
+            console.error('🚨 Error Location:', e.filename, 'Line:', e.lineno, 'Column:', e.colno);
+            console.error('🚨 Full Error Object:', e);
+        });
+
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('🚨 Unhandled Promise Rejection:', e.reason);
+            console.error('🚨 Promise:', e.promise);
+        });
+
+        // Test basic functionality with more detailed logging
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ Base template loaded successfully');
+            console.log('✅ DOM ready at:', new Date().toISOString());
+            console.log('🔍 Document readyState:', document.readyState);
+            console.log('🔍 Window location:', window.location.href);
+
+            // Test if all required elements exist
+            const requiredElements = ['head', 'body', 'main'];
+            requiredElements.forEach(tag => {
+                const element = document.querySelector(tag);
+                if (element) {
+                    console.log(`✅ Element ${tag} found`);
+                } else {
+                    console.warn(`❌ Element ${tag} missing`);
+                }
+            });
+
+            // Add global click debugging
+            document.addEventListener('click', function(e) {
+                console.log('🔍 Global click detected on:', e.target.tagName, e.target.className || 'no-class');
+            });
+        });
+
+        // Function to test if JavaScript is responsive
+        window.testJavaScript = function() {
+            console.log('🧪 JavaScript test function called successfully!');
+            alert('JavaScript is responsive!');
+            return true;
+        };
+
+        // Enhanced notification function with more debugging
+        function showNotification(message, type = 'info') {
+            console.log(`📢 Showing notification: ${message} (${type})`);
+
+            const notification = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+            notification.className = `fixed top-4 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 max-w-sm`;
+            notification.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">✕</button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+            console.log('📢 Notification element added to DOM');
+
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                    console.log('📢 Notification auto-removed');
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
