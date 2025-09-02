@@ -1,0 +1,14 @@
+
+flask
+flask-login
+flask-sqlalchemy
+flask-session
+werkzeug
+requests
+python-dotenv
+redis
+stripe
+uvicorn
+apscheduler
+plotly
+pandas

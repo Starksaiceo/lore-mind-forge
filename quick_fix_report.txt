@@ -1,0 +1,3 @@
+✅ Added load_dotenv() to profit_sprint.py
+✅ Fixed indent in payment_processor.py line 302
+❌ GUMROAD_API_KEY still missing - add it to .env
