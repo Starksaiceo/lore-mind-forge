@@ -1,0 +1,148 @@
+
+language = "python3"
+run = "streamlit run main.py --server.address=0.0.0.0 --server.port=5000"
+modules = ["python-3.11", "python3", "postgresql-16"]
+
+[env]
+OPENROUTER_API_KEY = "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"
+SHOPIFY_API_ACCESS_TOKEN = "shpat_a45ae443eb6541f744976b1bfb3e"
+SHOPIFY_DOMAIN = "ai-ceo-store-agent.myshopify.com"
+XANO_API_BASE_URL = "https://x8ki-letl-twmt.n7.xano.io/api:8fyoFbLh"
+
+[interpreter]
+command = [ "streamlit", "run", "main.py", "--server.address=0.0.0.0", "--server.port=5000" ]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "AI CEO Dashboard"
+author = 45691424
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pkill -f streamlit || true"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "sleep 3"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python -c \"import streamlit; print('Streamlit version:', streamlit.__version__)\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python -m streamlit run main.py --server.address=0.0.0.0 --server.port=5000 --server.headless=true --browser.gatherUsageStats=false --server.enableCORS=true --server.enableXsrfProtection=false --server.enableWebsocketCompression=false --logger.level=info"
+
+[[workflows.workflow]]
+name = "AI CEO Dashboard - Fixed"
+author = 45691424
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python setup_env.py"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pkill -f streamlit || true"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "sleep 2"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python -c \"import streamlit; print('Streamlit version:', streamlit.__version__)\""
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python -m streamlit run main.py --server.address=0.0.0.0 --server.port=5000 --server.headless=true --browser.gatherUsageStats=false --server.enableCORS=true --server.enableXsrfProtection=false --server.enableWebsocketCompression=false --logger.level=error"
+
+[[workflows.workflow]]
+name = "Test Streamlit"
+author = 45691424
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python -m streamlit run test_streamlit.py --server.address=0.0.0.0 --server.port=5000 --server.headless=true --browser.gatherUsageStats=false"
+
+[[workflows.workflow]]
+name = "Debug Mode"
+author = 45691424
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python debug_streamlit.py"
+
+[[workflows.workflow]]
+name = "Debug Streamlit Verbose"
+author = 45691424
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python streamlit_debug.py"
+
+[[workflows.workflow]]
+name = "Simple Diagnostic"
+author = 45691424
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python simple_debug.py"
+
+[[workflows.workflow]]
+name = "AI CEO SaaS"
+author = 45691424
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python app_saas.py"
+
+[[workflows.workflow]]
+name = "AI CEO SaaS Platform"
+author = 45691424
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python start_app.py"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "AI CEO Platform"
+
+[[workflows.workflow]]
+name = "AI CEO Platform"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python app_saas.py"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[nix]
+channel = "stable-25_05"
+packages = ["SDL2", "SDL2_image", "SDL2_mixer", "SDL2_ttf", "bash", "cairo", "cargo", "ffmpeg-full", "fontconfig", "freetype", "ghostscript", "glibcLocales", "gobject-introspection", "gtk3", "imagemagickBig", "lcms2", "libGL", "libGLU", "libiconv", "libimagequant", "libjpeg", "libpng", "libtiff", "libwebp", "libxcrypt", "openjpeg", "openssl", "pkg-config", "portaudio", "portmidi", "qhull", "rustc", "tcl", "tk", "zlib"]
+
+[agent]
+expertMode = true

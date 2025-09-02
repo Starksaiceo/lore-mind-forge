@@ -1,0 +1,1 @@
+bash -c "python3.10 -m streamlit run main.py & python3.10 agent.py & python3.10 auto_loop.py && wait"
