@@ -1,23 +1,44 @@
-import { Routes, Route } from 'react-router-dom'
-import { Toaster } from '@/components/ui/toaster'
-import LandingPage from '@/pages/LandingPage'
-import LoginPage from '@/pages/LoginPage'
-import SignupPage from '@/pages/SignupPage'
-import Dashboard from '@/pages/Dashboard'
-import AdminPanel from '@/pages/AdminPanel'
+import { RouterProvider } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Toaster } from 'sonner'
+import { router } from './router'
+import { initAuth } from './lib/auth'
+import { useEffect } from 'react'
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      retry: (failureCount, error: any) => {
+        // Don't retry on 401/403 errors
+        if (error?.response?.status === 401 || error?.response?.status === 403) {
+          return false;
+        }
+        return failureCount < 3;
+      },
+    },
+  },
+});
 
 function App() {
+  useEffect(() => {
+    initAuth();
+  }, []);
+
   return (
-    <div className="min-h-screen bg-background">
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/admin" element={<AdminPanel />} />
-      </Routes>
-      <Toaster />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <Toaster 
+        position="top-right" 
+        toastOptions={{
+          style: {
+            background: 'hsl(var(--card))',
+            color: 'hsl(var(--card-foreground))',
+            border: '1px solid hsl(var(--border))',
+          },
+        }}
+      />
+    </QueryClientProvider>
   )
 }
 
